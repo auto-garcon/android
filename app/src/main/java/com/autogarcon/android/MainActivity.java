@@ -1,27 +1,57 @@
 package com.autogarcon.android;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+//import android.widget.Toolbar;
+import androidx.appcompat.widget.Toolbar;
+import android.view.GestureDetector;
+import android.view.MotionEvent;
+import android.view.View;
+import android.widget.Toast;
+
 import org.json.*;
 import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    private List<MenuItem> menuList = new ArrayList<>();
+    private RecyclerView recyclerView;
+    private MenuItemAdapter mAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        //Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        //setSupportActionBar(toolbar);
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+
+        mAdapter = new MenuItemAdapter(menuList);
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(mAdapter);
 
         // TEMP - Replace string with API call once it is finished
         String jsonStr = "{\"menuType\":\"DINNER\",\"timeRange\":[{\"start\":1600,\"stop\":2359}],\"menuItems\":[{\"name\":\"Cheese Curds\",\"description\":\"Lightly breaded and deep fried Wisconsin cheddar\",\"price\":5.75,\"calories\":760,\"imagePath\":\"./\",\"category\":\"appetizer\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Bavarian Pretzels\",\"description\":\"spicy mustard, beer cheese\",\"price\":9.95,\"calories\":800,\"imagePath\":\"./\",\"category\":\"appetizer\",\"allergens\":[\"wheat\"]},{\"name\":\"Sweet Potato Tator Tots\",\"description\":\"chipotle peanut pesto aioli\",\"price\":8.95,\"calories\":720,\"imagePath\":\"./\",\"category\":\"appetizer\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Nachos\",\"description\":\"pulled chicken, jalapeño, aioli, pico de gallo, guacamole, mozzarella\",\"price\":11.95,\"calories\":1100,\"imagePath\":\"./\",\"category\":\"appetizer\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Housemade Beer Cheese Soup\",\"description\":\"Lightly breaded and deep fried Wisconsin cheddar\",\"price\":5.95,\"calories\":510,\"imagePath\":\"./\",\"category\":\"soup\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Chili\",\"description\":\"cheese, onion, saltines\",\"price\":6.95,\"calories\":500,\"imagePath\":\"./\",\"category\":\"soup\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Turkey Burger\",\"description\":\"poblano pesto, peanuts, pepper jack, lettuce\",\"price\":9.95,\"calories\":800,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk, nuts\"]},{\"name\":\"Patty Melt\",\"description\":\"white cheddar, pepper jack, wisconsin cheddar, onion rings, Tap sauce\",\"price\":10.5,\"calories\":1000,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Western Burger\",\"description\":\"crispy onion, bbq sauce, bacon, sharp cheddar\",\"price\":9.95,\"calories\":900,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Veggie Burger\",\"description\":\"vegetarian patty, tomato basil mayo, cheddar, caramelized onions, lettuce, tomato\",\"price\":9.5,\"calories\":710,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"BBQ Pork Sandwich\",\"description\":\"roasted pulled pork, bbq sauce, onion rings, apples, coleslaw\",\"price\":11.95,\"calories\":800,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"BLT\",\"description\":\"guacamole, fried egg, mayo, ciabatta\",\"price\":11.5,\"calories\":600,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Grilled Cheese\",\"description\":\"parmesan-crusted thick cut sourdough, american cheese, tomato chutney, avocado\",\"price\":10.95,\"calories\":810,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Hot Italian Beef\",\"description\":\"sliced ribeye, pepper jack cheese, giardiniera, hoagie\",\"price\":9.5,\"calories\":710,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]}]}";
         try {
             Menu dinnerMenu = createMenu(jsonStr);
             Log.d("CREATION", "MENU: " + dinnerMenu.toString());
+            mAdapter.notifyDataSetChanged();
         }
         catch (JSONException e) {
             Log.d("CREATION", "JSONException: " + e.toString());
         }
+
+
     }
 
     /**
@@ -40,6 +70,9 @@ public class MainActivity extends AppCompatActivity {
         for (int i = 0; i < menuItems.length(); i++) {
             try {
                 MenuItem newItem = getMenuItemFromJSONObject(menuItems.getJSONObject(i));
+                menuList.add(newItem);
+                Log.d("items", "newItem: " + newItem.toString());
+
                 menu.addMenuItem(newItem);
             }
             catch (JSONException e) {
@@ -75,4 +108,6 @@ public class MainActivity extends AppCompatActivity {
         MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,allergens);
         return newItem;
     }
+
+
 }
