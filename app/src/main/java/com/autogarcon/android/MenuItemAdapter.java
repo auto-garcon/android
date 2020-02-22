@@ -1,12 +1,16 @@
 package com.autogarcon.android;
 
 // import android.support.v7.widget.RecyclerView;
+import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -15,13 +19,15 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
     private List<MenuItem> menuList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView title, year, genre;
+        public TextView name, description, calories;
+        public ImageView menuImage;
 
         public MyViewHolder(View view) {
             super(view);
-            title = (TextView) view.findViewById(R.id.title);
-            genre = (TextView) view.findViewById(R.id.genre);
-            year = (TextView) view.findViewById(R.id.year);
+            name = (TextView) view.findViewById(R.id.name);
+            description = (TextView) view.findViewById(R.id.description);
+            calories = (TextView) view.findViewById(R.id.caloriesNumber);
+            menuImage = (ImageView) view.findViewById(R.id.menuImage);
         }
     }
 
@@ -41,9 +47,10 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position) {
         MenuItem menuItem = menuList.get(position);
-        holder.title.setText(String.valueOf(menuItem.getName()));
-        holder.genre.setText(String.valueOf(menuItem.getCategoryName()));
-        holder.year.setText(String.valueOf(menuItem.getCalories()));
+        holder.name.setText(String.valueOf(menuItem.getName()));
+        holder.description.setText(String.valueOf(menuItem.getDescription()));
+        holder.calories.setText(String.valueOf(menuItem.getCalories()));
+        holder.menuImage.setImageResource(R.drawable.placeholder);
         //holder.title.setText("test1");
         //holder.genre.setText("Test2");
         //holder.year.setText("Test3");
