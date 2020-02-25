@@ -1,8 +1,9 @@
 package com.autogarcon.android;
 
+import java.io.Serializable;
 import java.util.*;
 
-public class Category {
+public class Category implements Serializable {
 
     private ArrayList<MenuItem> menuItems;
     private String name;

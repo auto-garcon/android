@@ -1,9 +1,11 @@
 package com.autogarcon.android;
 
 import android.util.Log;
+
+import java.io.Serializable;
 import java.util.*;
 
-public class Menu {
+public class Menu implements Serializable {
 
     public enum MenuType {
         DRINKS, BREAKFAST, BRUNCH, LUNCH, DINNER, SPECIALS, DESSERT;
