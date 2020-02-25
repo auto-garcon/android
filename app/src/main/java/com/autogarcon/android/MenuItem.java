@@ -2,9 +2,10 @@ package com.autogarcon.android;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
-public class MenuItem{
+public class MenuItem implements Serializable {
 
     private String name;
     private String description;
