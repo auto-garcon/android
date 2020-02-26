@@ -8,78 +8,71 @@
     android:focusable="true"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/name"
-        android:layout_width="344dp"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="8dp"
-        android:layout_toEndOf="@+id/menuImage"
-        android:textColor="@color/colorPrimary"
-        android:textSize="16sp"
-        android:textStyle="bold"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:text="Patty Melt"
-        />
-
-    <ImageView
-        android:id="@+id/menuImage"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:layout_margin="8dp"
-        android:layout_marginStart="8px"
-        android:layout_marginLeft="8px"
-        android:layout_marginTop="8px"
-        android:layout_marginEnd="8px"
-        android:layout_marginRight="8px"
-        android:layout_marginBottom="8px"
-        app:srcCompat="@drawable/placeholder" />
-
-    <TextView
-        android:id="@+id/description"
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_toEndOf="@+id/menuImage"
-        android:textColor="@color/title"
-        android:textSize="12sp"
-        android:layout_margin="8dp"
-        android:maxLines="3"
-        android:lines="3"
-        android:ellipsize="end"
-        android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."/>
+        android:layout_marginStart="4dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
+        app:cardBackgroundColor="#FFFFFF">
 
-    <TextView
-        android:id="@+id/calories"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_toEndOf="@+id/menuImage"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@color/colorGray"
-        android:text="Calories:" />
+        <TextView
+            android:id="@+id/name"
+            android:layout_width="344dp"
+            android:layout_height="wrap_content"
+            android:text="Patty Melt"
+            android:textColor="@color/colorPrimary"
+            android:textSize="16sp"
+            android:layout_marginStart="120dp"
+            android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/caloriesNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_toEndOf="@+id/calories"
-        android:layout_marginStart="8dp"
-        android:layout_marginBottom="8dp"
-        android:textColor="@color/colorGray"
-        android:text="800-925" />
-    <TextView
-        android:id="@+id/price"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/description"
-        android:layout_toEndOf="@+id/caloriesNumber"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:gravity="right"
-        android:textColor="#000"
-        android:text="$9.50" />
+        <TextView
+            android:id="@+id/calories"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="120dp"
+            android:text="Calories:"
+            android:textColor="@color/colorGray" />
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="315dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:ellipsize="end"
+            android:lines="3"
+            android:maxLines="3"
+            android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+            android:textColor="@color/title"
+            android:layout_marginStart="120dp"
+            android:layout_gravity="center_vertical"
+            android:textSize="12sp" />
+
+        <ImageView
+            android:id="@+id/menuImage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            app:srcCompat="@drawable/placeholder" />
+
+        <TextView
+            android:id="@+id/price"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:gravity="end"
+            android:layout_gravity="bottom"
+            android:text="$9.50"
+            android:textColor="#000" />
+    </androidx.cardview.widget.CardView>
+
 </RelativeLayout>

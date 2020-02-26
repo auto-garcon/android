@@ -19,18 +19,18 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
     private List<MenuItem> menuList;
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
-        public TextView name, description, calories;
+        public TextView name, description, calories, price;
         public ImageView menuImage;
 
         public MyViewHolder(View view) {
             super(view);
             name = (TextView) view.findViewById(R.id.name);
             description = (TextView) view.findViewById(R.id.description);
-            calories = (TextView) view.findViewById(R.id.caloriesNumber);
+            calories = (TextView) view.findViewById(R.id.calories);
+            price = (TextView) view.findViewById(R.id.price);
             menuImage = (ImageView) view.findViewById(R.id.menuImage);
         }
     }
-
 
     public MenuItemAdapter(List<MenuItem> menuList) {
         this.menuList = menuList;
@@ -49,11 +49,9 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
         MenuItem menuItem = menuList.get(position);
         holder.name.setText(String.valueOf(menuItem.getName()));
         holder.description.setText(String.valueOf(menuItem.getDescription()));
-        holder.calories.setText(String.valueOf(menuItem.getCalories()));
+        holder.calories.setText("Calories: " + menuItem.getCalories());
+        holder.price.setText(String.format("%.2f", menuItem.getPrice()));
         holder.menuImage.setImageResource(R.drawable.placeholder);
-        //holder.title.setText("test1");
-        //holder.genre.setText("Test2");
-        //holder.year.setText("Test3");
     }
 
     @Override
