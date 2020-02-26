@@ -8,31 +8,30 @@ android:clickable="true"
 android:focusable="true"
 android:orientation="vertical">
 
-<TextView
-    android:id="@+id/categoryName"
-    android:layout_width="229dp"
+    <androidx.cardview.widget.CardView
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_alignParentTop="true"
-    android:layout_alignParentEnd="true"
-    android:layout_marginTop="11dp"
-    android:layout_marginEnd="59dp"
-    android:text="Soup"
-    android:textColor="@color/colorPrimary"
-    android:textSize="16sp"
-    android:textStyle="bold"
-    android:layout_toEndOf="@+id/categoryImage"/>
+    android:layout_marginStart="4dp"
+    android:layout_marginTop="4dp"
+    android:layout_marginEnd="4dp"
+    android:layout_marginBottom="4dp"
+    app:cardBackgroundColor="#FFFFFF">
+    <TextView
+        android:id="@+id/categoryName"
+        android:layout_width="344dp"
+        android:layout_height="wrap_content"
+        android:text="Category"
+        android:textColor="@color/colorPrimary"
+        android:layout_gravity="center_vertical"
+        android:textSize="16sp"
+        android:layout_marginStart="120dp"
+        android:textStyle="bold" />
 
-
-<ImageView
-    android:id="@+id/categoryImage"
-    android:layout_width="100dp"
-    android:layout_height="100dp"
-    android:layout_margin="8dp"
-    android:layout_marginStart="8px"
-    android:layout_marginLeft="8px"
-    android:layout_marginTop="8px"
-    android:layout_marginEnd="8px"
-    android:layout_marginRight="8px"
-    android:layout_marginBottom="8px"
-    app:srcCompat="@drawable/placeholder" />
+    <ImageView
+        android:id="@+id/categoryImage"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_margin="8dp"
+        app:srcCompat="@drawable/placeholder" />
+    </androidx.cardview.widget.CardView>
 </RelativeLayout>
