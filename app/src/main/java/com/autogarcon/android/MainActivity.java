@@ -36,8 +36,15 @@ public class MainActivity extends AppCompatActivity {
             Menu dinnerMenu = createMenu(jsonStr);
             Log.d("CREATION", "MENU: " + dinnerMenu.toString());
 
-            Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
-            intent.putExtra("menu", dinnerMenu);
+            ArrayList<Menu> menuList = new ArrayList<>();
+            menuList.add(dinnerMenu);
+            menuList.add(dinnerMenu);
+            menuList.add(dinnerMenu);
+            menuList.add(dinnerMenu);
+            menuList.add(dinnerMenu);
+
+            Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+            intent.putExtra("menuList", menuList);
             startActivity(intent);
         }
         catch (JSONException e) {

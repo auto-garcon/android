@@ -10,7 +10,7 @@ import android.widget.TextView;
  * Activity for the full view of a single menu item.
  * @author Tim Callies
  */
-public class MenuItemFull extends AppCompatActivity {
+public class MenuItemFullActivity extends AppCompatActivity {
 
     ImageView largeImage;
     MenuItem menuItem;

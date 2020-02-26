@@ -27,8 +27,6 @@ public class CategoryListActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.d("CREATION", "IN CATEGORY LIST!!");
-
         super.onCreate(savedInstanceState);
         this.menu = (Menu) getIntent().getSerializableExtra("menu");
         setContentView(R.layout.activity_main);

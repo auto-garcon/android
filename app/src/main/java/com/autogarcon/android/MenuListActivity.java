@@ -1,39 +1,42 @@
 package com.autogarcon.android;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MenuItemActivity extends AppCompatActivity {
-    ImageView largeImage;
-    Category category;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+
+import java.util.ArrayList;
+
+public class MenuListActivity extends AppCompatActivity {
+
+
     private RecyclerView recyclerView;
-    private MenuItemAdapter mAdapter;
+    ArrayList<Menu> menuList;
+    private MenuListAdapter mAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        this.category = (Category) getIntent().getSerializableExtra("category");
+        this.menuList = (ArrayList<Menu>)getIntent().getSerializableExtra("menuList");
         setContentView(R.layout.activity_main);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MenuItemAdapter(category.getMenuItems());
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mAdapter = new MenuListAdapter(menuList);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
-                intent.putExtra("item", category.getMenuItems().get(position));
+                Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+                intent.putExtra("menu", menuList.get(position));
                 startActivity(intent);
             }
 

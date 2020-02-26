@@ -12,10 +12,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CategoryListAdapter"></activity>
-        <activity android:name=".MenuItemActivity"></activity>
-        <activity android:name=".CategoryListActivity"></activity>
-        <activity android:name=".MenuItemFull"></activity>
+        <activity android:name=".MenuListActivity"></activity>
+        <activity android:name=".CategoryListAdapter" />
+        <activity android:name=".MenuItemActivity" />
+        <activity android:name=".CategoryListActivity" />
+        <activity android:name=".MenuItemFullActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
