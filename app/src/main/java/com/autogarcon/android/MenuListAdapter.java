@@ -23,8 +23,8 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
 
         public MyViewHolder(View view) {
             super(view);
-            menuName = (TextView) view.findViewById(R.id.categoryName);
-            menuImage = (ImageView) view.findViewById(R.id.categoryImage);
+            menuName = (TextView) view.findViewById(R.id.menuName);
+            menuImage = (ImageView) view.findViewById(R.id.menuImage);
         }
     }
 
@@ -34,8 +34,9 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
 
     @Override
     public MenuListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+
         View menuView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.category_list, parent, false);
+                .inflate(R.layout.menu_list, parent, false);
         return new MenuListAdapter.MyViewHolder(menuView);
     }
 

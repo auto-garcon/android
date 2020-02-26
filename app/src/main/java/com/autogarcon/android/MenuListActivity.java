@@ -35,9 +35,16 @@ public class MenuListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
-                intent.putExtra("menu", menuList.get(position));
-                startActivity(intent);
+                if (menuList.get(position).getCategories().size() == 1){
+                    Intent intent = new Intent(getApplicationContext(), MenuItemActivity.class);
+                    intent.putExtra("category", menuList.get(position).getCategories().get(0));
+                    startActivity(intent);
+                }
+                else {
+                    Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+                    intent.putExtra("menu", menuList.get(position));
+                    startActivity(intent);
+                }
             }
 
             @Override

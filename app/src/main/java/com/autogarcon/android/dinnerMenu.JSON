@@ -13,7 +13,7 @@
 			"price": 5.75,
 			"calories": 760,
 			"imagePath": "./",
-			"category": "appetizer",
+			"category": "Appetizers",
 			"allergens": [
 				"wheat", "milk"
 			]
@@ -24,7 +24,7 @@
 			"price": 9.95,
 			"calories": 800,
 			"imagePath": "./",
-			"category": "appetizer",
+			"category": "Appetizers",
 			"allergens": [
 				"wheat"
 			]
@@ -35,7 +35,7 @@
 			"price": 8.95,
 			"calories": 720,
 			"imagePath": "./",
-			"category": "appetizer",
+			"category": "Appetizers",
 			"allergens": [
 				"wheat", "milk"
 			]
@@ -46,7 +46,7 @@
 			"price": 11.95,
 			"calories": 1100,
 			"imagePath": "./",
-			"category": "appetizer",
+			"category": "Appetizers",
 			"allergens": [
 				"wheat", "milk"
 			]
@@ -57,7 +57,7 @@
 			"price": 5.95,
 			"calories": 510,
 			"imagePath": "./",
-			"category": "soup",
+			"category": "Soup",
 			"allergens": [
 				"wheat", "milk"
 			]
@@ -68,7 +68,7 @@
 			"price": 6.95,
 			"calories": 500,
 			"imagePath": "./",
-			"category": "soup",
+			"category": "Soup",
 			"allergens": [
 				"wheat", "milk"
 			]
