@@ -55,6 +55,7 @@
 
         <ImageView
             android:id="@+id/menuImage"
+            android:transitionName="itemImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="8dp"

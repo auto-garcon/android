@@ -7,6 +7,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityOptionsCompat;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,6 +21,7 @@ public class MenuItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         this.category = (Category) getIntent().getSerializableExtra("category");
         setContentView(R.layout.activity_main);
 
@@ -34,12 +36,19 @@ public class MenuItemActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
                 intent.putExtra("item", category.getMenuItems().get(position));
-                startActivity(intent);
+
+                ImageView image = ((MenuItemAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemActivity.this, (View)image, "itemImage");
+                startActivity(intent, options.toBundle());
+                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
             }
         }));
+
+        CustomTheme theme = new CustomTheme();
+        theme.applyTo(this);
     }
 }

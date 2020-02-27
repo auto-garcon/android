@@ -39,11 +39,13 @@ public class MenuListActivity extends AppCompatActivity {
                     Intent intent = new Intent(getApplicationContext(), MenuItemActivity.class);
                     intent.putExtra("category", menuList.get(position).getCategories().get(0));
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
                     intent.putExtra("menu", menuList.get(position));
                     startActivity(intent);
+                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             }
 
@@ -51,5 +53,7 @@ public class MenuListActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
+        CustomTheme theme = new CustomTheme();
+        theme.applyTo(this);
     }
 }

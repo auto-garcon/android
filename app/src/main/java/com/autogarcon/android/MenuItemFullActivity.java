@@ -30,6 +30,9 @@ public class MenuItemFullActivity extends AppCompatActivity {
 
         name.setText(menuItem.getName());
         description.setText(menuItem.getDescription());
-        price.setText(String.format("%.2f",menuItem.getPrice()));
+        price.setText(String.format("$%.2f",menuItem.getPrice()));
+
+        CustomTheme theme = new CustomTheme();
+        theme.applyTo(this);
     }
 }

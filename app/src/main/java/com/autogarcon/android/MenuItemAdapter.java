@@ -30,6 +30,10 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
             price = (TextView) view.findViewById(R.id.price);
             menuImage = (ImageView) view.findViewById(R.id.menuImage);
         }
+
+        public ImageView getMenuImage() {
+            return menuImage;
+        }
     }
 
     public MenuItemAdapter(List<MenuItem> menuList) {

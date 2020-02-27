@@ -31,7 +31,6 @@ public class CategoryListActivity extends AppCompatActivity {
         this.menu = (Menu) getIntent().getSerializableExtra("menu");
         setContentView(R.layout.activity_main);
 
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new CategoryListAdapter(menu);
 
@@ -50,11 +49,15 @@ public class CategoryListActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MenuItemActivity.class);
                 intent.putExtra("category", menu.getCategories().get(position));
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
             }
         }));
+
+        CustomTheme theme = new CustomTheme();
+        theme.applyTo(this);
     }
 }
