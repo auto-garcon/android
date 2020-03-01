@@ -17,6 +17,15 @@ import android.view.View;
 import android.widget.Toast;
 
 import org.json.*;
+
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,21 +38,23 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_scan_barcode);
         String drinksStr = "{\"menuType\":\"DRINKS\",\"timeRange\":[{\"start\":1600,\"stop\":2359}],\"menuItems\":[{\"name\":\"Hamm's\",\"description\":\"American Lager, St. Paul Original 4.6% ABV\",\"price\":4,\"calories\":760,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"Coors Light\",\"description\":\"American Light Lager, Golden, CO 4.2% ABV\",\"price\":4.75,\"calories\":800,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"Surly - Hell\",\"description\":\"German Helles, Brooklyn Center, MN 5.0% ABV\",\"price\":5.5,\"calories\":720,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"Bauhaus - Wonderstuff\",\"description\":\"Bohemian Pilsner, Minneapolis, MN 5.4% ABV\",\"price\":5.75,\"calories\":500,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"Castle Danger - Cream Ale\",\"description\":\"Cream Ale, Two Harbors, MN 5.5% ABV\",\"price\":6,\"calories\":500,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"Golden Eye\",\"description\":\"El Jimador Tequila, Orange Juice, Red Bull Yellow, Lime Juice & A Salted Rim.\",\"price\":7,\"calories\":500,\"imagePath\":\"./\",\"category\":\"Specialty Drinks\",\"allergens\":[\"wheat\"]},{\"name\":\"Tron\",\"description\":\"Stoli Citros, Lemonade & Red Bull.\",\"price\":7,\"calories\":500,\"imagePath\":\"./\",\"category\":\"Specialty Drinks\",\"allergens\":[\"wheat\"]}]}";
         String dinnerStr = "{\"menuType\":\"DINNER\",\"timeRange\":[{\"start\":1600,\"stop\":2359}],\"menuItems\":[{\"name\":\"Cheese Curds\",\"description\":\"Lightly breaded and deep fried Wisconsin cheddar\",\"price\":5.75,\"calories\":760,\"imagePath\":\"./\",\"category\":\"Appetizers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Bavarian Pretzels\",\"description\":\"spicy mustard, beer cheese\",\"price\":9.95,\"calories\":800,\"imagePath\":\"./\",\"category\":\"Appetizers\",\"allergens\":[\"wheat\"]},{\"name\":\"Sweet Potato Tator Tots\",\"description\":\"chipotle peanut pesto aioli\",\"price\":8.95,\"calories\":720,\"imagePath\":\"./\",\"category\":\"Appetizers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Nachos\",\"description\":\"pulled chicken, jalapeño, aioli, pico de gallo, guacamole, mozzarella\",\"price\":11.95,\"calories\":1100,\"imagePath\":\"./\",\"category\":\"Appetizers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Housemade Beer Cheese Soup\",\"description\":\"Lightly breaded and deep fried Wisconsin cheddar\",\"price\":5.95,\"calories\":510,\"imagePath\":\"./\",\"category\":\"Soup\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Chili\",\"description\":\"cheese, onion, saltines\",\"price\":6.95,\"calories\":500,\"imagePath\":\"./\",\"category\":\"Soup\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Turkey Burger\",\"description\":\"poblano pesto, peanuts, pepper jack, lettuce\",\"price\":9.95,\"calories\":800,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk, nuts\"]},{\"name\":\"Patty Melt\",\"description\":\"white cheddar, pepper jack, wisconsin cheddar, onion rings, Tap sauce\",\"price\":10.5,\"calories\":1000,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Western Burger\",\"description\":\"crispy onion, bbq sauce, bacon, sharp cheddar\",\"price\":9.95,\"calories\":900,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Veggie Burger\",\"description\":\"vegetarian patty, tomato basil mayo, cheddar, caramelized onions, lettuce, tomato\",\"price\":9.5,\"calories\":710,\"imagePath\":\"./\",\"category\":\"Hand-Pattied Burgers\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"BBQ Pork Sandwich\",\"description\":\"roasted pulled pork, bbq sauce, onion rings, apples, coleslaw\",\"price\":11.95,\"calories\":800,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"BLT\",\"description\":\"guacamole, fried egg, mayo, ciabatta\",\"price\":11.5,\"calories\":600,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Grilled Cheese\",\"description\":\"parmesan-crusted thick cut sourdough, american cheese, tomato chutney, avocado\",\"price\":10.95,\"calories\":810,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]},{\"name\":\"Hot Italian Beef\",\"description\":\"sliced ribeye, pepper jack cheese, giardiniera, hoagie\",\"price\":9.5,\"calories\":710,\"imagePath\":\"./\",\"category\":\"Sandwhiches\",\"allergens\":[\"wheat\",\"milk\"]}]}";
         String specialsStr = "{\"menuType\":\"SPECIALS\",\"timeRange\":[{\"start\":1600,\"stop\":2359}],\"menuItems\":[{\"name\":\"WILD BERRY MIMOSA\",\"description\":\"Champagne Mixed With Wild Berry Puree.\",\"price\":4,\"calories\":760,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"MANGO MIMOSA\",\"description\":\"Champagne Mixed With Mango Puree.\",\"price\":4,\"calories\":760,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"PEANUT BUTTER LOVER\",\"description\":\"Skrewball Peanut Butter Whiskey And Butterscotch Schnapps Topped With Cola And Garnished With A Mini Peanut Butter Cup.\",\"price\":4,\"calories\":760,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]},{\"name\":\"SWEET SOUTHERN GAL\",\"description\":\"Jeremiah Weed Sweet Tea, Peach Schnapps, Lemonade And Sprite. Garnished With Mint And A Lemon Wedge.\",\"price\":4,\"calories\":760,\"imagePath\":\"./\",\"category\":\"Beer\",\"allergens\":[\"wheat\"]}]}";
+
         try {
-            Menu drinksMenu = createMenu(drinksStr);
-            Menu dinnerMenu = createMenu(dinnerStr);
-            Menu specialsMenu = createMenu(specialsStr);
+
+            Menu drinksMenu = createMenu(readMenuToString("drinks"));
+            Menu dinnerMenu = createMenu(readMenuToString("dinner"));
+            Menu specialsMenu = createMenu(readMenuToString("specials"));
             Log.d("CREATION", "MENU: " + dinnerMenu.toString());
 
             ArrayList<Menu> menuList = new ArrayList<>();
             menuList.add(dinnerMenu);
             menuList.add(drinksMenu);
             menuList.add(specialsMenu);
-
 
 
 
@@ -56,6 +67,9 @@ public class MainActivity extends AppCompatActivity {
         }
         catch (JSONException e) {
             Log.d("CREATION", "JSONException: " + e.toString());
+        }
+        catch (IOException ioe) {
+            Log.d("FILE", "Could not read file");
         }
 
     }
@@ -113,5 +127,24 @@ public class MainActivity extends AppCompatActivity {
         }
         MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,allergens);
         return newItem;
+    }
+
+    /**
+     * Takes in the name of a menu type and reads in the file from the 'assets/menu' directory.
+     * @param menuType The type of the menu, as a string.
+     * @return The contents of the file.
+     * @throws IOException If no file such as 'assets;menu/(menuType).json' exists.
+     */
+    private String readMenuToString(String menuType) throws IOException {
+        StringBuilder sb = new StringBuilder();
+        InputStream is = getApplicationContext().getAssets().open("menu/"+menuType+".json");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8 ));
+
+        String str;
+        while((str = reader.readLine()) != null) {
+            sb.append(str);
+        }
+
+        return sb.toString();
     }
 }

@@ -27,6 +27,9 @@ public class MenuItemFullActivity extends AppCompatActivity {
         name = (TextView) findViewById(R.id.itemFullName);
         description = (TextView) findViewById(R.id.itemFullDescription);
         price = (TextView) findViewById(R.id.itemFullPrice);
+        largeImage = (ImageView) findViewById(R.id.itemFullImage);
+
+        ThumbnailManager.getInstance().getImage(menuItem.getImagePath(),largeImage);
 
         name.setText(menuItem.getName());
         description.setText(menuItem.getDescription());
