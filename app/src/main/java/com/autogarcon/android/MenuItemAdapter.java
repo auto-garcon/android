@@ -1,7 +1,6 @@
 package com.autogarcon.android;
 
 // import android.support.v7.widget.RecyclerView;
-import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +8,6 @@ import android.widget.TextView;
 import android.widget.ImageView;
 
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.w3c.dom.Text;
 
 import java.util.List;
 
@@ -53,9 +50,9 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
         MenuItem menuItem = menuList.get(position);
         holder.name.setText(String.valueOf(menuItem.getName()));
         holder.description.setText(String.valueOf(menuItem.getDescription()));
-        holder.calories.setText("Calories: " + menuItem.getCalories());
+        holder.calories.setText(String.format("(%d kcal)",menuItem.getCalories()));
         holder.price.setText(String.format("%.2f", menuItem.getPrice()));
-        holder.menuImage.setImageResource(R.drawable.placeholder);
+        ThumbnailManager.getInstance().getImage(menuItem.getImagePath(),holder.menuImage);
     }
 
     @Override

@@ -37,14 +37,14 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:background="?attr/colorBackgroundFloating"
-                    android:elevation="2dp"
+                    android:elevation="3dp"
                     android:paddingBottom="10dp"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/itemFullImage">
+                    app:layout_constraintTop_toBottomOf="@+id/constraintLayout2">
 
                     <TextView
                         android:id="@+id/textView3"
@@ -99,7 +99,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="24dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="16dp"
                     android:background="?attr/colorBackgroundFloating"
@@ -142,32 +142,28 @@
 
                 <ImageView
                     android:id="@+id/itemFullImage"
-                    android:transitionName="itemImage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:layout_marginEnd="8dp"
                     android:adjustViewBounds="true"
                     android:scaleType="centerCrop"
+                    android:transitionName="itemImage"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
-                    app:srcCompat="@drawable/placeholder"
                     tools:srcCompat="@drawable/placeholder" />
 
                 <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/constraintLayout2"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="@+id/itemFullImage"
                     app:layout_constraintEnd_toEndOf="@+id/itemFullImage"
-                    app:layout_constraintStart_toStartOf="@+id/itemFullImage">
+                    app:layout_constraintStart_toStartOf="@+id/itemFullImage"
+                    app:layout_constraintTop_toBottomOf="@+id/itemFullImage">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:id="@+id/constraintLayout4"
                         android:layout_width="0dp"
                         android:layout_height="0dp"
-                        android:alpha="0.5"
                         android:background="@color/colorPrimaryDark"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
@@ -188,7 +184,7 @@
                         android:text="Name of Item"
                         android:textAlignment="textStart"
                         android:textColor="#FFFFFF"
-                        android:textSize="30sp"
+                        android:textSize="24sp"
                         android:textStyle="bold"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@+id/constraintLayout4"

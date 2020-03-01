@@ -1,0 +1,166 @@
+{
+  "menuType": "DINNER",
+  "timeRange": [
+    {
+      "start": 1600,
+      "stop": 2359
+    }
+  ],
+  "menuItems": [
+    {
+      "name": "Cheese Curds",
+      "description": "Lightly breaded and deep fried Wisconsin cheddar",
+      "price": 5.75,
+      "calories": 760,
+      "imagePath": "https://www.tenderfilet.com/dw/image/v2/BBVM_PRD/on/demandware.static/-/Sites-colony-master-catalog/default/dw6400ffdf/large/sub_13/006381.png",
+      "category": "Appetizers",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Bavarian Pretzels",
+      "description": "spicy mustard, beer cheese",
+      "price": 9.95,
+      "calories": 800,
+      "imagePath": "https://cdn.shopify.com/s/files/1/0614/0993/products/3oz_1024x1024.jpg?v=1475243326",
+      "category": "Appetizers",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Sweet Potato Tator Tots",
+      "description": "chipotle peanut pesto aioli",
+      "price": 8.95,
+      "calories": 720,
+      "imagePath": "https://www.wideopeneats.com/wp-content/uploads/2017/10/Homemade-Sweet-Potato-Tater-Tots.jpg",
+      "category": "Appetizers",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Nachos",
+      "description": "pulled chicken, jalapeño, aioli, pico de gallo, guacamole, mozzarella",
+      "price": 11.95,
+      "calories": 1100,
+      "imagePath": "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/17784-chicken-nachos-on-the-grill-600x600.jpg?ext=.jpg",
+      "category": "Appetizers",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Housemade Beer Cheese Soup",
+      "description": "Lightly breaded and deep fried Wisconsin cheddar",
+      "price": 5.95,
+      "calories": 510,
+      "imagePath": "https://www.tasteofhome.com/wp-content/uploads/2018/01/Potato-Beer-Cheese-Soup_EXPS_SBZ19_71598_B09_14_1b-696x696.jpg",
+      "category": "Soup",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Chili",
+      "description": "cheese, onion, saltines",
+      "price": 6.95,
+      "calories": 500,
+      "imagePath": "https://pinchofyum.com/wp-content/uploads/Sunday-Chili-Square.jpg",
+      "category": "Soup",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Turkey Burger",
+      "description": "poblano pesto, peanuts, pepper jack, lettuce",
+      "price": 9.95,
+      "calories": 800,
+      "imagePath": "https://img1.southernliving.timeinc.net/sites/default/files/styles/4_3_horizontal_-_1200x900/public/image/2017/07/main/ranch_turkey_burgers_2525701_hiaha_0086.jpg?itok=sfDFAJMw",
+      "category": "Hand-Pattied Burgers",
+      "allergens": [
+        "wheat", "milk, nuts"
+      ]
+    },
+    {
+      "name": "Patty Melt",
+      "description": "white cheddar, pepper jack, wisconsin cheddar, onion rings, Tap sauce",
+      "price": 10.50,
+      "calories": 1000,
+      "imagePath": "https://s23991.pcdn.co/wp-content/uploads/2016/04/patty-melt-recipe.jpg",
+      "category": "Hand-Pattied Burgers",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Western Burger",
+      "description": "crispy onion, bbq sauce, bacon, sharp cheddar",
+      "price": 9.95,
+      "calories": 900,
+      "imagePath": "https://d1doqjmisr497k.cloudfront.net/-/media/mccormick-us/recipes/grill-mates/c/800/cowboy-burger-with-grilled-pickles-and-crispy-onion-straws.jpg",
+      "category": "Hand-Pattied Burgers",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Veggie Burger",
+      "description": "vegetarian patty, tomato basil mayo, cheddar, caramelized onions, lettuce, tomato",
+      "price": 9.50,
+      "calories": 710,
+      "imagePath": "https://www.inspiredtaste.net/wp-content/uploads/2018/05/Homemade-Mushroom-Veggie-Burger-Recipe-1200.jpg",
+      "category": "Hand-Pattied Burgers",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+
+    {
+      "name": "BBQ Pork Sandwich",
+      "description": "roasted pulled pork, bbq sauce, onion rings, apples, coleslaw",
+      "price": 11.95,
+      "calories": 800,
+      "imagePath": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/5/27/0/PA1108_BBQ-Pork-Sandwich_s4x3.jpg.rend.hgtvcom.826.620.suffix/1371597413688.jpeg",
+      "category": "Sandwiches",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "BLT",
+      "description": "guacamole, fried egg, mayo, ciabatta",
+      "price": 11.50,
+      "calories": 600,
+      "imagePath": "https://tmbidigitalassetsazure.blob.core.windows.net/secure/RMS/attachments/37/1200x1200/Loaded-Avocado-BLT_EXPS_SDAS17_198564_D04_04_3b.jpg",
+      "category": "Sandwiches",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Grilled Cheese",
+      "description": "parmesan-crusted thick cut sourdough, american cheese, tomato chutney, avocado",
+      "price": 10.95,
+      "calories": 810,
+      "imagePath": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/2/24/0/ZB0202H_classic-american-grilled-cheese_s4x3.jpg.rend.hgtvcom.616.462.suffix/1371603614279.jpeg",
+      "category": "Sandwiches",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    },
+    {
+      "name": "Hot Italian Beef",
+      "description": "sliced ribeye, pepper jack cheese, giardiniera, hoagie",
+      "price": 9.50,
+      "calories": 710,
+      "imagePath": "https://i2.wp.com/topsecretrecipes.com/foodhackerblog/wp-content/uploads/2017/10/Portillos-Italian-Beef_top.jpg?resize=500%2C491&ssl=1",
+      "category": "Sandwiches",
+      "allergens": [
+        "wheat", "milk"
+      ]
+    }
+  ]
+}
