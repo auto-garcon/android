@@ -13,7 +13,7 @@ public class MenuItem implements Serializable {
     private int calories;
     private String imagePath;
     private String category;
-    private ArrayList<String> allergens;
+    private ArrayList<DietaryTags> dietaryTags;
 
     /**
      * MenuItem: Constructor for MenuItem class. This class represents individual items on a menu
@@ -25,17 +25,17 @@ public class MenuItem implements Serializable {
      * @param calories    calories of the menuItem
      * @param imagePath   path to the image for the menuItem
      * @param category    menu category for the menu item
-     * @param allergens   list of allergens in the menu item
+     * @param dietaryTags   list of allergens in the menu item
      */
     public MenuItem(String name, String description, double price, int calories, String imagePath, String category,
-                    ArrayList<String> allergens){
+                    ArrayList<DietaryTags> dietaryTags){
         this.name = name;
         this.description = description;
         this.price = price;
         this.calories = calories;
         this.imagePath = imagePath;
         this.category = category;
-        this.allergens = allergens;
+        this.dietaryTags = dietaryTags;
     }
 
     /**
@@ -83,8 +83,8 @@ public class MenuItem implements Serializable {
     /**
      * @return allergens ArrayList
      */
-    public ArrayList<String> getAllergens(){
-        return allergens;
+    public ArrayList<DietaryTags> getDietaryTags(){
+        return dietaryTags;
     }
 
     /**
@@ -103,9 +103,9 @@ public class MenuItem implements Serializable {
         str.append("\t\tcalories: " + getCalories() + "\n");
         str.append("\t\timagePath: " + getImagePath() + "\n");
         str.append("\t\tcategoryName: " + getCategoryName() + "\n");
-        str.append("\t\tallergens:");
-        for(int i = 0; i < getAllergens().size(); i++){
-            str.append(" " + getAllergens().get(i) + ",");
+        str.append("\t\tdietaryTags:");
+        for(int i = 0; i < getDietaryTags().size(); i++){
+            str.append(" " + getDietaryTags().get(i) + ",");
         }
         str.append("\n");
         return str.toString();

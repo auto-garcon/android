@@ -20,6 +20,8 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.View;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Activity for the landing page that users see after logging in.
@@ -94,13 +96,36 @@ public class LandingPageActivity extends AppCompatActivity {
         int calories = jsonObject.getInt("calories");;
         String imagePath = jsonObject.getString("imagePath");;
         String category = jsonObject.getString("category");
+        /*
         JSONArray allergensJSONArr = jsonObject.getJSONArray("allergens");
         // Convert JSONArray to ArrayList for allergens
         ArrayList<String> allergens = new ArrayList<>();
         for (int i = 0; i < allergensJSONArr.length(); i++){
             allergens.add(allergensJSONArr.getString(i));
         }
-        MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,allergens);
+        */
+
+        ArrayList<DietaryTags> dietaryTags = new ArrayList<>();
+
+        JSONObject tags = (JSONObject) jsonObject.get("dietaryTags");
+
+        if(tags.getBoolean("meat") == true){
+            dietaryTags.add(DietaryTags.MEAT);
+        }
+        if(tags.getBoolean("dairy") == true){
+            dietaryTags.add(DietaryTags.DAIRY);
+        }
+        if(tags.getBoolean("nuts") == true){
+            dietaryTags.add(DietaryTags.NUTS);
+        }
+        if(tags.getBoolean("gluten") == true){
+            dietaryTags.add(DietaryTags.GLUTEN);
+        }
+        if(tags.getBoolean("soy") == true){
+            dietaryTags.add(DietaryTags.SOY);
+        }
+
+        MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,dietaryTags);
         return newItem;
     }
 

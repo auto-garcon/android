@@ -21,11 +21,9 @@ public class MenuItemActivity extends AppCompatActivity {
     Category category;
     private RecyclerView recyclerView;
     private MenuItemAdapter mAdapter;
-<<<<<<< HEAD
     private SearchView searchView;
-=======
     private String title;
->>>>>>> 895b5dd76b736c8a944def12dc23622e5e770a85
+
 
     @Override
     public void onBackPressed() {
