@@ -22,7 +22,16 @@
         <activity android:name=".ScannedBarcodeActivity" />
         <activity android:name=".MenuListActivity" />
         <activity android:name=".CategoryListAdapter" />
-        <activity android:name=".MenuItemActivity" />
+        <activity android:name=".MenuItemActivity">
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH" />
+            </intent-filter>
+
+        </activity>
         <activity android:name=".CategoryListActivity" />
         <activity android:name=".MenuItemFullActivity" />
         <activity android:name=".MainActivity">
