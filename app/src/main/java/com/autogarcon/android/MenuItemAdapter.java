@@ -72,16 +72,34 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
             @Override
             protected FilterResults performFiltering(CharSequence constraint) {
                 String charString = constraint.toString();
+                boolean filter = false;
+                if(charString.substring(0,6).equals("filter")){
+                    filter = true;
+                }
+                charString = charString.substring(6);
                 Log.d("IN FILTER", "Sent to Filter: " + charString);
                 if (charString.isEmpty()){
                     Log.d("IS EMPTY", "charString is Empty");
                     menuListFiltered = menuList;
                 } else {
                     List<MenuItem> filteredList = new ArrayList<>();
-                    for(MenuItem row : menuList){
-                        if(row.getName().toLowerCase().contains(charString.toLowerCase())){
-                            Log.d("FOUND", "Added: " + row.getName());
-                            filteredList.add(row);
+                    if(filter){
+                        for(MenuItem row : menuList){
+                            if(charString.equals("nomeat") && !row.getDietaryTags().contains(DietaryTags.MEAT)) {
+                                Log.d("NOMEAT", "Added: " + row.getName());
+                                filteredList.add(row);
+                            }
+                            if(charString.equals("meat")) {
+                                Log.d("MEAT", "Added: " + row.getName());
+                                filteredList.add(row);
+                            }
+                        }
+                    } else{
+                        for(MenuItem row : menuList){
+                            if(row.getName().toLowerCase().contains(charString.toLowerCase())){
+                                Log.d("FOUND", "Added: " + row.getName());
+                                filteredList.add(row);
+                            }
                         }
                     }
 

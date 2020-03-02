@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
@@ -65,7 +66,7 @@ public class MenuItemActivity extends AppCompatActivity {
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
     }
-
+/*
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu){
         getMenuInflater().inflate(R.menu.menu_filtering,menu);
@@ -73,6 +74,7 @@ public class MenuItemActivity extends AppCompatActivity {
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         searchView.setMaxWidth(Integer.MAX_VALUE);
 
@@ -95,5 +97,29 @@ public class MenuItemActivity extends AppCompatActivity {
         });
 
         return true;
+    }
+ */
+    @Override
+    public boolean onCreateOptionsMenu(android.view.Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_filtering, menu);
+        return true;
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.meat_filter:
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                    mAdapter.getFilter().filter("filternomeat");
+                }else{
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                    mAdapter.getFilter().filter("filtermeat");
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }
