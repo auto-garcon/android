@@ -1,64 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
 
 
+    android:id="@+id/coordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <com.google.android.material.bottomappbar.BottomAppBar
-        android:id="@+id/bottomAppBar4"
-        style="@style/Widget.MaterialComponents.BottomAppBar.Colored"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        app:fabAlignmentMode="end"
-        app:subtitle="ASDf"
-        app:titleTextColor="#00FCF7F7">
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/itemFullPrice"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="$1.99"
-                android:textAppearance="@style/Base.TextAppearance.AppCompat.Title"
-                android:textColor="#fff" />
-
-        </RelativeLayout>
-    </com.google.android.material.bottomappbar.BottomAppBar>
-
-    <androidx.core.widget.NestedScrollView
+    <include
+        android:id="@+id/include"
+        layout="@layout/content_menu_item_full"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-
-
-        android:clipToPadding="true"
-        android:fillViewport="true"
-        android:paddingBottom="56dp"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-
-        <include
-            layout="@layout/content_menu_item_full"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="300dp" />
-    </androidx.core.widget.NestedScrollView>
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@android:drawable/ic_input_add"
-        app:layout_anchor="@id/bottomAppBar4"
-        app:layout_anchorGravity="bottom|right|end"
-        app:layout_insetEdge="none" />
+        tools:layout_editor_absoluteX="76dp"
+        tools:layout_editor_absoluteY="16dp" />
 
     "
 
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

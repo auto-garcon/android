@@ -21,25 +21,27 @@ import java.util.ArrayList;
 public class CategoryListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    Menu menu;
+    private Menu menu;
     private CategoryListAdapter mAdapter;
+    private String title;
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        title = (String)getIntent().getSerializableExtra("title");
+        setTitle(title);
         this.menu = (Menu) getIntent().getSerializableExtra("menu");
         setContentView(R.layout.activity_main);
-
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new CategoryListAdapter(menu);
 
-        Log.d("CREATION", "menu = " + menu.toString());
-
-        if (recyclerView == null) {
-            Log.d("CREATION", "\n\nrecycler is null!!!\n\n");
-        }
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -49,12 +51,17 @@ public class CategoryListActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), MenuItemActivity.class);
                 intent.putExtra("category", menu.getCategories().get(position));
+                intent.putExtra("title", title);
                 startActivity(intent);
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
             }
         }));
+
+        CustomTheme theme = new CustomTheme();
+        theme.applyTo(this);
     }
 }

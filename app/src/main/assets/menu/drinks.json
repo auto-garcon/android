@@ -1,0 +1,88 @@
+{
+  "menuType": "DRINKS",
+  "timeRange": [
+    {
+      "start": 1600,
+      "stop": 2359
+    }
+  ],
+  "menuItems": [
+    {
+      "name": "Hamm's",
+      "description": "American Lager, St. Paul Original 4.6% ABV",
+      "price": 4,
+      "calories": 760,
+      "imagePath": "https://cdn.shoplightspeed.com/shops/610215/files/13986794/cactus-creek-can-of-hamms.jpg",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Coors Light",
+      "description": "American Light Lager, Golden, CO 4.2% ABV",
+      "price": 4.75,
+      "calories": 800,
+      "imagePath": "https://images.freshop.com/00071990300654/57233d87bc4d02256e77f2c19c5e676e_large.png",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Surly - Hell",
+      "description": "German Helles, Brooklyn Center, MN 5.0% ABV",
+      "price": 5.5,
+      "calories": 720,
+      "imagePath": "https://d2lnr5mha7bycj.cloudfront.net/product-image/file/large_4c673769-8532-4f6f-a1a2-6f0cae45d119.jpg",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Bauhaus - Wonderstuff",
+      "description": "Bohemian Pilsner, Minneapolis, MN 5.4% ABV",
+      "price": 5.75,
+      "calories": 500,
+      "imagePath": "https://www.haskells.com/media/catalog/product/cache/1/image/816x1200/040ec09b1e35df139433887a97daa66f/3/0/302536_0_1_1.jpg",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Castle Danger - Cream Ale",
+      "description": "Cream Ale, Two Harbors, MN 5.5% ABV",
+      "price": 6,
+      "calories": 500,
+      "imagePath": "https://cdn.shoplightspeed.com/shops/616492/files/10440827/image.jpg",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Golden Eye",
+      "description": "El Jimador Tequila, Orange Juice, Red Bull Yellow, Lime Juice & A Salted Rim.",
+      "price": 7,
+      "calories": 500,
+      "imagePath": "https://uncommoncarib-wpengine.netdna-ssl.com/wp-content/uploads/2016/04/Blackwell-Goldeneye-2048x1365.jpg;",
+      "category": "Specialty Drinks",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Tron",
+      "description": "Stoli Citros, Lemonade & Red Bull.",
+      "price": 7,
+      "calories": 500,
+      "imagePath": "https://mixthatdrink.com/wp-content/uploads/2016/03/blue-long-island-iced-tea-2-735x735.jpg",
+      "category": "Specialty Drinks",
+      "allergens": [
+        "wheat"
+      ]
+    }
+  ]
+}"

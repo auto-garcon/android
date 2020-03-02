@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
@@ -17,62 +18,84 @@
         android:layout_marginBottom="4dp"
         app:cardBackgroundColor="#FFFFFF">
 
-        <TextView
-            android:id="@+id/name"
-            android:layout_width="344dp"
-            android:layout_height="wrap_content"
-            android:text="Patty Melt"
-            android:textColor="@color/colorPrimary"
-            android:textSize="16sp"
-            android:layout_marginStart="120dp"
-            android:textStyle="bold" />
-
-        <TextView
-            android:id="@+id/calories"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_gravity="bottom"
-            android:layout_marginStart="120dp"
-            android:text="Calories:"
-            android:textColor="@color/colorGray" />
-
-        <TextView
-            android:id="@+id/description"
-            android:layout_width="315dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:ellipsize="end"
-            android:lines="3"
-            android:maxLines="3"
-            android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
-            android:textColor="@color/title"
-            android:layout_marginStart="120dp"
-            android:layout_gravity="center_vertical"
-            android:textSize="12sp" />
-
-        <ImageView
-            android:id="@+id/menuImage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            app:srcCompat="@drawable/placeholder" />
-
-        <TextView
-            android:id="@+id/price"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginBottom="8dp"
-            android:gravity="end"
-            android:layout_gravity="bottom"
-            android:text="$9.50"
-            android:textColor="#000" />
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/name"
+                android:layout_width="344dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:text="Patty Melt"
+                android:textColor="@color/colorPrimary"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/menuImage"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/calories"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="8dp"
+                android:text="(30 kcal)"
+                android:textColor="@color/colorGray"
+                android:textSize="10sp"
+                android:textStyle="italic"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/description"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:ellipsize="end"
+                android:lines="3"
+                android:maxLines="3"
+                android:text="Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua."
+                android:textColor="@color/title"
+                android:textSize="12sp"
+                app:layout_constraintEnd_toStartOf="@+id/price"
+                app:layout_constraintStart_toEndOf="@+id/menuImage"
+                app:layout_constraintTop_toBottomOf="@+id/name" />
+
+            <ImageView
+                android:id="@+id/menuImage"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:scaleType="centerCrop"
+                android:transitionName="itemImage"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/placeholder" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginEnd="8dp"
+                android:gravity="end"
+                android:text="$9.50"
+                android:textColor="@color/colorPrimaryDark"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
     </androidx.cardview.widget.CardView>
 
 </RelativeLayout>

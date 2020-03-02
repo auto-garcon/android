@@ -1,0 +1,55 @@
+{
+  "menuType": "SPECIALS",
+  "timeRange": [
+    {
+      "start": 1600,
+      "stop": 2359
+    }
+  ],
+  "menuItems": [
+    {
+      "name": "Wild Berry Mimosa",
+      "description": "Champagne Mixed With Wild Berry Puree.",
+      "price": 4,
+      "calories": 760,
+      "imagePath": "https://i0.wp.com/www.certifiedpastryaficionado.com/wp-content/uploads/2017/04/5-fixed.jpg?resize=1374%2C2061",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Mango Mimosa",
+      "description": "Champagne Mixed With Mango Puree.",
+      "price": 4,
+      "calories": 760,
+      "imagePath": "https://www.averiecooks.com/wp-content/uploads/2016/06/mimosa-10-360x360.jpg",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Peanut Butter Lover",
+      "description": "Skrewball Peanut Butter Whiskey And Butterscotch Schnapps Topped With Cola And Garnished With A Mini Peanut Butter Cup.",
+      "price": 4,
+      "calories": 760,
+      "imagePath": "https://vignette.wikia.nocookie.net/bamanpidermanshow/images/8/8a/Peab.jpg/revision/latest/top-crop/width/220/height/220?cb=20121029145615",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    },
+    {
+      "name": "Sweet Southern Gal",
+      "description": "Jeremiah Weed Sweet Tea, Peach Schnapps, Lemonade And Sprite. Garnished With Mint And A Lemon Wedge.",
+      "price": 4,
+      "calories": 760,
+      "imagePath": "https://cdn3.volusion.com/ncjkx.vuwnc/v/vspfiles/photos/ossstgal-2.jpg",
+      "category": "Beer",
+      "allergens": [
+        "wheat"
+      ]
+    }
+  ]
+}
