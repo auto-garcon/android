@@ -23,18 +23,18 @@ public class CustomTheme {
     private int colorPrimary;
     private int colorPrimaryDark;
     private int colorAccent;
-    private final int originalColorPrimary = Color.parseColor("#3F51B5");
-    private final int originalColorPrimaryDark = Color.parseColor("#303F9F");
-    private final int originalColorAccent = Color.parseColor("#FF4081");
+    private final int originalColorPrimary = Color.parseColor("#333a4f");
+    private final int originalColorPrimaryDark = Color.parseColor("#333a4f");
+    private final int originalColorAccent = Color.parseColor("#333a4f");
 
     /**
      * Generic constructor that creates a simple 'red' theme.
      * Author:   Tim Callies
      */
     public CustomTheme() {
-        this.colorPrimary = Color.parseColor("#FF0000");
-        this.colorPrimaryDark = Color.parseColor("#AA0000");
-        this.colorAccent = Color.parseColor("#00FF00");
+        this.colorPrimary = Color.parseColor("#333a4f");
+        this.colorPrimaryDark = Color.parseColor("#333a4f");
+        this.colorAccent = Color.parseColor("#546b60");
     }
 
     /**
