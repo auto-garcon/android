@@ -17,10 +17,13 @@ public class MenuItemFullActivity extends AppCompatActivity {
     TextView name;
     TextView description;
     TextView price;
+    String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        title = (String)getIntent().getSerializableExtra("title");
+        setTitle(title);
         this.menuItem = (MenuItem) getIntent().getSerializableExtra("item");
         setContentView(R.layout.activity_menu_item_full);
 

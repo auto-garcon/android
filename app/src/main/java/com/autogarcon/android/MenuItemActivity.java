@@ -17,6 +17,7 @@ public class MenuItemActivity extends AppCompatActivity {
     Category category;
     private RecyclerView recyclerView;
     private MenuItemAdapter mAdapter;
+    private String title;
 
     @Override
     public void onBackPressed() {
@@ -27,7 +28,8 @@ public class MenuItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        title = (String)getIntent().getSerializableExtra("title");
+        setTitle(title);
         this.category = (Category) getIntent().getSerializableExtra("category");
         setContentView(R.layout.activity_main);
 
@@ -42,7 +44,7 @@ public class MenuItemActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
                 intent.putExtra("item", category.getMenuItems().get(position));
-
+                intent.putExtra("title", title);
                 ImageView image = ((MenuItemAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemActivity.this, (View)image, "itemImage");
                 startActivity(intent, options.toBundle());

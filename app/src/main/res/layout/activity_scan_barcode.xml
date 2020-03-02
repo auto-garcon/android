@@ -19,7 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
-        android:alpha=".5"
+        android:alpha=".8"
         android:background="#FFFFFF"
         app:layout_constraintTop_toTopOf="parent"
         tools:layout_editor_absoluteX="16dp">
@@ -31,7 +31,7 @@
         android:layout_width="20dp"
         android:layout_height="340dp"
         android:layout_alignParentBottom="true"
-        android:alpha=".5"
+        android:alpha=".8"
         android:background="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/overlay1">
     </RelativeLayout>
@@ -42,10 +42,11 @@
         android:layout_height="0dp"
         app:layout_constrainedHeight="true"
         app:layout_constraintHeight_default="spread"
-        android:alpha=".5"
+        android:alpha=".8"
         android:background="#FFFFFF"
         app:layout_constraintTop_toBottomOf="@+id/overlay3"
         app:layout_constraintBottom_toBottomOf="@id/surfaceView">
+
     </RelativeLayout>
 
 
@@ -53,7 +54,7 @@
         android:id="@+id/overlay4"
         android:layout_width="20dp"
         android:layout_height="340dp"
-        android:alpha=".5"
+        android:alpha=".8"
         android:background="#FFFFFF"
         android:gravity=""
         app:layout_constraintEnd_toEndOf="parent"
@@ -64,11 +65,11 @@
         android:id="@+id/txtBarcodeValue"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:text="No Barcode Detected"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        tools:layout_editor_absoluteX="185dp"
-        tools:layout_editor_absoluteY="3dp" />
+        android:layout_marginTop="20dp"
+        android:text="Scan the QR-Code on your table"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/surfaceView" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

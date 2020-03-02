@@ -17,8 +17,9 @@ public class MenuListActivity extends AppCompatActivity {
 
 
     private RecyclerView recyclerView;
-    ArrayList<Menu> menuList;
+    private ArrayList<Menu> menuList;
     private MenuListAdapter mAdapter;
+    private String title;
 
     @Override
     public void onBackPressed() {
@@ -29,9 +30,10 @@ public class MenuListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        title = (String)getIntent().getSerializableExtra("title");
+        setTitle(title);
         this.menuList = (ArrayList<Menu>)getIntent().getSerializableExtra("menuList");
         setContentView(R.layout.activity_main);
-
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MenuListAdapter(menuList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
@@ -44,12 +46,14 @@ public class MenuListActivity extends AppCompatActivity {
                 if (menuList.get(position).getCategories().size() == 1){
                     Intent intent = new Intent(getApplicationContext(), MenuItemActivity.class);
                     intent.putExtra("category", menuList.get(position).getCategories().get(0));
+                    intent.putExtra("title", title);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else {
                     Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
                     intent.putExtra("menu", menuList.get(position));
+                    intent.putExtra("title", title);
                     startActivity(intent);
                     overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
