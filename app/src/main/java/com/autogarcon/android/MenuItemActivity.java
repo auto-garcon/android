@@ -66,7 +66,7 @@ public class MenuItemActivity extends AppCompatActivity {
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
     }
-/*
+
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu){
         getMenuInflater().inflate(R.menu.menu_filtering,menu);
@@ -91,20 +91,20 @@ public class MenuItemActivity extends AppCompatActivity {
             public boolean onQueryTextChange(String newText) {
                 Log.d("Input Text", "Search Text: " + newText );
                 // filter recycler view when text is changed
-                mAdapter.getFilter().filter(newText);
+                mAdapter.getFilter().filter("search" + newText);
                 return false;
             }
         });
 
         return true;
     }
- */
+ /*
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu) {
         getMenuInflater().inflate(R.menu.menu_filtering, menu);
         return true;
     }
-
+*/
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.meat_filter:
@@ -116,6 +116,50 @@ public class MenuItemActivity extends AppCompatActivity {
                     // If item is unchecked then checked it
                     item.setChecked(true);
                     mAdapter.getFilter().filter("filtermeat");
+                }
+                return true;
+            case R.id.nuts_filter:
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                    mAdapter.getFilter().filter("filternonuts");
+                }else{
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                    mAdapter.getFilter().filter("filternuts");
+                }
+                return true;
+            case R.id.dairy_filter:
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                    mAdapter.getFilter().filter("filternodairy");
+                }else{
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                    mAdapter.getFilter().filter("filterdairy");
+                }
+                return true;
+            case R.id.gluten_filter:
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                    mAdapter.getFilter().filter("filternogluten");
+                }else{
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                    mAdapter.getFilter().filter("filtergluten");
+                }
+                return true;
+            case R.id.soy_filter:
+                if(item.isChecked()){
+                    // If item already checked then unchecked it
+                    item.setChecked(false);
+                    mAdapter.getFilter().filter("filternosoy");
+                }else{
+                    // If item is unchecked then checked it
+                    item.setChecked(true);
+                    mAdapter.getFilter().filter("filtersoy");
                 }
                 return true;
             default:

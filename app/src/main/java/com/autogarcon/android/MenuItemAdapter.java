@@ -19,6 +19,8 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
 
     private List<MenuItem> menuList;
     private List<MenuItem> menuListFiltered;
+    private List<MenuItem> currentlyDisplayed;
+    private List<DietaryTags> currentFilters = new ArrayList<>();
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
         public TextView name, description, calories, price;
@@ -41,6 +43,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
     public MenuItemAdapter(List<MenuItem> menuList) {
         this.menuList = menuList;
         this.menuListFiltered = menuList;
+        this.currentlyDisplayed = new ArrayList<>(menuList);
     }
 
     @Override
@@ -78,32 +81,130 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
                 }
                 charString = charString.substring(6);
                 Log.d("IN FILTER", "Sent to Filter: " + charString);
+                menuListFiltered = menuList;
+
+                Log.d("MENULISTLENGTH" , Integer.toString(menuListFiltered.size()) );
+                Log.d("CURRLENGTH" , Integer.toString(currentlyDisplayed.size()) );
                 if (charString.isEmpty()){
                     Log.d("IS EMPTY", "charString is Empty");
                     menuListFiltered = menuList;
                 } else {
-                    List<MenuItem> filteredList = new ArrayList<>();
+                    List<MenuItem> filteredList = new ArrayList<>(menuListFiltered);
+                    //filteredList = menuListFiltered;
                     if(filter){
+                        if(charString.equals("nomeat")){
+                            currentFilters.add(DietaryTags.MEAT);
+                        }
+                        if (charString.equals("meat")) {
+                            currentFilters.remove(DietaryTags.MEAT);
+                        }
+                        if(charString.equals("nodairy")){
+                            currentFilters.add(DietaryTags.DAIRY);
+                        }
+                        if (charString.equals("dairy")) {
+                            currentFilters.remove(DietaryTags.DAIRY);
+                        }
+                        if (charString.equals("nonuts")){
+                            currentFilters.add(DietaryTags.NUTS);
+                        }
+                        if (charString.equals("nuts")){
+                            currentFilters.remove(DietaryTags.NUTS);
+                        }
+                        if (charString.equals("nogluten")){
+                            currentFilters.add(DietaryTags.GLUTEN);
+                        }
+                        if (charString.equals("gluten")){
+                            currentFilters.remove(DietaryTags.GLUTEN);
+                        }
+                        if (charString.equals("nosoy")){
+                            currentFilters.add(DietaryTags.SOY);
+                        }
+                        if (charString.equals("soy")){
+                            currentFilters.remove(DietaryTags.SOY);
+                        }
+
+                        currentlyDisplayed = new ArrayList<>(menuList);
                         for(MenuItem row : menuList){
-                            if(charString.equals("nomeat") && !row.getDietaryTags().contains(DietaryTags.MEAT)) {
-                                Log.d("NOMEAT", "Added: " + row.getName());
-                                filteredList.add(row);
+                            for(DietaryTags tag : currentFilters){
+                                if (row.getDietaryTags().contains(tag)){
+                                    currentlyDisplayed.remove(row);
+                                    break;
+                                }
+
                             }
-                            if(charString.equals("meat")) {
-                                Log.d("MEAT", "Added: " + row.getName());
-                                filteredList.add(row);
+                            /*
+                            Log.d("MENULISTLENGTH1" , Integer.toString(menuList.size()) );
+                            if(charString.equals("nomeat") && row.getDietaryTags().contains(DietaryTags.MEAT)) {
+                                Log.d("NOMEAT1", "Added: " + row.getName());
+                                currentlyDisplayed.remove(row);
                             }
+
+                            if(charString.equals("meat") && row.getDietaryTags().contains(DietaryTags.MEAT)) {
+                                Log.d("MEAT", "Added: " + row.getName() + row.getDietaryTags().contains(DietaryTags.MEAT));
+                                currentlyDisplayed.add(row);
+                            }
+                            if(charString.equals("nodairy") && row.getDietaryTags().contains(DietaryTags.DAIRY)) {
+                                Log.d("NODAIRY", "Added: " + row.getName());
+                                currentlyDisplayed.remove(row);
+                            }
+
+                            if(charString.equals("dairy") && row.getDietaryTags().contains(DietaryTags.DAIRY)) {
+                                Log.d("NODAIRY", "Added: " + row.getName() + row.getDietaryTags().contains(DietaryTags.DAIRY));
+                                currentlyDisplayed.add(row);
+                            }
+                            if(charString.equals("nonuts") && row.getDietaryTags().contains(DietaryTags.NUTS)) {
+                                Log.d("NONUTS", "Added: " + row.getName());
+                                currentlyDisplayed.remove(row);
+                            }
+
+                            if(charString.equals("nuts") && row.getDietaryTags().contains(DietaryTags.NUTS)) {
+                                Log.d("NUTS", "Added: " + row.getName() + row.getDietaryTags().contains(DietaryTags.NUTS));
+                                currentlyDisplayed.add(row);
+                            }
+                            if(charString.equals("nogluten") && row.getDietaryTags().contains(DietaryTags.GLUTEN)) {
+                                Log.d("NOGLUTEN", "Added: " + row.getName());
+                                currentlyDisplayed.remove(row);
+                            }
+
+                            if(charString.equals("gluten") && row.getDietaryTags().contains(DietaryTags.GLUTEN)) {
+                                Log.d("GLUTEN", "Added: " + row.getName() + row.getDietaryTags().contains(DietaryTags.GLUTEN));
+                                currentlyDisplayed.add(row);
+                            }
+                            if(charString.equals("nosoy") && row.getDietaryTags().contains(DietaryTags.SOY)) {
+                                Log.d("NOSOY", "Added: " + row.getName());
+                                currentlyDisplayed.remove(row);
+                            }
+
+                            if(charString.equals("soy") && row.getDietaryTags().contains(DietaryTags.SOY)) {
+                                Log.d("SOY", "Added: " + row.getName() + row.getDietaryTags().contains(DietaryTags.SOY));
+                                currentlyDisplayed.add(row);
+                            }
+
+                             */
                         }
                     } else{
+                        currentlyDisplayed = new ArrayList<>(menuList);
+                        for(MenuItem row : menuList) {
+                            for (DietaryTags tag : currentFilters) {
+                                if (row.getDietaryTags().contains(tag)) {
+                                    currentlyDisplayed.remove(row);
+                                    break;
+                                }
+
+                            }
+                        }
                         for(MenuItem row : menuList){
-                            if(row.getName().toLowerCase().contains(charString.toLowerCase())){
+                            if(!row.getName().toLowerCase().contains(charString.toLowerCase()) && !row.getDescription().toLowerCase().contains(charString.toLowerCase())){
                                 Log.d("FOUND", "Added: " + row.getName());
-                                filteredList.add(row);
+                                //filteredList.add(row);
+                                currentlyDisplayed.remove(row);
                             }
                         }
                     }
 
-                    menuListFiltered = filteredList;
+                    //menuListFiltered = filteredList;
+                    //currentlyDisplayed = filteredList;
+                    menuListFiltered = currentlyDisplayed;
                 }
 
                 FilterResults filterResults = new FilterResults();
