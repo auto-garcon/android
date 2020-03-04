@@ -9,7 +9,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SearchView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
@@ -17,11 +16,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-public class MenuItemActivity extends AppCompatActivity {
+public class MenuItemListActivity extends AppCompatActivity {
     ImageView largeImage;
     Category category;
     private RecyclerView recyclerView;
-    private MenuItemAdapter mAdapter;
+    private MenuItemListAdapter mAdapter;
     private SearchView searchView;
     private String title;
 
@@ -38,10 +37,10 @@ public class MenuItemActivity extends AppCompatActivity {
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.category = (Category) getIntent().getSerializableExtra("category");
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_menu_item_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MenuItemAdapter(category.getMenuItems());
+        mAdapter = new MenuItemListAdapter(category.getMenuItems());
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -52,8 +51,8 @@ public class MenuItemActivity extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
                 intent.putExtra("item", category.getMenuItems().get(position));
                 intent.putExtra("title", title);
-                ImageView image = ((MenuItemAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemActivity.this, (View)image, "itemImage");
+                ImageView image = ((MenuItemListAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemListActivity.this, (View)image, "itemImage");
                 startActivity(intent, options.toBundle());
                 //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }

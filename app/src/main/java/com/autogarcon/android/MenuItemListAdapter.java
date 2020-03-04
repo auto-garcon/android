@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyViewHolder> implements Filterable {
+public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapter.MyViewHolder> implements Filterable {
 
     private List<MenuItem> menuList;
     private List<MenuItem> menuListFiltered;
@@ -40,7 +40,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
         }
     }
 
-    public MenuItemAdapter(List<MenuItem> menuList) {
+    public MenuItemListAdapter(List<MenuItem> menuList) {
         this.menuList = menuList;
         this.menuListFiltered = menuList;
         this.currentlyDisplayed = new ArrayList<>(menuList);
@@ -49,7 +49,7 @@ public class MenuItemAdapter extends RecyclerView.Adapter<MenuItemAdapter.MyView
     @Override
     public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View itemView = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.menu_item_list, parent, false);
+                .inflate(R.layout.list_menu_item, parent, false);
 
         return new MyViewHolder(itemView);
     }
