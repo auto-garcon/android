@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -34,6 +35,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
+    Button bypass;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +43,39 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         imageView = findViewById(R.id.scanner);
         textView = findViewById(R.id.directions);
+        bypass = findViewById(R.id.bypass);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_scan_barcode);
                 Intent intent = new Intent(getApplicationContext(), ScannedBarcodeActivity.class);
                 startActivityForResult(intent,2);
+            }
+        });
+        bypass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Menu drinksMenu = createMenu(readMenuToString("drinks"));
+                    Menu dinnerMenu = createMenu(readMenuToString("dinner"));
+                    Menu specialsMenu = createMenu(readMenuToString("specials"));
+                    ArrayList<Menu> menuList = new ArrayList<>();
+                    menuList.add(dinnerMenu);
+                    menuList.add(drinksMenu);
+                    menuList.add(specialsMenu);
+                    Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+                    intent.putExtra("menuList", menuList);
+                    intent.putExtra("title", "Groveland Tap" + " - Table " + 2);
+                    startActivity(intent);
+                }
+                catch (
+                        JSONException e) {
+                    Log.d("CREATION", "JSONException: " + e.toString());
+                }
+                catch (
+                        IOException ioe) {
+                    Log.d("FILE", "Could not read file");
+                }
             }
         });
     }
@@ -179,7 +208,6 @@ public class LandingPageActivity extends AppCompatActivity {
                 intent.putExtra("menuList", menuList);
                 intent.putExtra("title", restaurant + " - Table " + tableNum);
                 startActivity(intent);
-                finish();
             }
             catch (
                     JSONException e) {
