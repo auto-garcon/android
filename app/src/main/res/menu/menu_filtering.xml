@@ -3,10 +3,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_search"
-        android:icon="@drawable/ic_filter_list"
         android:title="Search"
         app:showAsAction="always"
         app:actionViewClass="android.widget.SearchView"
         />
-
+    <item
+        android:icon="@drawable/ic_filter_list"
+        android:title="filtering"
+        app:showAsAction="always">
+        <menu>
+            <item
+                android:id="@+id/meat_filter"
+                android:title="Meat"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"
+                />
+            <item
+                android:id="@+id/dairy_filter"
+                android:title="Dairy"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"
+                />
+            <item
+                android:id="@+id/nuts_filter"
+                android:title="Nuts"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"
+                />
+            <item
+                android:id="@+id/gluten_filter"
+                android:title="Gluten"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"
+                />
+            <item
+                android:id="@+id/soy_filter"
+                android:title="Soy"
+                app:showAsAction="never"
+                android:checkable="true"
+                android:checked="true"
+                />
+        </menu>
+    </item>
 </menu>
