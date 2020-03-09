@@ -21,6 +21,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.View;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -35,7 +40,11 @@ public class LandingPageActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
+    TextView welcomeName;
     Button bypass;
+    private GoogleSignInAccount account;
+    private String accountName;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +53,9 @@ public class LandingPageActivity extends AppCompatActivity {
         imageView = findViewById(R.id.scanner);
         textView = findViewById(R.id.directions);
         bypass = findViewById(R.id.bypass);
+        welcomeName = findViewById(R.id.welcomeName);
+        accountName = (String) getIntent().getSerializableExtra("account");
+        welcomeName.append(accountName);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -219,4 +231,6 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

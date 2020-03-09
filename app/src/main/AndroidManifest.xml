@@ -26,9 +26,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".TopActivity"></activity>
+        <activity android:name=".Signin"></activity>
         <activity android:name=".LandingPageActivity" />
         <activity android:name=".ScannedBarcodeActivity" />
-        <activity android:name=".MenuListActivity" />
         <activity android:name=".CategoryListAdapter" />
         <activity android:name=".MenuItemListActivity">
             <meta-data
