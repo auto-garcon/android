@@ -1,14 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    android:targetSandboxVersion="2"
     xmlns:dist="http://schemas.android.com/apk/distribution"
-    package="com.autogarcon.android">
+    package="com.autogarcon.android"
+    android:targetSandboxVersion="2">
 
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
 
     <dist:module dist:instant="true" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <uses-feature android:name="android.hardware.camera.autofocus" />
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -17,7 +25,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LandingPageActivity"></activity>
+        <activity android:name=".Signin"></activity>
+        <activity android:name=".LandingPageActivity" />
         <activity android:name=".ScannedBarcodeActivity" />
         <activity android:name=".MenuListActivity" />
         <activity android:name=".CategoryListAdapter" />
@@ -29,7 +38,6 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-
         </activity>
         <activity android:name=".CategoryListActivity" />
         <activity android:name=".MenuItemFullActivity" />
@@ -48,12 +56,5 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
     </application>
-    <uses-permission android:name="android.permission.CAMERA" />
-
-    <uses-feature android:name="android.hardware.camera.autofocus" />
-
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.INTERNET" />
 
 </manifest>
