@@ -63,7 +63,7 @@ public class LandingPageActivity extends AppCompatActivity {
                     menuList.add(dinnerMenu);
                     menuList.add(drinksMenu);
                     menuList.add(specialsMenu);
-                    Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), TopActivity.class);
                     intent.putExtra("menuList", menuList);
                     intent.putExtra("title", "Groveland Tap" + " - Table " + 2);
                     startActivity(intent);
@@ -180,7 +180,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     /**
      * Processes the result of the barcode scanner. Once a result of a restaurant and table number are given,
-     * a query is made to get menus for that restaurant and and starts an intent for MenuListActivity.
+     * a query is made to get menus for that restaurant and and starts an intent for TopActivity.
      * @param requestCode channel for intent items
      * @param resultCode channel for intent results
      * @param data the intent
@@ -204,7 +204,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 menuList.add(drinksMenu);
                 menuList.add(specialsMenu);
 
-                Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TopActivity.class);
                 intent.putExtra("menuList", menuList);
                 intent.putExtra("title", restaurant + " - Table " + tableNum);
                 startActivity(intent);
