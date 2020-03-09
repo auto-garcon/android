@@ -45,6 +45,14 @@ public class Signin extends AppCompatActivity {
                 signOut();
             }
         });
+        findViewById(R.id.button_bypass).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+                intent.putExtra("account", "Bypassed");
+                startActivity(intent);
+            }
+        });
     }
 
     protected void onStart(){
