@@ -14,9 +14,13 @@
       "calories": 760,
       "imagePath": "https://i0.wp.com/www.certifiedpastryaficionado.com/wp-content/uploads/2017/04/5-fixed.jpg?resize=1374%2C2061",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Mango Mimosa",
@@ -25,9 +29,13 @@
       "calories": 760,
       "imagePath": "https://www.averiecooks.com/wp-content/uploads/2016/06/mimosa-10-360x360.jpg",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Peanut Butter Lover",
@@ -36,9 +44,13 @@
       "calories": 760,
       "imagePath": "https://vignette.wikia.nocookie.net/bamanpidermanshow/images/8/8a/Peab.jpg/revision/latest/top-crop/width/220/height/220?cb=20121029145615",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Sweet Southern Gal",
@@ -47,9 +59,13 @@
       "calories": 760,
       "imagePath": "https://cdn3.volusion.com/ncjkx.vuwnc/v/vspfiles/photos/ossstgal-2.jpg",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     }
   ]
 }

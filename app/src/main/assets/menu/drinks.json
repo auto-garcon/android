@@ -14,9 +14,13 @@
       "calories": 760,
       "imagePath": "https://cdn.shoplightspeed.com/shops/610215/files/13986794/cactus-creek-can-of-hamms.jpg",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Coors Light",
@@ -25,9 +29,13 @@
       "calories": 800,
       "imagePath": "https://images.freshop.com/00071990300654/57233d87bc4d02256e77f2c19c5e676e_large.png",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Surly - Hell",
@@ -36,9 +44,13 @@
       "calories": 720,
       "imagePath": "https://d2lnr5mha7bycj.cloudfront.net/product-image/file/large_4c673769-8532-4f6f-a1a2-6f0cae45d119.jpg",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Bauhaus - Wonderstuff",
@@ -47,9 +59,13 @@
       "calories": 500,
       "imagePath": "https://www.haskells.com/media/catalog/product/cache/1/image/816x1200/040ec09b1e35df139433887a97daa66f/3/0/302536_0_1_1.jpg",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Castle Danger - Cream Ale",
@@ -58,9 +74,13 @@
       "calories": 500,
       "imagePath": "https://cdn.shoplightspeed.com/shops/616492/files/10440827/image.jpg",
       "category": "Beer",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Golden Eye",
@@ -69,9 +89,13 @@
       "calories": 500,
       "imagePath": "https://uncommoncarib-wpengine.netdna-ssl.com/wp-content/uploads/2016/04/Blackwell-Goldeneye-2048x1365.jpg;",
       "category": "Specialty Drinks",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Tron",
@@ -80,9 +104,13 @@
       "calories": 500,
       "imagePath": "https://mixthatdrink.com/wp-content/uploads/2016/03/blue-long-island-iced-tea-2-735x735.jpg",
       "category": "Specialty Drinks",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     }
   ]
-}"
+}

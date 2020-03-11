@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,6 +22,13 @@ import java.util.ArrayList;
 import java.util.List;
 import android.view.View;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+
+import java.util.Iterator;
+import java.util.Map;
+
 /**
  * Activity for the landing page that users see after logging in.
  * Provides a link to the barcode scanner and simple directions on using it.
@@ -32,6 +40,11 @@ public class LandingPageActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
+    TextView welcomeName;
+    Button bypass;
+    private GoogleSignInAccount account;
+    private String accountName;
+    private GoogleSignInClient mGoogleSignInClient;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,12 +52,42 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         imageView = findViewById(R.id.scanner);
         textView = findViewById(R.id.directions);
+        bypass = findViewById(R.id.bypass);
+        welcomeName = findViewById(R.id.welcomeName);
+        accountName = (String) getIntent().getSerializableExtra("account");
+        welcomeName.append(accountName);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 setContentView(R.layout.activity_scan_barcode);
                 Intent intent = new Intent(getApplicationContext(), ScannedBarcodeActivity.class);
                 startActivityForResult(intent,2);
+            }
+        });
+        bypass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                try {
+                    Menu drinksMenu = createMenu(readMenuToString("drinks"));
+                    Menu dinnerMenu = createMenu(readMenuToString("dinner"));
+                    Menu specialsMenu = createMenu(readMenuToString("specials"));
+                    ArrayList<Menu> menuList = new ArrayList<>();
+                    menuList.add(dinnerMenu);
+                    menuList.add(drinksMenu);
+                    menuList.add(specialsMenu);
+                    Intent intent = new Intent(getApplicationContext(), TopActivity.class);
+                    intent.putExtra("menuList", menuList);
+                    intent.putExtra("title", "Groveland Tap" + " - Table " + 2);
+                    startActivity(intent);
+                }
+                catch (
+                        JSONException e) {
+                    Log.d("CREATION", "JSONException: " + e.toString());
+                }
+                catch (
+                        IOException ioe) {
+                    Log.d("FILE", "Could not read file");
+                }
             }
         });
     }
@@ -94,13 +137,36 @@ public class LandingPageActivity extends AppCompatActivity {
         int calories = jsonObject.getInt("calories");;
         String imagePath = jsonObject.getString("imagePath");;
         String category = jsonObject.getString("category");
+        /*
         JSONArray allergensJSONArr = jsonObject.getJSONArray("allergens");
         // Convert JSONArray to ArrayList for allergens
         ArrayList<String> allergens = new ArrayList<>();
         for (int i = 0; i < allergensJSONArr.length(); i++){
             allergens.add(allergensJSONArr.getString(i));
         }
-        MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,allergens);
+        */
+
+        ArrayList<DietaryTags> dietaryTags = new ArrayList<>();
+
+        JSONObject tags = (JSONObject) jsonObject.get("dietaryTags");
+
+        if(tags.getBoolean("meat") == true){
+            dietaryTags.add(DietaryTags.MEAT);
+        }
+        if(tags.getBoolean("dairy") == true){
+            dietaryTags.add(DietaryTags.DAIRY);
+        }
+        if(tags.getBoolean("nuts") == true){
+            dietaryTags.add(DietaryTags.NUTS);
+        }
+        if(tags.getBoolean("gluten") == true){
+            dietaryTags.add(DietaryTags.GLUTEN);
+        }
+        if(tags.getBoolean("soy") == true){
+            dietaryTags.add(DietaryTags.SOY);
+        }
+
+        MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,dietaryTags);
         return newItem;
     }
 
@@ -126,7 +192,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     /**
      * Processes the result of the barcode scanner. Once a result of a restaurant and table number are given,
-     * a query is made to get menus for that restaurant and and starts an intent for MenuListActivity.
+     * a query is made to get menus for that restaurant and and starts an intent for TopActivity.
      * @param requestCode channel for intent items
      * @param resultCode channel for intent results
      * @param data the intent
@@ -150,11 +216,10 @@ public class LandingPageActivity extends AppCompatActivity {
                 menuList.add(drinksMenu);
                 menuList.add(specialsMenu);
 
-                Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TopActivity.class);
                 intent.putExtra("menuList", menuList);
                 intent.putExtra("title", restaurant + " - Table " + tableNum);
                 startActivity(intent);
-                finish();
             }
             catch (
                     JSONException e) {
@@ -166,4 +231,6 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }

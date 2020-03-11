@@ -14,9 +14,13 @@
       "calories": 760,
       "imagePath": "https://www.tenderfilet.com/dw/image/v2/BBVM_PRD/on/demandware.static/-/Sites-colony-master-catalog/default/dw6400ffdf/large/sub_13/006381.png",
       "category": "Appetizers",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": true,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Bavarian Pretzels",
@@ -25,9 +29,13 @@
       "calories": 800,
       "imagePath": "https://cdn.shopify.com/s/files/1/0614/0993/products/3oz_1024x1024.jpg?v=1475243326",
       "category": "Appetizers",
-      "allergens": [
-        "wheat"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Sweet Potato Tator Tots",
@@ -36,9 +44,13 @@
       "calories": 720,
       "imagePath": "https://www.wideopeneats.com/wp-content/uploads/2017/10/Homemade-Sweet-Potato-Tater-Tots.jpg",
       "category": "Appetizers",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": false,
+        "soy": false
+      }
     },
     {
       "name": "Nachos",
@@ -47,9 +59,13 @@
       "calories": 1100,
       "imagePath": "https://www.landolakes.com/RecipeManagementSystem/media/Recipe-Media-Files/Recipes/Retail/x17/17784-chicken-nachos-on-the-grill-600x600.jpg?ext=.jpg",
       "category": "Appetizers",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": true,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Housemade Beer Cheese Soup",
@@ -58,9 +74,13 @@
       "calories": 510,
       "imagePath": "https://www.tasteofhome.com/wp-content/uploads/2018/01/Potato-Beer-Cheese-Soup_EXPS_SBZ19_71598_B09_14_1b-696x696.jpg",
       "category": "Soup",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": true,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Chili",
@@ -69,9 +89,13 @@
       "calories": 500,
       "imagePath": "https://pinchofyum.com/wp-content/uploads/Sunday-Chili-Square.jpg",
       "category": "Soup",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Turkey Burger",
@@ -80,9 +104,13 @@
       "calories": 800,
       "imagePath": "https://img1.southernliving.timeinc.net/sites/default/files/styles/4_3_horizontal_-_1200x900/public/image/2017/07/main/ranch_turkey_burgers_2525701_hiaha_0086.jpg?itok=sfDFAJMw",
       "category": "Hand-Pattied Burgers",
-      "allergens": [
-        "wheat", "milk, nuts"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Patty Melt",
@@ -91,9 +119,13 @@
       "calories": 1000,
       "imagePath": "https://s23991.pcdn.co/wp-content/uploads/2016/04/patty-melt-recipe.jpg",
       "category": "Hand-Pattied Burgers",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Western Burger",
@@ -102,9 +134,13 @@
       "calories": 900,
       "imagePath": "https://d1doqjmisr497k.cloudfront.net/-/media/mccormick-us/recipes/grill-mates/c/800/cowboy-burger-with-grilled-pickles-and-crispy-onion-straws.jpg",
       "category": "Hand-Pattied Burgers",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Veggie Burger",
@@ -113,9 +149,13 @@
       "calories": 710,
       "imagePath": "https://www.inspiredtaste.net/wp-content/uploads/2018/05/Homemade-Mushroom-Veggie-Burger-Recipe-1200.jpg",
       "category": "Hand-Pattied Burgers",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
 
     {
@@ -125,9 +165,13 @@
       "calories": 800,
       "imagePath": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/5/27/0/PA1108_BBQ-Pork-Sandwich_s4x3.jpg.rend.hgtvcom.826.620.suffix/1371597413688.jpeg",
       "category": "Sandwiches",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "BLT",
@@ -136,9 +180,13 @@
       "calories": 600,
       "imagePath": "https://tmbidigitalassetsazure.blob.core.windows.net/secure/RMS/attachments/37/1200x1200/Loaded-Avocado-BLT_EXPS_SDAS17_198564_D04_04_3b.jpg",
       "category": "Sandwiches",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Grilled Cheese",
@@ -147,9 +195,13 @@
       "calories": 810,
       "imagePath": "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2012/2/24/0/ZB0202H_classic-american-grilled-cheese_s4x3.jpg.rend.hgtvcom.616.462.suffix/1371603614279.jpeg",
       "category": "Sandwiches",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": false,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     },
     {
       "name": "Hot Italian Beef",
@@ -158,9 +210,13 @@
       "calories": 710,
       "imagePath": "https://i2.wp.com/topsecretrecipes.com/foodhackerblog/wp-content/uploads/2017/10/Portillos-Italian-Beef_top.jpg?resize=500%2C491&ssl=1",
       "category": "Sandwiches",
-      "allergens": [
-        "wheat", "milk"
-      ]
+      "dietaryTags": {
+        "meat": true,
+        "dairy": false,
+        "nuts": false,
+        "gluten": true,
+        "soy": false
+      }
     }
   ]
 }

@@ -2,21 +2,12 @@ package com.autogarcon.android;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.ArrayList;
 
 public class CategoryListActivity extends AppCompatActivity {
 
@@ -37,7 +28,7 @@ public class CategoryListActivity extends AppCompatActivity {
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.menu = (Menu) getIntent().getSerializableExtra("menu");
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_category_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new CategoryListAdapter(menu);
@@ -49,7 +40,7 @@ public class CategoryListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), MenuItemActivity.class);
+                Intent intent = new Intent(getApplicationContext(), MenuItemListActivity.class);
                 intent.putExtra("category", menu.getCategories().get(position));
                 intent.putExtra("title", title);
                 startActivity(intent);

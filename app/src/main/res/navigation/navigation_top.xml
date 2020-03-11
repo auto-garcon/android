@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_top"
+    app:startDestination="@+id/navigation_menuList">
+
+    <fragment
+        android:id="@+id/navigation_menuList"
+        android:name="com.autogarcon.android.MenuListFragment"
+        android:label="activity_menu_list"
+        tools:layout="@layout/fragment_menu_list" />
+    <fragment
+        android:id="@+id/navigation_receipt"
+        android:name="com.autogarcon.android.ReceiptFragment"
+        android:label="fragment_reciept"
+        tools:layout="@layout/fragment_reciept" />
+</navigation>

@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_landing_page);
-        Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+        setContentView(R.layout.activity_signin);
+        Intent intent = new Intent(getApplicationContext(), Signin.class);
         startActivity(intent);
     }
 }
