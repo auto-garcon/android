@@ -1,6 +1,7 @@
 package com.autogarcon.android;
 
 import android.app.Activity;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.util.Log;
@@ -12,6 +13,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+
 import java.util.ArrayDeque;
 import java.util.Deque;
 
@@ -20,21 +23,24 @@ import java.util.Deque;
  * @author Tim Callies
  */
 public class CustomTheme {
-    private int colorPrimary;
-    private int colorPrimaryDark;
-    private int colorAccent;
-    private final int originalColorPrimary = Color.parseColor("#333a4f");
-    private final int originalColorPrimaryDark = Color.parseColor("#333a4f");
-    private final int originalColorAccent = Color.parseColor("#333a4f");
+    private Integer colorPrimary;
+    private Integer colorPrimaryDark;
+    private Integer colorAccent;
+    private int[] colorArray;
+    private ColorStateList myColorStateList;
+
+    // DO NOT CHANGE THESE VALUES
+    private final int originalColorPrimary = Color.parseColor("#3F51B5");
+    private final int originalColorPrimaryDark = Color.parseColor("#303F9F");
+    private final int originalColorAccent = Color.parseColor("#FF4081");
+    private int[] originalColorArray = {originalColorPrimary,originalColorPrimaryDark,originalColorAccent};
 
     /**
      * Generic constructor that creates a simple 'red' theme.
      * Author:   Tim Callies
      */
     public CustomTheme() {
-        this.colorPrimary = Color.parseColor("#333a4f");
-        this.colorPrimaryDark = Color.parseColor("#333a4f");
-        this.colorAccent = Color.parseColor("#546b60");
+        setColors("#25c23f", "#1a822b", "#9938d9");
     }
 
     /**
@@ -45,9 +51,24 @@ public class CustomTheme {
      */
     public CustomTheme(String colorPrimary, String colorPrimaryDark, String colorAccent) {
         //TODO: If any of the colors are null, generate a suitable value for them.
+        setColors(colorPrimary,colorPrimaryDark,colorAccent);
+    }
+
+    /**
+     * Mostly a helper function. Used to set the colors of the theme.
+     * @param colorPrimary The primary color of the theme.
+     * @param colorPrimaryDark A darker variant of the primary color of the theme.
+     * @param colorAccent An accent color that may complement the primary color.
+     */
+    public void setColors(String colorPrimary, String colorPrimaryDark, String colorAccent) {
         this.colorPrimary = Color.parseColor(colorPrimary);
         this.colorPrimaryDark = Color.parseColor(colorPrimaryDark);
         this.colorAccent = Color.parseColor(colorAccent);
+        this.colorArray = new int[] {this.colorPrimary,this.colorPrimaryDark,this.colorAccent};
+
+        this.myColorStateList = new ColorStateList(
+                new int[][] {new int[] {-16842910}, new int[] {16842912}, new int[] {}},
+                new int[] {1107296256, this.colorPrimary, -1979711488});
     }
 
     /**
@@ -89,7 +110,6 @@ public class CustomTheme {
                 }
             }
 
-
             // If the view is a toolbar
             if(thisView instanceof Toolbar) {
                 ((Toolbar) thisView).setBackgroundColor(colorPrimary);
@@ -108,15 +128,17 @@ public class CustomTheme {
             // If the view is a textView
             if(thisView instanceof TextView) {
                 TextView thisTextView = (TextView) thisView;
-
-                if(thisTextView.getCurrentTextColor() == originalColorPrimary) {
-                    thisTextView.setTextColor(colorPrimary);
+                Log.d("COLORZ", thisTextView.getTextColors().toString());
+                if(thisTextView.getTextColors().getDefaultColor() == myColorStateList.getDefaultColor()) {
+                    thisTextView.setTextColor(myColorStateList);
                 }
-                else if(thisTextView.getCurrentTextColor() == originalColorPrimaryDark) {
-                    thisTextView.setTextColor(colorPrimaryDark);
-                }
-                else if(thisTextView.getCurrentTextColor() == originalColorAccent) {
-                    thisTextView.setTextColor(colorAccent);
+                else {
+                    for(int i=0; i<3; i++) {
+                        if(thisTextView.getTextColors().getDefaultColor() == originalColorArray[i]) {
+                            thisTextView.setTextColor(colorArray[i]);
+                            i=100;
+                        }
+                    }
                 }
             }
 

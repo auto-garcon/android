@@ -28,9 +28,10 @@
         <activity android:name=".PopActivity"
         android:theme="@style/AppTheme.Pop"    />
 
+        <activity android:name=".TopActivity"></activity>
+        <activity android:name=".Signin"></activity>
         <activity android:name=".LandingPageActivity" />
         <activity android:name=".ScannedBarcodeActivity" />
-        <activity android:name=".MenuListActivity" />
         <activity android:name=".CategoryListAdapter" />
         <activity android:name=".MenuItemListActivity">
             <meta-data

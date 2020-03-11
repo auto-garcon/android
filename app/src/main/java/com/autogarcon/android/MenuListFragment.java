@@ -1,17 +1,20 @@
 package com.autogarcon.android;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
-public class MenuListActivity extends AppCompatActivity {
+public class MenuListFragment extends Fragment {
 
 
     private RecyclerView recyclerView;
@@ -20,40 +23,36 @@ public class MenuListActivity extends AppCompatActivity {
     private String title;
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_menu_list, container, false);
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        title = (String)getIntent().getSerializableExtra("title");
-        setTitle(title);
-        this.menuList = (ArrayList<Menu>)getIntent().getSerializableExtra("menuList");
-        setContentView(R.layout.activity_menu_list);
-        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        this.menuList = (ArrayList<Menu>)(getActivity().getIntent()).getSerializableExtra("menuList");
+        recyclerView = (RecyclerView) (getActivity()).findViewById(R.id.recycler_view);
         mAdapter = new MenuListAdapter(menuList);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 if (menuList.get(position).getCategories().size() == 1){
-                    Intent intent = new Intent(getApplicationContext(), MenuItemListActivity.class);
+                    Intent intent = new Intent(getContext(), MenuItemListActivity.class);
                     intent.putExtra("category", menuList.get(position).getCategories().get(0));
                     intent.putExtra("title", title);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else {
-                    Intent intent = new Intent(getApplicationContext(), CategoryListActivity.class);
+                    Intent intent = new Intent(getContext(), CategoryListActivity.class);
                     intent.putExtra("menu", menuList.get(position));
                     intent.putExtra("title", title);
                     startActivity(intent);
-                    overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                    getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             }
 
@@ -61,7 +60,5 @@ public class MenuListActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
-        CustomTheme theme = new CustomTheme();
-        theme.applyTo(this);
     }
 }

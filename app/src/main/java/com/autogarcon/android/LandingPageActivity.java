@@ -22,6 +22,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.View;
+
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.tasks.OnCompleteListener;
+
 import java.util.Iterator;
 import java.util.Map;
 
@@ -36,8 +41,14 @@ public class LandingPageActivity extends AppCompatActivity {
 
     ImageView imageView;
     TextView textView;
+    TextView welcomeName;
     Button bypass;
     Button randomize;
+
+
+    private GoogleSignInAccount account;
+    private String accountName;
+    private GoogleSignInClient mGoogleSignInClient;
 
 
     @Override
@@ -48,6 +59,9 @@ public class LandingPageActivity extends AppCompatActivity {
         textView = findViewById(R.id.directions);
         bypass = findViewById(R.id.bypass);
         randomize = findViewById(R.id.randomize);
+        welcomeName = findViewById(R.id.welcomeName);
+        accountName = (String) getIntent().getSerializableExtra("account");
+        welcomeName.append(accountName);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,7 +81,7 @@ public class LandingPageActivity extends AppCompatActivity {
                     menuList.add(dinnerMenu);
                     menuList.add(drinksMenu);
                     menuList.add(specialsMenu);
-                    Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+                    Intent intent = new Intent(getApplicationContext(), TopActivity.class);
                     intent.putExtra("menuList", menuList);
                     intent.putExtra("title", "Groveland Tap" + " - Table " + 2);
                     startActivity(intent);
@@ -191,7 +205,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     /**
      * Processes the result of the barcode scanner. Once a result of a restaurant and table number are given,
-     * a query is made to get menus for that restaurant and and starts an intent for MenuListActivity.
+     * a query is made to get menus for that restaurant and and starts an intent for TopActivity.
      * @param requestCode channel for intent items
      * @param resultCode channel for intent results
      * @param data the intent
@@ -215,7 +229,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 menuList.add(drinksMenu);
                 menuList.add(specialsMenu);
 
-                Intent intent = new Intent(getApplicationContext(), MenuListActivity.class);
+                Intent intent = new Intent(getApplicationContext(), TopActivity.class);
                 intent.putExtra("menuList", menuList);
                 intent.putExtra("title", restaurant + " - Table " + tableNum);
                 startActivity(intent);
@@ -230,4 +244,6 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         }
     }
+
+
 }
