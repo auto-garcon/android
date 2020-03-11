@@ -7,7 +7,7 @@ Submit a pull request! See how [here](https://zachmsorenson.github.io/tutorials/
 ## Build
 * Download and install [Android Studio](https://developer.android.com/studio)
   * Detailed installation instructions can be found [here](https://developer.android.com/studio/install)
-* Copy the link to this project by clicking 'Clone or Download' and copy the link to the clipboard
+* Copy the link to this project by clicking 'Clone or Download' button (on the top-right side of the GitHub repository for this project) and copy the link to the clipboard
 * Open [Android Studio](https://developer.android.com/studio) and click 'File' > 'New' > 'Project from Version Control' > 'Git' 
 * Paste the link in the 'URL' field, choose a desired directory for the project, and click 'Clone'
 * The project will then open and sync. This may take some time
