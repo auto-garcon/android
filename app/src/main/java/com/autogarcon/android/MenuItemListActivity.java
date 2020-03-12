@@ -48,13 +48,13 @@ public class MenuItemListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
+                Intent intent = new Intent(MenuItemListActivity.this, MenuItemFullActivity.class);
                 intent.putExtra("item", category.getMenuItems().get(position));
                 intent.putExtra("title", title);
                 ImageView image = ((MenuItemListAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemListActivity.this, (View)image, "itemImage");
-                startActivity(intent, options.toBundle());
-                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                startActivityForResult(intent, 2, options.toBundle());
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override
@@ -163,6 +163,14 @@ public class MenuItemListActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==2){
+            setResult(2);
+            finish();
         }
     }
 }

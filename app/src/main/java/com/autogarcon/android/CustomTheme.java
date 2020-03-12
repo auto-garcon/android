@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,9 +31,9 @@ public class CustomTheme {
     private ColorStateList myColorStateList;
 
     // DO NOT CHANGE THESE VALUES
-    private final int originalColorPrimary = Color.parseColor("#3F51B5");
-    private final int originalColorPrimaryDark = Color.parseColor("#303F9F");
-    private final int originalColorAccent = Color.parseColor("#FF4081");
+    private final int originalColorPrimary = Color.parseColor("#505050");
+    private final int originalColorPrimaryDark = Color.parseColor("#404040");
+    private final int originalColorAccent = Color.parseColor("#909090");
     private int[] originalColorArray = {originalColorPrimary,originalColorPrimaryDark,originalColorAccent};
 
     /**
@@ -40,7 +41,7 @@ public class CustomTheme {
      * Author:   Tim Callies
      */
     public CustomTheme() {
-        setColors("#25c23f", "#1a822b", "#9938d9");
+        setColors("#457B9D", null, "#2B2D42");
     }
 
     /**
@@ -62,7 +63,12 @@ public class CustomTheme {
      */
     public void setColors(String colorPrimary, String colorPrimaryDark, String colorAccent) {
         this.colorPrimary = Color.parseColor(colorPrimary);
-        this.colorPrimaryDark = Color.parseColor(colorPrimaryDark);
+        if(colorPrimaryDark  == null) {
+            this.colorPrimaryDark = ColorUtils.blendARGB(this.colorPrimary, Color.BLACK, 0.2f);
+        }
+        else {
+            this.colorPrimaryDark = Color.parseColor(colorPrimaryDark);
+        }
         this.colorAccent = Color.parseColor(colorAccent);
         this.colorArray = new int[] {this.colorPrimary,this.colorPrimaryDark,this.colorAccent};
 
