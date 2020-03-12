@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ *
+ * @author Riley Tschumper
+ */
 public class MenuItemListActivity extends AppCompatActivity {
     ImageView largeImage;
     Category category;
@@ -97,13 +101,7 @@ public class MenuItemListActivity extends AppCompatActivity {
 
         return true;
     }
- /*
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_filtering, menu);
-        return true;
-    }
-*/
+
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.meat_filter:

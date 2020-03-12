@@ -3,11 +3,19 @@ package com.autogarcon.android;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * Most MenuItems are contained within a Category
+ * @author Mitchell Nelson
+ */
 public class Category implements Serializable {
 
     private ArrayList<MenuItem> menuItems;
     private String name;
 
+    /**
+     * Creates a category of MenuItems based on the name passed
+     * @param name the name of the category
+     */
     public Category(String name){
         this.name = name;
         menuItems = new ArrayList<MenuItem>();

@@ -9,6 +9,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ *
+ * @author Mitchell Nelson
+ */
 public class CategoryListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
