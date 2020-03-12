@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LandingPage">
+    tools:context=".LandingPageActivity">
 
     <TextView
         android:id="@+id/welcome"
@@ -58,6 +58,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <Button
+        android:id="@+id/randomize"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Randomize"
+        app:layout_constraintBottom_toTopOf="@+id/bypass"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/directions" />
     <TextView
         android:id="@+id/welcomeName"
         android:layout_width="wrap_content"

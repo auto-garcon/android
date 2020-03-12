@@ -2,6 +2,7 @@ package com.autogarcon.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -42,9 +43,13 @@ public class LandingPageActivity extends AppCompatActivity {
     TextView textView;
     TextView welcomeName;
     Button bypass;
+    Button randomize;
+
+
     private GoogleSignInAccount account;
     private String accountName;
     private GoogleSignInClient mGoogleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +58,7 @@ public class LandingPageActivity extends AppCompatActivity {
         imageView = findViewById(R.id.scanner);
         textView = findViewById(R.id.directions);
         bypass = findViewById(R.id.bypass);
+        randomize = findViewById(R.id.randomize);
         welcomeName = findViewById(R.id.welcomeName);
         accountName = (String) getIntent().getSerializableExtra("account");
         welcomeName.append(accountName);
@@ -88,6 +94,13 @@ public class LandingPageActivity extends AppCompatActivity {
                         IOException ioe) {
                     Log.d("FILE", "Could not read file");
                 }
+            }
+        });
+        randomize.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(getApplicationContext(), PopActivity.class);
+                startActivity(i);
             }
         });
     }
