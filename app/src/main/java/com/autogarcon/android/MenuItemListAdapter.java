@@ -15,6 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ *
+ * @author Riley Tschumper
+ */
 public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapter.MyViewHolder> implements Filterable {
 
     private List<MenuItem> menuList;
