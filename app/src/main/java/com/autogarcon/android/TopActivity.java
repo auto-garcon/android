@@ -44,8 +44,6 @@ public class TopActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
     private void openFragment(Fragment fragment) {

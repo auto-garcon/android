@@ -42,9 +42,7 @@ public class LandingPageActivity extends AppCompatActivity {
     TextView textView;
     TextView welcomeName;
     Button bypass;
-    private GoogleSignInAccount account;
-    private String accountName;
-    private GoogleSignInClient mGoogleSignInClient;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,8 +52,7 @@ public class LandingPageActivity extends AppCompatActivity {
         textView = findViewById(R.id.directions);
         bypass = findViewById(R.id.bypass);
         welcomeName = findViewById(R.id.welcomeName);
-        accountName = (String) getIntent().getSerializableExtra("account");
-        welcomeName.append(accountName);
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,7 +186,6 @@ public class LandingPageActivity extends AppCompatActivity {
         return sb.toString();
     }
 
-
     /**
      * Processes the result of the barcode scanner. Once a result of a restaurant and table number are given,
      * a query is made to get menus for that restaurant and and starts an intent for TopActivity.
@@ -231,6 +227,4 @@ public class LandingPageActivity extends AppCompatActivity {
             }
         }
     }
-
-
 }

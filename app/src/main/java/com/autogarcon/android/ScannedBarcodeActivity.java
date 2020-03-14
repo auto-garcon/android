@@ -101,9 +101,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
             }
         });
 
-
         barcodeDetector.setProcessor(new Detector.Processor<Barcode>() {
-
 
             /**
              * Override method that does not have necessary functionality for current requirements
@@ -120,7 +118,6 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
              */
             @Override
             public void receiveDetections(Detector.Detections<Barcode> detections) {
-
                 final SparseArray<Barcode> barcodes = detections.getDetectedItems();
                 if (barcodes.size() != 0) {
 
@@ -155,7 +152,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     }
 
     /**
-     *  This method will run the first time that us er uses the app. After granting the application
+     *  This method will run the first time that user uses the app. After granting the application
      *  to access the camera, this method reloads this activity so that it may start clean with
      *  proper permissions
      * @param requestCode Request code of permissions

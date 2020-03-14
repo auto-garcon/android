@@ -24,7 +24,6 @@ public class MenuItemListActivity extends AppCompatActivity {
     private SearchView searchView;
     private String title;
 
-
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -37,6 +36,7 @@ public class MenuItemListActivity extends AppCompatActivity {
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.category = (Category) getIntent().getSerializableExtra("category");
+
         setContentView(R.layout.activity_menu_item_list);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);

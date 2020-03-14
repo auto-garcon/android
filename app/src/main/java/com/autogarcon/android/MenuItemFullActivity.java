@@ -25,6 +25,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.menuItem = (MenuItem) getIntent().getSerializableExtra("item");
+
         setContentView(R.layout.activity_menu_item_full);
 
         name = (TextView) findViewById(R.id.itemFullName);
