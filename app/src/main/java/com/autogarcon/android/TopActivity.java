@@ -40,8 +40,6 @@ public class TopActivity extends AppCompatActivity {
                 return false;
             }
         });
-
-
     }
 
     private void openFragment(Fragment fragment) {
@@ -56,8 +54,6 @@ public class TopActivity extends AppCompatActivity {
         f.replace(R.id.top_frame, fragment);
 //        f.addToBackStack(null);
         f.commit();
-
-
     }
 
     @Override

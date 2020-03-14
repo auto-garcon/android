@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,6 +29,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
     TextView name;
     TextView description;
     TextView price;
+    EditText chefNote;
     Button button;
     ProgressDialog dialog;
     String title;
@@ -40,6 +42,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.menuItem = (MenuItem) getIntent().getSerializableExtra("item");
+
         setContentView(R.layout.activity_menu_item_full);
 
         dialog = new ProgressDialog(MenuItemFullActivity.this);
@@ -48,7 +51,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
         description = (TextView) findViewById(R.id.itemFullDescription);
         price = (TextView) findViewById(R.id.itemFullPrice);
         largeImage = (ImageView) findViewById(R.id.itemFullImage);
-
+        chefNote = (EditText) findViewById(R.id.itemFullChefNotes);
         ThumbnailManager.getInstance().getImage(menuItem.getImagePath(),largeImage);
 
         name.setText(menuItem.getName());
@@ -60,7 +63,8 @@ public class MenuItemFullActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                OrderItem orderItem = new OrderItem(menuItem, chefNote.getText().toString());
+                ActiveSession.getInstance().addOrder(orderItem);
                 dialog.setCancelable(false);
                 dialog.show();
                 dialog.setTitle("Ordering...");
@@ -90,6 +94,5 @@ public class MenuItemFullActivity extends AppCompatActivity {
             }
         });
     }
-
-
 }
+
