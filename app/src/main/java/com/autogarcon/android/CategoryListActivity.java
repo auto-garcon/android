@@ -63,9 +63,6 @@ public class CategoryListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(resultCode==2){
-            setResult(2);
-            finish();
-        }
+
     }
 }

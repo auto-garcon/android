@@ -51,7 +51,6 @@ public class CustomTheme {
      * @param colorAccent An accent color that may complement the primary color.
      */
     public CustomTheme(String colorPrimary, String colorPrimaryDark, String colorAccent) {
-        //TODO: If any of the colors are null, generate a suitable value for them.
         setColors(colorPrimary,colorPrimaryDark,colorAccent);
     }
 
@@ -79,7 +78,6 @@ public class CustomTheme {
 
     /**
      * Applies the theme to a activity. Only call this after the view has been inflated.
-     * Author: Tim Callies
      * @param activity The activity that the theme will be applied to
      */
     public void applyTo(Activity activity) {
@@ -89,7 +87,6 @@ public class CustomTheme {
 
     /**
      * Private helper function. Applies the theme to a single view.
-     * Author: Tim Callies
      * @param view The view that the theme will be applies to.
      */
     private void applyToView(View view) {
@@ -99,7 +96,15 @@ public class CustomTheme {
         while(!viewStack.isEmpty()) {
             final View thisView = viewStack.pop();
 
-            Log.d("VIEW", thisView.getClass().getName());
+            // If the view has a tint
+            if(thisView.getBackgroundTintList() != null) {
+                for (int i=0; i<colorArray.length; i++) {
+                    if(thisView.getBackgroundTintList().getDefaultColor() == originalColorArray[i]) {
+                        thisView.setBackgroundTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[i]}));
+                    }
+                }
+            }
+
 
             // If the view has a background
             if(thisView.getBackground() instanceof ColorDrawable) {
@@ -134,7 +139,6 @@ public class CustomTheme {
             // If the view is a textView
             if(thisView instanceof TextView) {
                 TextView thisTextView = (TextView) thisView;
-                Log.d("COLORZ", thisTextView.getTextColors().toString());
                 if(thisTextView.getTextColors().getDefaultColor() == myColorStateList.getDefaultColor()) {
                     thisTextView.setTextColor(myColorStateList);
                 }

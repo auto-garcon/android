@@ -8,6 +8,11 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
+/**
+ * The top level navigation for the menu of a single restaurant. This activity contains a navigation bar, as well
+ * as two fragments.
+ * @author Tim Callies
+ */
 public class TopActivity extends AppCompatActivity {
 
     @Override
