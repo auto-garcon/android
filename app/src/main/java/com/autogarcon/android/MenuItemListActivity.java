@@ -16,6 +16,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ *
+ * @author Riley Tschumper
+ */
 public class MenuItemListActivity extends AppCompatActivity {
     ImageView largeImage;
     Category category;
@@ -48,13 +52,13 @@ public class MenuItemListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
+                Intent intent = new Intent(MenuItemListActivity.this, MenuItemFullActivity.class);
                 intent.putExtra("item", category.getMenuItems().get(position));
                 intent.putExtra("title", title);
                 ImageView image = ((MenuItemListAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemListActivity.this, (View)image, "itemImage");
-                startActivity(intent, options.toBundle());
-                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                startActivityForResult(intent, 2, options.toBundle());
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override
@@ -97,13 +101,7 @@ public class MenuItemListActivity extends AppCompatActivity {
 
         return true;
     }
- /*
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_filtering, menu);
-        return true;
-    }
-*/
+
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.meat_filter:
@@ -163,6 +161,14 @@ public class MenuItemListActivity extends AppCompatActivity {
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==2){
+            setResult(2);
+            finish();
         }
     }
 }

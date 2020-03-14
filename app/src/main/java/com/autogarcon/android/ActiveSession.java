@@ -96,22 +96,6 @@ public class ActiveSession implements Serializable {
     }
 
     /**
-     * Returns an Array List of Order objects that have the given OrderStatus
-     * @param orderStatus desired OrderStatus of the resulting ArrayList
-     * @return ArrayList of Orders that match the given OrderStatus
-     * @author Mitchell Nelson
-     */
-    public ArrayList<OrderItem> getOrdersByStatus(OrderItem.OrderStatus orderStatus){
-        ArrayList<OrderItem> ret = new ArrayList<>();
-        for (int i = 0; i < orderItems.size(); i++){
-            if (orderItems.get(i).getOrderStatus() == orderStatus){
-                ret.add(orderItems.get(i));
-            }
-        }
-        return ret;
-    }
-
-    /**
      * Returns an ArrayList of all known Orders
      * @return ArrayList of all Orders
      * @Mitchell Nelson
@@ -127,5 +111,17 @@ public class ActiveSession implements Serializable {
      */
     public void refreshOrderStatuses(){
         //HTTP Request to Server to get an update on the statuses of all orders
+    }
+
+    /**
+     * Formats orders into JSON object and sends a POST request to the server will all
+     * current order. Clears the orders array so that the server is the source of
+     * truth, rather than the user's phone
+     * @author Mitchell Nelson
+     */
+    public void summitOrders(){
+        //Todo - Convert Orders into JSON
+        //Todo - POST Request
+        orderItems.clear();
     }
 }

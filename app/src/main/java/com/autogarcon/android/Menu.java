@@ -5,6 +5,10 @@ import android.util.Log;
 import java.io.Serializable;
 import java.util.*;
 
+/**
+ * A Menu consists of Categories and MenuItems
+ * @author Mitchell Nelson
+ */
 public class Menu implements Serializable {
 
     public enum MenuType {

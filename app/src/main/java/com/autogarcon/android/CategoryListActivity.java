@@ -2,6 +2,7 @@ package com.autogarcon.android;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -9,6 +10,10 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+/**
+ *
+ * @author Mitchell Nelson
+ */
 public class CategoryListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
@@ -26,9 +31,9 @@ public class CategoryListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         title = (String)getIntent().getSerializableExtra("title");
-        setTitle(title);
         this.menu = (Menu) getIntent().getSerializableExtra("menu");
         setContentView(R.layout.activity_category_list);
+        setTitle(title);
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new CategoryListAdapter(menu);
@@ -42,8 +47,8 @@ public class CategoryListActivity extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), MenuItemListActivity.class);
                 intent.putExtra("category", menu.getCategories().get(position));
-                intent.putExtra("title", title);
-                startActivity(intent);
+                intent.putExtra("title", menu.getCategories().get(position).getName());
+                startActivityForResult(intent,2);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
@@ -54,5 +59,13 @@ public class CategoryListActivity extends AppCompatActivity {
 
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(resultCode==2){
+            setResult(2);
+            finish();
+        }
     }
 }
