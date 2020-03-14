@@ -65,6 +65,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
             public void onClick(View v) {
                 OrderItem orderItem = new OrderItem(menuItem, chefNote.getText().toString());
                 ActiveSession.getInstance().addOrder(orderItem);
+                Log.d("ORDER", ActiveSession.getInstance().getOrdersJSON().toString());
                 dialog.setCancelable(false);
                 dialog.show();
                 dialog.setTitle("Ordering...");

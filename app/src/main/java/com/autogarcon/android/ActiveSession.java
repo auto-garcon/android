@@ -2,6 +2,10 @@ package com.autogarcon.android;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -98,7 +102,7 @@ public class ActiveSession implements Serializable {
     /**
      * Returns an ArrayList of all known Orders
      * @return ArrayList of all Orders
-     * @Mitchell Nelson
+     * @author Mitchell Nelson
      */
     public ArrayList<OrderItem> getAllOrders(){
         return orderItems;
@@ -114,14 +118,43 @@ public class ActiveSession implements Serializable {
     }
 
     /**
-     * Formats orders into JSON object and sends a POST request to the server will all
-     * current order. Clears the orders array so that the server is the source of
-     * truth, rather than the user's phone
+     * Converts the current orderItems into a JSON string
+     * @return Stringified JSON version of the current orderItems
      * @author Mitchell Nelson
      */
-    public void summitOrders(){
-        //Todo - Convert Orders into JSON
-        //Todo - POST Request
+    public JSONObject getOrdersJSON(){
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("tableID", tableNumber);
+            JSONArray orders = new JSONArray();
+            for (int i = 0; i < orderItems.size(); i++) {
+                JSONObject order = new JSONObject();
+                order.put("menuItem", orderItems.get(i).getMenuItem().getName());
+                order.put("chefNote", orderItems.get(i).getChefNote());
+                orders.put(order);
+            }
+            jsonObject.put("orderItems", orders);
+        }
+        catch (JSONException e){
+            e.printStackTrace();
+        }
+        return jsonObject;
+    }
+
+    /**
+     * Clears orderItems array
+     * @author Mitchell Nelson
+     */
+    public void clearOrders(){
         orderItems.clear();
+    }
+
+    /**
+     * Removes a specified OrderItem from orderItems
+     * @param orderItem OrderItem to remove from orderItems
+     * @author Mitchell Nelson
+     */
+    public void removeOrderItem(OrderItem orderItem){
+        orderItems.remove(orderItem);
     }
 }
