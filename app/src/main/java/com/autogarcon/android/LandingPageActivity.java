@@ -42,6 +42,7 @@ public class LandingPageActivity extends AppCompatActivity {
     ImageView imageView;
     TextView textView;
     TextView welcomeName;
+    TextView welcome;
     Button bypass;
     Button randomize;
 
@@ -51,7 +52,7 @@ public class LandingPageActivity extends AppCompatActivity {
         setContentView(R.layout.activity_landing_page);
         imageView = findViewById(R.id.scanner);
         textView = findViewById(R.id.directions);
-        bypass = findViewById(R.id.bypass);
+        welcome = findViewById(R.id.welcome);
         randomize = findViewById(R.id.randomize);
         welcomeName = findViewById(R.id.welcomeName);
 
@@ -63,7 +64,7 @@ public class LandingPageActivity extends AppCompatActivity {
                 startActivityForResult(intent,2);
             }
         });
-        bypass.setOnClickListener(new View.OnClickListener() {
+        welcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 try {

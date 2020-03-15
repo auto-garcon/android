@@ -15,7 +15,7 @@
 
 
     <RelativeLayout
-        android:id="@+id/overlay1"
+        android:id="@+id/scanError"
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_alignParentBottom="true"
@@ -33,7 +33,7 @@
         android:layout_alignParentBottom="true"
         android:alpha=".8"
         android:background="#FFFFFF"
-        app:layout_constraintTop_toBottomOf="@+id/overlay1">
+        app:layout_constraintTop_toBottomOf="@+id/scanError">
     </RelativeLayout>
 
     <RelativeLayout
@@ -58,7 +58,7 @@
         android:background="#FFFFFF"
         android:gravity=""
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/overlay1">
+        app:layout_constraintTop_toBottomOf="@+id/scanError">
     </RelativeLayout>
 
     <TextView
@@ -71,5 +71,15 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/surfaceView" />
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#D12626"
+        app:layout_constraintBottom_toBottomOf="@+id/scanError"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtBarcodeValue" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
