@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+
+//add bottom bar
 public class CategoryListActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
