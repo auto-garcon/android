@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -30,9 +31,9 @@ public class CustomTheme {
     private ColorStateList myColorStateList;
 
     // DO NOT CHANGE THESE VALUES
-    private final int originalColorPrimary = Color.parseColor("#3F51B5");
-    private final int originalColorPrimaryDark = Color.parseColor("#303F9F");
-    private final int originalColorAccent = Color.parseColor("#FF4081");
+    private final int originalColorPrimary = Color.parseColor("#505050");
+    private final int originalColorPrimaryDark = Color.parseColor("#404040");
+    private final int originalColorAccent = Color.parseColor("#909090");
     private int[] originalColorArray = {originalColorPrimary,originalColorPrimaryDark,originalColorAccent};
 
     /**
@@ -40,7 +41,7 @@ public class CustomTheme {
      * Author:   Tim Callies
      */
     public CustomTheme() {
-        setColors("#25c23f", "#1a822b", "#9938d9");
+        setColors("#457B9D", null, "#2B2D42");
     }
 
     /**
@@ -50,7 +51,6 @@ public class CustomTheme {
      * @param colorAccent An accent color that may complement the primary color.
      */
     public CustomTheme(String colorPrimary, String colorPrimaryDark, String colorAccent) {
-        //TODO: If any of the colors are null, generate a suitable value for them.
         setColors(colorPrimary,colorPrimaryDark,colorAccent);
     }
 
@@ -62,7 +62,12 @@ public class CustomTheme {
      */
     public void setColors(String colorPrimary, String colorPrimaryDark, String colorAccent) {
         this.colorPrimary = Color.parseColor(colorPrimary);
-        this.colorPrimaryDark = Color.parseColor(colorPrimaryDark);
+        if(colorPrimaryDark  == null) {
+            this.colorPrimaryDark = ColorUtils.blendARGB(this.colorPrimary, Color.BLACK, 0.2f);
+        }
+        else {
+            this.colorPrimaryDark = Color.parseColor(colorPrimaryDark);
+        }
         this.colorAccent = Color.parseColor(colorAccent);
         this.colorArray = new int[] {this.colorPrimary,this.colorPrimaryDark,this.colorAccent};
 
@@ -73,7 +78,6 @@ public class CustomTheme {
 
     /**
      * Applies the theme to a activity. Only call this after the view has been inflated.
-     * Author: Tim Callies
      * @param activity The activity that the theme will be applied to
      */
     public void applyTo(Activity activity) {
@@ -83,7 +87,6 @@ public class CustomTheme {
 
     /**
      * Private helper function. Applies the theme to a single view.
-     * Author: Tim Callies
      * @param view The view that the theme will be applies to.
      */
     private void applyToView(View view) {
@@ -93,7 +96,15 @@ public class CustomTheme {
         while(!viewStack.isEmpty()) {
             final View thisView = viewStack.pop();
 
-            Log.d("VIEW", thisView.getClass().getName());
+            // If the view has a tint
+            if(thisView.getBackgroundTintList() != null) {
+                for (int i=0; i<colorArray.length; i++) {
+                    if(thisView.getBackgroundTintList().getDefaultColor() == originalColorArray[i]) {
+                        thisView.setBackgroundTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[i]}));
+                    }
+                }
+            }
+
 
             // If the view has a background
             if(thisView.getBackground() instanceof ColorDrawable) {
@@ -128,7 +139,6 @@ public class CustomTheme {
             // If the view is a textView
             if(thisView instanceof TextView) {
                 TextView thisTextView = (TextView) thisView;
-                Log.d("COLORZ", thisTextView.getTextColors().toString());
                 if(thisTextView.getTextColors().getDefaultColor() == myColorStateList.getDefaultColor()) {
                     thisTextView.setTextColor(myColorStateList);
                 }

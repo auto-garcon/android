@@ -14,6 +14,20 @@
         tools:layout_editor_absoluteX="76dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    "
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/goto_cart"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_marginBottom="200dp"
+        android:src="@drawable/carticon"
+        app:backgroundTint="#C50F0F"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

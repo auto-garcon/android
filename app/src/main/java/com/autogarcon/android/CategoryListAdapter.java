@@ -8,6 +8,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/**
+ * A bridge between CategoryList layout and data source that helps us to fill data into the layout.
+ * @author Mitchell Nelson
+ */
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.MyViewHolder> {
 
     private Menu menu;
@@ -19,7 +23,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         public ImageView categoryImage3;
         public ImageView categoryImage4;
         public ImageView categoryImageFull;
-
+        /**
+         * Binds layout views to local variables
+         * @param view the current view
+         */
         public MyViewHolder(View view) {
             super(view);
             categoryName = (TextView) view.findViewById(R.id.categoryName);
@@ -32,50 +39,50 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     }
 
-        public CategoryListAdapter(Menu menu) {
-            this.menu = menu;
+    public CategoryListAdapter(Menu menu) {
+        this.menu = menu;
+    }
+
+    @Override
+    public CategoryListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View categoryView = LayoutInflater.from(parent.getContext())
+                .inflate(R.layout.list_category, parent, false);
+        return new CategoryListAdapter.MyViewHolder(categoryView);
+    }
+
+    @Override
+    public void onBindViewHolder(CategoryListAdapter.MyViewHolder holder, int position) {
+        Category category = menu.getCategories().get(position);
+        holder.categoryName.setText(String.valueOf(category.getName()));
+
+        if  (category.getMenuItems().size() == 1) {
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImageFull);
         }
 
-        @Override
-        public CategoryListAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View categoryView = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.list_category, parent, false);
-            return new CategoryListAdapter.MyViewHolder(categoryView);
+        else if(category.getMenuItems().size() == 2) {
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage3);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage4);
         }
 
-        @Override
-        public void onBindViewHolder(CategoryListAdapter.MyViewHolder holder, int position) {
-            Category category = menu.getCategories().get(position);
-            holder.categoryName.setText(String.valueOf(category.getName()));
-
-            if  (category.getMenuItems().size() == 1) {
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImageFull);
-            }
-
-            else if(category.getMenuItems().size() == 2) {
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage3);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage4);
-            }
-
-            else if(category.getMenuItems().size() == 3) {
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(2).getImagePath(), holder.categoryImage3);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage4);
-            }
-
-            else if(category.getMenuItems().size() >= 4) {
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(2).getImagePath(), holder.categoryImage3);
-                ThumbnailManager.getInstance().getImage(category.getMenuItems().get(3).getImagePath(), holder.categoryImage4);
-            }
+        else if(category.getMenuItems().size() == 3) {
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(2).getImagePath(), holder.categoryImage3);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage4);
         }
 
-        @Override
-        public int getItemCount() {
-            return menu.getCategories().size();
+        else if(category.getMenuItems().size() >= 4) {
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(2).getImagePath(), holder.categoryImage3);
+            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(3).getImagePath(), holder.categoryImage4);
         }
+    }
+
+    @Override
+    public int getItemCount() {
+        return menu.getCategories().size();
+    }
 }

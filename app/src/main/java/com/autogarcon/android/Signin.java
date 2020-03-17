@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -18,11 +19,13 @@ public class Signin extends AppCompatActivity {
 
     private GoogleSignInClient mGoogleSignInClient;
     private final int RC_SIGN_IN = 22;
+    private TextView error;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
+        error = (TextView) findViewById(R.id.error);
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -39,17 +42,10 @@ public class Signin extends AppCompatActivity {
                 signIn();
             }
         });
-        findViewById(R.id.button_sign_out).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                signOut();
-            }
-        });
-        findViewById(R.id.button_bypass).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.logo).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
-                intent.putExtra("account", "Bypassed");
                 startActivity(intent);
             }
         });
@@ -75,6 +71,7 @@ public class Signin extends AppCompatActivity {
 
  */
     private void signIn() {
+        error.setText("");
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
@@ -96,22 +93,18 @@ public class Signin extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
+            // Set ActiveSession account info
+            ActiveSession.getInstance().setGoogleSignInAccount(account);
             // Signed in successfully, show authenticated UI.
-            //updateUI(account);
             Log.d("DISPLAY", account.getDisplayName());
             Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
-            intent.putExtra("account", account.getDisplayName());
             startActivity(intent);
         } catch (ApiException e) {
             // The ApiException status code indicates the detailed failure reason.
             // Please refer to the GoogleSignInStatusCodes class reference for more information.
-            Log.w("FAIL", "signInResult:failed code=" + e.getStatusCode());
-            //updateUI(null);
+            Log.w("FAILURE", "signInResult:failed code=" + e.getStatusCode());
+            error.setText("Something went wrong. Please try again.");
+
         }
     }
-
-    private void signOut() {
-        mGoogleSignInClient.signOut();
-    }
-
 }
