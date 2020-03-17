@@ -22,7 +22,9 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/** Activity for popup the user sees when they shake to randomly select a restaurant
+ * @author Kyzr Snapko
+ * */
 public class PopActivity extends Activity {
 
     TextView tv_resturantName;
@@ -93,7 +95,10 @@ public class PopActivity extends Activity {
 
         return sb.toString();
     }
-
+    /**
+     * method that gets a list of resturants from a passed in JSON string
+     * @return an arrayList of resturant objects
+     * */
     public ArrayList<Restaurant> createRestaurantList(String jsonStr) throws JSONException{
         ArrayList<Restaurant> restaurantList = new ArrayList<>();
         JSONObject obj = new JSONObject(jsonStr);
@@ -111,7 +116,9 @@ public class PopActivity extends Activity {
         }
         return restaurantList;
     }
-
+    /**
+     * @author Kyzr Snapko
+     * */
     private class Restaurant {
         private String name;
         private String imagePath;

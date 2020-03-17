@@ -7,19 +7,26 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+
 
 /**
  *
  * @author Riley Tschumper
  */
+
 public class MenuItemListActivity extends AppCompatActivity {
     ImageView largeImage;
     Category category;
@@ -27,12 +34,15 @@ public class MenuItemListActivity extends AppCompatActivity {
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
     private String title;
+    private FloatingActionButton toCart;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,11 @@ public class MenuItemListActivity extends AppCompatActivity {
         this.category = (Category) getIntent().getSerializableExtra("category");
 
         setContentView(R.layout.activity_menu_item_list);
+
+        toCart = (FloatingActionButton) findViewById(R.id.goto_cart);
+        if(ActiveSession.getInstance().getAllOrders().size() == 0){
+            toCart.hide();
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MenuItemListAdapter(category.getMenuItems());
@@ -65,10 +80,29 @@ public class MenuItemListActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
+        toCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toCart.hide();
+                FragmentManager fm = getSupportFragmentManager();
+                ReceiptFragment fragment = new ReceiptFragment();
+                fm.beginTransaction().replace(R.id.coordinatorLayout, fragment).commit();
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
 
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(ActiveSession.getInstance().getAllOrders().size() > 0){
+            toCart.show();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu){
