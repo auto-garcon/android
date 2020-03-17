@@ -25,6 +25,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".PopActivity"
+        android:theme="@style/AppTheme.Pop"    />
+
         <activity android:name=".TopActivity"></activity>
         <activity android:name=".Signin"></activity>
         <activity android:name=".LandingPageActivity" />
@@ -56,5 +59,4 @@
             android:name="com.google.android.gms.vision.DEPENDENCIES"
             android:value="barcode" />
     </application>
-
 </manifest>

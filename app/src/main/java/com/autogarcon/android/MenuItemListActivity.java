@@ -7,14 +7,25 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+
+
+/**
+ *
+ * @author Riley Tschumper
+ */
 
 public class MenuItemListActivity extends AppCompatActivity {
     ImageView largeImage;
@@ -23,7 +34,7 @@ public class MenuItemListActivity extends AppCompatActivity {
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
     private String title;
-
+    private FloatingActionButton toCart;
 
     @Override
     public void onBackPressed() {
@@ -31,13 +42,21 @@ public class MenuItemListActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.category = (Category) getIntent().getSerializableExtra("category");
+
         setContentView(R.layout.activity_menu_item_list);
+
+        toCart = (FloatingActionButton) findViewById(R.id.goto_cart);
+        if(ActiveSession.getInstance().getAllOrders().size() == 0){
+            toCart.hide();
+        }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mAdapter = new MenuItemListAdapter(category.getMenuItems());
@@ -48,23 +67,42 @@ public class MenuItemListActivity extends AppCompatActivity {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Intent intent = new Intent(getApplicationContext(), MenuItemFullActivity.class);
+                Intent intent = new Intent(MenuItemListActivity.this, MenuItemFullActivity.class);
                 intent.putExtra("item", category.getMenuItems().get(position));
                 intent.putExtra("title", title);
                 ImageView image = ((MenuItemListAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemListActivity.this, (View)image, "itemImage");
-                startActivity(intent, options.toBundle());
-                //overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+                startActivityForResult(intent, 2, options.toBundle());
+                overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
 
             @Override
             public void onLongItemClick(View view, int position) {
             }
         }));
+        toCart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                toCart.hide();
+                FragmentManager fm = getSupportFragmentManager();
+                ReceiptFragment fragment = new ReceiptFragment();
+                fm.beginTransaction().replace(R.id.coordinatorLayout, fragment).commit();
+                recyclerView.setVisibility(View.GONE);
+            }
+        });
 
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
     }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        if(ActiveSession.getInstance().getAllOrders().size() > 0){
+            toCart.show();
+        }
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu){
@@ -97,13 +135,7 @@ public class MenuItemListActivity extends AppCompatActivity {
 
         return true;
     }
- /*
-    @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_filtering, menu);
-        return true;
-    }
-*/
+
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.meat_filter:
@@ -164,5 +196,9 @@ public class MenuItemListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
     }
 }

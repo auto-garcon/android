@@ -3,8 +3,10 @@
 
     <item
         android:id="@+id/menu_menu"
+        android:icon="@android:drawable/ic_menu_sort_by_size"
         android:title="Menu" />
     <item
         android:id="@+id/menu_receipt"
+        android:icon="@android:drawable/ic_menu_recent_history"
         android:title="Receipt" />
 </menu>

@@ -8,9 +8,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -43,14 +45,14 @@ public class MenuListFragment extends Fragment {
                 if (menuList.get(position).getCategories().size() == 1){
                     Intent intent = new Intent(getContext(), MenuItemListActivity.class);
                     intent.putExtra("category", menuList.get(position).getCategories().get(0));
-                    intent.putExtra("title", title);
+                    intent.putExtra("title", String.valueOf(menuList.get(position).getMenuType()));
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else {
                     Intent intent = new Intent(getContext(), CategoryListActivity.class);
                     intent.putExtra("menu", menuList.get(position));
-                    intent.putExtra("title", title);
+                    intent.putExtra("title", String.valueOf(menuList.get(position).getMenuType()));
                     startActivity(intent);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
