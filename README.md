@@ -2,7 +2,7 @@
 Android Application for the Auto-Garcon application
 
 ## Documentation
-Read out [JavaDocs](https://auto-garcon.github.io/android/)
+Read our [JavaDocs](https://auto-garcon.github.io/android/)
 
 ## Build
 * Download and install [Android Studio](https://developer.android.com/studio)
