@@ -24,7 +24,18 @@
                 android:orientation="vertical"
                 android:scrollbars="vertical">
 
+                <TextView
+                    android:id="@+id/receipt_nothing_here"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="26dp"
+                    android:text="@string/nothing_here"
+                    android:textAlignment="center"
+                    android:textSize="18sp"
+                    android:textStyle="italic" />
+
                 <LinearLayout
+                    android:id="@+id/receipt_current_order"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -57,7 +68,7 @@
                         android:orientation="horizontal">
 
                         <Button
-                            android:id="@+id/button4"
+                            android:id="@+id/receipt_clear_button"
                             style="@style/Widget.AppCompat.Button.Colored"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
@@ -78,8 +89,9 @@
                 </LinearLayout>
 
                 <LinearLayout
+                    android:id="@+id/receipt_in_progress"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:orientation="vertical">
 
                     <TextView
@@ -94,6 +106,35 @@
                         android:textStyle="bold" />
 
                     <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/receipt_in_progress_receipts"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        tools:itemCount="2"
+                        tools:listitem="@layout/list_receipt">
+
+                    </androidx.recyclerview.widget.RecyclerView>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/receipt_completed"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="0dp"
+                        android:background="@color/colorPrimaryDark"
+                        android:padding="8dp"
+                        android:text="@string/completed"
+                        android:textColor="@android:color/white"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.recyclerview.widget.RecyclerView
+                        android:id="@+id/receipt_completed_receipts"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         tools:itemCount="2"
