@@ -43,7 +43,6 @@ public class LandingPageActivity extends AppCompatActivity {
     TextView textView;
     TextView welcomeName;
     TextView welcome;
-    Button bypass;
     Button randomize;
 
     @Override
@@ -109,8 +108,7 @@ public class LandingPageActivity extends AppCompatActivity {
      */
     public Menu createMenu(String jsonStr) throws JSONException{
         JSONObject obj = new JSONObject(jsonStr);
-        Menu.MenuType menuType = Menu.MenuType.valueOf(obj.getString("menuType"));
-        Menu menu = new Menu(menuType);
+        Menu menu = new Menu(obj.getString("menuName"));
         JSONArray menuItems = obj.getJSONArray("menuItems");
         for (int i = 0; i < menuItems.length(); i++) {
             try {
@@ -144,14 +142,6 @@ public class LandingPageActivity extends AppCompatActivity {
         int calories = jsonObject.getInt("calories");;
         String imagePath = jsonObject.getString("imagePath");;
         String category = jsonObject.getString("category");
-        /*
-        JSONArray allergensJSONArr = jsonObject.getJSONArray("allergens");
-        // Convert JSONArray to ArrayList for allergens
-        ArrayList<String> allergens = new ArrayList<>();
-        for (int i = 0; i < allergensJSONArr.length(); i++){
-            allergens.add(allergensJSONArr.getString(i));
-        }
-        */
 
         ArrayList<DietaryTags> dietaryTags = new ArrayList<>();
 
@@ -179,13 +169,13 @@ public class LandingPageActivity extends AppCompatActivity {
 
     /**
      * Takes in the name of a menu type and reads in the file from the 'assets/menu' directory.
-     * @param menuType The type of the menu, as a string.
+     * @param menuName The type of the menu, as a string.
      * @return The contents of the file.
-     * @throws IOException If no file such as 'assets;menu/(menuType).json' exists.
+     * @throws IOException If no file such as 'assets;menu/(menuName).json' exists.
      */
-    private String readMenuToString(String menuType) throws IOException {
+    private String readMenuToString(String menuName) throws IOException {
         StringBuilder sb = new StringBuilder();
-        InputStream is = getApplicationContext().getAssets().open("menu/"+menuType+".json");
+        InputStream is = getApplicationContext().getAssets().open("menu/"+menuName+".json");
         BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8 ));
 
         String str;

@@ -11,31 +11,24 @@ import java.util.*;
  */
 public class Menu implements Serializable {
 
-    public enum MenuType {
-        DRINKS, BREAKFAST, BRUNCH, LUNCH, DINNER, SPECIALS, DESSERT;
-    }
-
-    private MenuType menuType;
+    private String menuName;
 
     private ArrayList<Category> categories;
 
-
     /**
-     * Menu:   Constructor for Menu class. This class represents and entire menu that can take the form of the specified
-     *         types. A menu is made up of a list of Categories, each with a list of MenuItems.
+     * Menu: Constructor for Menu class. This class represents and entire menu that can take the form of the specified
+     * types. A menu is made up of a list of Categories, each with a list of MenuItems.
      * Author: Mitchell Nelson
-     *
-     * @param menuType menuType for constructor
+     * @param menuName menu name for constructor
      */
-    public Menu(MenuType menuType){
-        this.menuType = menuType;
+    public Menu(String menuName){
+        this.menuName = menuName;
         this.categories = new ArrayList<>();
     }
 
     /**
      * getAllMenuItems: returns an ArrayList of all menuItems
-     * Author:          Mitchell Nelson
-     *
+     * Author: Mitchell Nelson
      * @return menuItems ArrayList
      */
     public ArrayList<MenuItem> getAllMenuItems(){
@@ -49,8 +42,7 @@ public class Menu implements Serializable {
 
     /**
      * addMenuItem: adds a menuItem to the menu. New category is created if one doesn't exist yet
-     * Author:      Mitchell Nelson
-     *
+     * Author: Mitchell Nelson
      * @param newItem menuItem to add
      */
     public void addMenuItem(MenuItem newItem){
@@ -67,10 +59,9 @@ public class Menu implements Serializable {
 
     /**
      * getCategoryFromName: returns a Category corresponding to input String
-     * Author:              Mitchell Nelson
-     *
+     * Author: Mitchell Nelson
      * @param categoryName String representation of a category
-     * @return             Category corresponding to input string. Null otherwise
+     * @return Category corresponding to input string. Null otherwise
      */
     public Category getCategoryFromName(String categoryName){
         for (int i = 0; i < categories.size(); i++){
@@ -83,10 +74,10 @@ public class Menu implements Serializable {
 
     /**
      * hasCategory: Returns true if a category exists that matches the input String. False otherwise
-     * author:      Mitchell Nelson
+     * author: Mitchell Nelson
      *
      * @param categoryName String representation of a category
-     * @return             corresponding boolean value
+     * @return corresponding boolean value
      */
     private boolean hasCategory(String categoryName){
         for (int i = 0; i < categories.size(); i++) {
@@ -114,20 +105,19 @@ public class Menu implements Serializable {
     /**
      * @return menuType
      */
-    public MenuType getMenuType(){
-        return menuType;
+    public String getMenuName(){
+        return menuName;
     }
 
     /**
      * toString: creates a human-readable representation of the full menu with all categories and corresponding menu items
-     * Author:   Mitchell Nelson
-     *
+     * Author: Mitchell Nelson
      * @return formatted string
      */
     @Override
     public String toString(){
         StringBuilder str = new StringBuilder();
-        str.append("menuType: " + getMenuType().toString() + "\n");
+        str.append("menuType: " + getMenuName() + "\n");
         str.append("menuItems:\n");
         for (int i = 0; i < getCategories().size(); i++){
             str.append(getCategories().get(i).toString() + "\n");

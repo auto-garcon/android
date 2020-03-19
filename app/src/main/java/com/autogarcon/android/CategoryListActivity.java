@@ -14,7 +14,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
 /**
  *
  * @author Mitchell Nelson
@@ -71,10 +70,8 @@ public class CategoryListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 toCart.hide();
-                FragmentManager fm = getSupportFragmentManager();
-                ReceiptFragment fragment = new ReceiptFragment();
-                fm.beginTransaction().replace(R.id.coordinatorLayout, fragment).commit();
-                recyclerView.setVisibility(View.GONE);
+                setResult(4);
+                finish();
             }
         });
 
@@ -84,7 +81,10 @@ public class CategoryListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        if (resultCode == 4){
+            setResult(4);
+            finish();
+        }
     }
 
     @Override

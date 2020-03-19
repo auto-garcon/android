@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.os.Handler;
@@ -43,6 +44,8 @@ public class TopActivity extends AppCompatActivity {
         final Fragment reciept = new ReceiptFragment();
         final Fragment menu = new MenuListFragment();
         constraintLayout = (ConstraintLayout) findViewById(R.id.container);
+
+        String intentFragment = getIntent().getExtras().getString("frgToLoad");
 
         openFragment(menu);
 
@@ -140,5 +143,4 @@ public class TopActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-
 }

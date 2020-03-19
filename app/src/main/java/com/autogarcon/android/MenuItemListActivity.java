@@ -20,8 +20,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
-
 /**
  *
  * @author Riley Tschumper
@@ -41,8 +39,6 @@ public class MenuItemListActivity extends AppCompatActivity {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,15 +80,14 @@ public class MenuItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 toCart.hide();
-                FragmentManager fm = getSupportFragmentManager();
-                ReceiptFragment fragment = new ReceiptFragment();
-                fm.beginTransaction().replace(R.id.coordinatorLayout, fragment).commit();
-                recyclerView.setVisibility(View.GONE);
+                setResult(4);
+                finish();
             }
         });
 
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
+
     }
 
     @Override
@@ -200,5 +195,6 @@ public class MenuItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     }
 }

@@ -69,6 +69,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
                 dialog.setCancelable(false);
                 dialog.show();
                 dialog.setTitle("Ordering...");
+
                 //TODO: Apply a theme to the dialog
                 //TODO: Actually do something with the request
 
@@ -90,7 +91,6 @@ public class MenuItemFullActivity extends AppCompatActivity {
                         finish();
                     }
                 });
-
                 queue.add(stringRequest);
             }
         });
