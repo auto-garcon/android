@@ -31,21 +31,17 @@ public class MenuItemFullActivity extends AppCompatActivity {
     TextView price;
     EditText chefNote;
     Button button;
-    ProgressDialog dialog;
     String title;
-    RequestQueue queue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        queue = Volley.newRequestQueue(this);
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
         this.menuItem = (MenuItem) getIntent().getSerializableExtra("item");
 
         setContentView(R.layout.activity_menu_item_full);
 
-        dialog = new ProgressDialog(MenuItemFullActivity.this);
         button = (Button) findViewById(R.id.button);
         name = (TextView) findViewById(R.id.itemFullName);
         description = (TextView) findViewById(R.id.itemFullDescription);
@@ -65,33 +61,8 @@ public class MenuItemFullActivity extends AppCompatActivity {
             public void onClick(View v) {
                 OrderItem orderItem = new OrderItem(menuItem, chefNote.getText().toString());
                 ActiveSession.getInstance().addOrder(orderItem);
-                Log.d("ORDER", ActiveSession.getInstance().getOrdersJSON().toString());
-                dialog.setCancelable(false);
-                dialog.show();
-                dialog.setTitle("Ordering...");
-                //TODO: Apply a theme to the dialog
-                //TODO: Actually do something with the request
-
-                String url ="https://jsonplaceholder.typicode.com/todos/1";
-
-                StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
-                        new Response.Listener<String>() {
-                            @Override
-                            public void onResponse(String response) {
-                                setResult(2);
-                                dialog.dismiss();
-                                finish();
-                            }
-                        }, new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        dialog.dismiss();
-                        setResult(2);
-                        finish();
-                    }
-                });
-
-                queue.add(stringRequest);
+                setResult(2);
+                finish();
             }
         });
     }
