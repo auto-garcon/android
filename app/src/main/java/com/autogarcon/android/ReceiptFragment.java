@@ -1,10 +1,13 @@
 package com.autogarcon.android;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.ItemTouchHelper;
@@ -27,10 +30,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.android.gms.wallet.AutoResolveHelper;
+import com.google.android.gms.wallet.PaymentDataRequest;
+import com.google.android.gms.wallet.PaymentsClient;
+import com.google.android.gms.wallet.Wallet;
 import com.google.android.material.snackbar.Snackbar;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * A fragment that shows all of the items that were ordered in the past 24 hours, as well as the customer's current
@@ -56,6 +70,15 @@ public class ReceiptFragment extends Fragment {
     private List<OrderItem> inProgressOrders;
     private List<OrderItem> completedOrders;
 
+    /**
+     * A client for interacting with the Google Pay API.
+     *
+     * @see <a
+     *     href="https://developers.google.com/android/reference/com/google/android/gms/wallet/PaymentsClient">PaymentsClient</a>
+     */
+    private PaymentsClient mPaymentsClient;
+
+
     public ReceiptFragment() {
         // Required empty public constructor
     }
@@ -67,6 +90,7 @@ public class ReceiptFragment extends Fragment {
         super.onCreate(savedInstanceState);
         inProgressOrders = new ArrayList<>();
         completedOrders = new ArrayList<>();
+
     }
 
     @Override
@@ -131,9 +155,13 @@ public class ReceiptFragment extends Fragment {
         });
 
         receiptOrderButton.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 String url ="https://jsonplaceholder.typicode.com/todos/1";
+                ((TopActivity) getActivity()).requestPayment(view);
+
+                //TopActivity.requestPayment(view);
 
                 Toast.makeText(view.getContext(), "Ordering...", Toast.LENGTH_SHORT).show();
 
@@ -240,4 +268,5 @@ public class ReceiptFragment extends Fragment {
 
         queue.add(stringRequest);
     }
+
 }
