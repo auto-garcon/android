@@ -46,7 +46,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         Log.d("CREATION", "in INIT");
 
         barcodeDetector = new BarcodeDetector.Builder(this)
-                .setBarcodeFormats(Barcode.ALL_FORMATS)
+                .setBarcodeFormats(Barcode.QR_CODE)
                 .build();
 
         if (!barcodeDetector.isOperational()){
@@ -54,7 +54,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         }
 
         cameraSource = new CameraSource.Builder(this, barcodeDetector)
-                .setRequestedPreviewSize(1920, 1080)
+                //.setRequestedPreviewSize(1080, 1080)
                 .setAutoFocusEnabled(true) //you should add this feature
                 .build();
 
@@ -131,17 +131,8 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             String qrText = barcodes.valueAt(0).displayValue;
-                            String[] strArr = qrText.split("\\.",200);
                             Intent intent = new Intent();
-                            intent.putExtra("RESTAURANT",strArr[0]);
-                            if (strArr.length > 1) {
-                                try {
-                                    int tableNum = Integer.parseInt(strArr[1]);
-                                    intent.putExtra("TABLE", tableNum);
-                                } catch (NumberFormatException e) {
-                                    e.printStackTrace();
-                                }
-                            }
+                            intent.putExtra("URL",qrText);
                             setResult(2,intent);
                             finish();
                         }

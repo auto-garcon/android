@@ -22,6 +22,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 import android.view.View;
+import android.widget.Toast;
 
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -29,6 +30,8 @@ import com.google.android.gms.tasks.OnCompleteListener;
 
 import java.util.Iterator;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Activity for the landing page that users see after logging in.
@@ -58,9 +61,8 @@ public class LandingPageActivity extends AppCompatActivity {
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setContentView(R.layout.activity_scan_barcode);
                 Intent intent = new Intent(getApplicationContext(), ScannedBarcodeActivity.class);
-                startActivityForResult(intent,2);
+                startActivityForResult(intent, 1);
             }
         });
         welcome.setOnClickListener(new View.OnClickListener() {
@@ -194,36 +196,47 @@ public class LandingPageActivity extends AppCompatActivity {
      * @param data the intent
      * @author Mitchell Nelson
      */
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode==2)
-        {
-            String restaurant = data.getStringExtra("RESTAURANT");
-            int tableNum = data.getIntExtra("TABLE", 0);
+        if(resultCode==2) {
+            String url = data.getStringExtra("URL");
 
-            try {
-                Menu drinksMenu = createMenu(readMenuToString("drinks"));
-                Menu dinnerMenu = createMenu(readMenuToString("dinner"));
-                Menu specialsMenu = createMenu(readMenuToString("specials"));
+            Pattern pattern = Pattern.compile("^http:\\/\\/www.autogarcon.live\\/download\\?restaurantId=([a-z0-9]+)&tableId=([a-z0-9]+)$");
+            Matcher matcher = pattern.matcher(url);
 
-                ArrayList<Menu> menuList = new ArrayList<>();
-                menuList.add(dinnerMenu);
-                menuList.add(drinksMenu);
-                menuList.add(specialsMenu);
+            // The URL is in the proper format
+            if(matcher.matches()) {
+                String restaurantId = matcher.group(1);
+                String tableId = matcher.group(2);
+                try {
+                    Menu drinksMenu = createMenu(readMenuToString("drinks"));
+                    Menu dinnerMenu = createMenu(readMenuToString("dinner"));
+                    Menu specialsMenu = createMenu(readMenuToString("specials"));
 
-                Intent intent = new Intent(getApplicationContext(), TopActivity.class);
-                intent.putExtra("menuList", menuList);
-                intent.putExtra("title", restaurant + " - Table " + tableNum);
-                startActivity(intent);
+                    ArrayList<Menu> menuList = new ArrayList<>();
+                    menuList.add(dinnerMenu);
+                    menuList.add(drinksMenu);
+                    menuList.add(specialsMenu);
+
+                    Intent intent = new Intent(getApplicationContext(), TopActivity.class);
+                    intent.putExtra("menuList", menuList);
+                    intent.putExtra("title", restaurantId + " - Table " + tableId);
+                    startActivity(intent);
+                }
+                catch (
+                        JSONException e) {
+                    Log.d("CREATION", "JSONException: " + e.toString());
+                }
+                catch (
+                        IOException ioe) {
+                    Log.d("FILE", "Could not read file");
+                }
             }
-            catch (
-                    JSONException e) {
-                Log.d("CREATION", "JSONException: " + e.toString());
-            }
-            catch (
-                    IOException ioe) {
-                Log.d("FILE", "Could not read file");
+            // The URL was not correct
+            else {
+                Toast.makeText(this, "Invalid QR code", Toast.LENGTH_SHORT).show();
             }
         }
     }
