@@ -132,6 +132,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
                         public void run() {
                             String qrText = barcodes.valueAt(0).displayValue;
                             Intent intent = new Intent();
+                            Log.d("QRCODE", qrText);
                             intent.putExtra("URL",qrText);
                             setResult(2,intent);
                             finish();
