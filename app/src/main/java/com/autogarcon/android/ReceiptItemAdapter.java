@@ -12,7 +12,8 @@ import android.widget.TextView;
  * @author Tim Callies
  */
 public class ReceiptItemAdapter extends RecyclerView.Adapter<ReceiptItemAdapter.MyViewHolder> {
-    private final float TAX_RATE = 0.1f;
+    private final double TAX_RATE = 0.1f;
+    private OrderItem orderItem;
 
     /**
      * Creates a view for the ReceiptItem.
@@ -36,9 +37,10 @@ public class ReceiptItemAdapter extends RecyclerView.Adapter<ReceiptItemAdapter.
 
     /**
      * Constructor.
+     * @param orderItem The item that the receipt item is associated with.
      */
-    public ReceiptItemAdapter() {
-
+    public ReceiptItemAdapter(OrderItem orderItem) {
+        this.orderItem = orderItem;
     }
 
     @Override
@@ -50,28 +52,25 @@ public class ReceiptItemAdapter extends RecyclerView.Adapter<ReceiptItemAdapter.
 
     @Override
     public void onBindViewHolder(ReceiptItemAdapter.MyViewHolder holder, int position) {
-
-        // Add in a single item
-        if(position == 0) {
-            holder.receiptItemPrice.setText("$1.99");
-            holder.receiptItemName.setText( "+ Add Bacon");
-        }
+        double price = orderItem.getMenuItem().getPrice();
+        //TODO: Loop through customizations and add those to the price.
 
         // Show the tax
-        if(position == 1) {
-            holder.receiptItemPrice.setText(String.format("$%.2f",1.99f*TAX_RATE));
+        if(position == 0) {
+            holder.receiptItemPrice.setText(String.format("$%.2f",price*TAX_RATE));
             holder.receiptItemName.setText("Tax");
         }
 
         // Show the total
-        if (position == 2) {
-            holder.receiptItemPrice.setText(String.format("$%.2f",1.99f+1.99f*TAX_RATE));
+        if (position == 1) {
+
+            holder.receiptItemPrice.setText(String.format("$%.2f",price+price*TAX_RATE));
             holder.receiptItemName.setText("Total");
         }
     }
 
     @Override
     public int getItemCount() {
-        return 3;
+        return 2;
     }
 }

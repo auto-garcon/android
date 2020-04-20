@@ -20,7 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-
+import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
 /**
  *
@@ -34,15 +34,13 @@ public class MenuItemListActivity extends AppCompatActivity {
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
     private String title;
-    private FloatingActionButton toCart;
+    private FloatingTextButton cartButton;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,9 +51,16 @@ public class MenuItemListActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_menu_item_list);
 
-        toCart = (FloatingActionButton) findViewById(R.id.goto_cart);
+        cartButton = (FloatingTextButton) findViewById(R.id.c_button);
+        double total = 0;
+        if(ActiveSession.getInstance().getAllOrders().size() > 0){
+            for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+            }
+        }
+        cartButton.setTitle("$" + total);
         if(ActiveSession.getInstance().getAllOrders().size() == 0){
-            toCart.hide();
+            cartButton.setVisibility(View.GONE);
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -80,26 +85,30 @@ public class MenuItemListActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
-        toCart.setOnClickListener(new View.OnClickListener() {
+        cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toCart.hide();
-                FragmentManager fm = getSupportFragmentManager();
-                ReceiptFragment fragment = new ReceiptFragment();
-                fm.beginTransaction().replace(R.id.coordinatorLayout, fragment).commit();
-                recyclerView.setVisibility(View.GONE);
+                cartButton.setVisibility(View.GONE);
+                setResult(4);
+                finish();
             }
         });
 
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
-            toCart.show();
+            cartButton.setVisibility(View.VISIBLE);
+            double total = 0;
+            for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+            }
+            cartButton.setTitle("$" + total);
         }
     }
 
@@ -200,5 +209,6 @@ public class MenuItemListActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
     }
 }

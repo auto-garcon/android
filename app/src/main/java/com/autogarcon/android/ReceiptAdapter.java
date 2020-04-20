@@ -10,12 +10,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.List;
+
 /**
  * Creates a view of a single ordered item & it's associated costs for a RecyclerView
  * @author Tim Callies
  */
 public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHolder> {
     private RecyclerView.RecycledViewPool viewPool;
+    private List<OrderItem> orderItemList;
 
     /**
      * ViewHolder for the receipt.
@@ -42,16 +45,17 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
 
             receiptItems.setLayoutManager(new LinearLayoutManager(view.getContext()));
             receiptItems.setRecycledViewPool(viewPool);
-            ReceiptItemAdapter adapter = new ReceiptItemAdapter();
-            receiptItems.setAdapter(adapter);
+
         }
 
     }
 
     /**
      * Constructor. Initializes the ViewPool.
+     * @param orderItemList The list of items
      */
-    public ReceiptAdapter() {
+    public ReceiptAdapter(List<OrderItem> orderItemList) {
+        this.orderItemList = orderItemList;
         viewPool = new RecyclerView.RecycledViewPool();
     }
 
@@ -64,17 +68,17 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
 
     @Override
     public void onBindViewHolder(ReceiptAdapter.MyViewHolder holder, int position) {
-
-        holder.receiptName.setText("Big Snacktime");
-        holder.receiptPrice.setText("$199.99");
+        OrderItem orderItem = orderItemList.get(position);
+        ReceiptItemAdapter adapter = new ReceiptItemAdapter(orderItem);
+        holder.receiptItems.setAdapter(adapter);
+        holder.receiptName.setText(orderItem.getMenuItem().getName());
+        holder.receiptPrice.setText(String.format("$%.2f",orderItem.getMenuItem().getPrice()));
         holder.receiptOrderTime.setText("Ordered at 1:21PM");
-        holder.receiptCalories.setText("(200 kcal)");
-
-
+        holder.receiptCalories.setText(String.format("(%d kcal)",orderItem.getMenuItem().getCalories()));
     }
 
     @Override
     public int getItemCount() {
-        return 10;
+        return orderItemList.size();
     }
 }

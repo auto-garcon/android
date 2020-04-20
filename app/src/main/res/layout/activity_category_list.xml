@@ -14,14 +14,16 @@
         tools:layout_editor_absoluteX="76dp"
         tools:layout_editor_absoluteY="16dp" />
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/goto_cart"
+
+    <ru.dimorinny.floatingtextbutton.FloatingTextButton
+        android:id="@+id/c_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:layout_marginBottom="200dp"
-        android:src="@drawable/carticon"
-        app:backgroundTint="#C50F0F"
+        android:layout_marginBottom="50dp"
+        app:floating_background_color="#03A9F4"
+        app:floating_left_icon="@drawable/carticon"
+        app:floating_title="Cart"
+        app:floating_title_color="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />

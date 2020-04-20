@@ -1,10 +1,12 @@
 package com.autogarcon.android;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
@@ -17,7 +19,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 public class MenuListFragment extends Fragment {
-
 
     private RecyclerView recyclerView;
     private ArrayList<Menu> menuList;
@@ -45,15 +46,15 @@ public class MenuListFragment extends Fragment {
                 if (menuList.get(position).getCategories().size() == 1){
                     Intent intent = new Intent(getContext(), MenuItemListActivity.class);
                     intent.putExtra("category", menuList.get(position).getCategories().get(0));
-                    intent.putExtra("title", String.valueOf(menuList.get(position).getMenuType()));
-                    startActivity(intent);
+                    intent.putExtra("title", menuList.get(position).getMenuName());
+                    startActivityForResult(intent, 2);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else {
                     Intent intent = new Intent(getContext(), CategoryListActivity.class);
                     intent.putExtra("menu", menuList.get(position));
-                    intent.putExtra("title", String.valueOf(menuList.get(position).getMenuType()));
-                    startActivity(intent);
+                    intent.putExtra("title", menuList.get(position).getMenuName());
+                    startActivityForResult(intent, 2);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
             }
@@ -62,5 +63,19 @@ public class MenuListFragment extends Fragment {
             public void onLongItemClick(View view, int position) {
             }
         }));
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == 4){
+            openFragment(new ReceiptFragment());
+        }
+    }
+
+    private void openFragment(Fragment fragment) {
+        FragmentTransaction f = getActivity().getSupportFragmentManager().beginTransaction();
+        f.replace(R.id.top_frame, fragment);
+        f.commit();
     }
 }

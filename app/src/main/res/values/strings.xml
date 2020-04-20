@@ -14,7 +14,10 @@
     <string name="login_failed">"Login failed"</string>
     <string name="current_order">"Current Order"</string>
     <string name="in_progress">"In Progress"</string>
+    <string name="completed">"Completed"</string>
     <string name="order_button">"Order Items"</string>
+    <string name="nothing_here">"Nothing to see here..."</string>
     <string name="clear_order_button">"Clear Order"</string>
-
+    <string name="payments_show_name">Successfully received payment data for %s!</string>
+    <string name="api">https://autogarcon.live/api/</string>
 </resources>

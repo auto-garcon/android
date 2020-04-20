@@ -109,6 +109,31 @@ public class ActiveSession implements Serializable {
     }
 
     /**
+     * Returns an double of the total price of all orderItems
+     * @return int of size of orderItems
+     * @author Riley Tschumper
+     */
+    public int getOrderSize(){
+        return orderItems.size();
+    }
+
+    /**
+     * Returns a double of the total price of all orderItems
+     * @return double of total price
+     * @author Riley Tschumper
+     */
+    public double getTotalPrice(){
+        double totalPrice = 0.0;
+        if(getOrderSize() != 0){
+            for (int i=0; i < getOrderSize(); i++){
+                totalPrice += orderItems.get(i).getMenuItem().getPrice();
+            }
+
+        }
+        return totalPrice;
+    }
+
+    /**
      * Performs an HTTP request to the server to get an updated status of all orders
      * that have been submitted by the user
      * @author Mitchell Nelson
