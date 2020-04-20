@@ -23,6 +23,7 @@ public class ActiveSession implements Serializable {
     private String currentRestaurant;
     private int tableNumber;
     private ArrayList<OrderItem> orderItems;
+    private String userID;
 
     /**
      * @return ActiveSession Singleton instance
@@ -115,6 +116,25 @@ public class ActiveSession implements Serializable {
      */
     public int getOrderSize(){
         return orderItems.size();
+    }
+
+
+    /**
+     * Getter method for userID
+     * @return userID
+     * @author Mitchell Nelson
+     */
+    public String getUserId(){
+        return userID;
+    }
+
+    /**
+     * Setter method for userID which is requested from Server upon signin
+     * @param userID new userID
+     * @author Mitchell Nelson
+     */
+    public void setUserId(String userID){
+        this.userID = userID;
     }
 
     /**
