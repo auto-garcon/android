@@ -14,6 +14,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
+import ru.dimorinny.floatingtextbutton.FloatingTextButton;
+
 /**
  * Activity to display all categories in a recycler view
  * @author Mitchell Nelson
@@ -23,7 +27,7 @@ public class CategoryListActivity extends AppCompatActivity {
     private Menu menu;
     private CategoryListAdapter mAdapter;
     private String title;
-    private FloatingActionButton toCart;
+    private FloatingTextButton cartButton;
 
     @Override
     public void onBackPressed() {
@@ -48,9 +52,16 @@ public class CategoryListActivity extends AppCompatActivity {
         // Set title to show the name of the category
         setTitle(title);
 
-        toCart = (FloatingActionButton) findViewById(R.id.goto_cart);
+        cartButton = (FloatingTextButton) findViewById(R.id.c_button);
+        double total = 0;
+        if(ActiveSession.getInstance().getAllOrders().size() > 0){
+            for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+            }
+        }
+        cartButton.setTitle("$" + total);
         if(ActiveSession.getInstance().getAllOrders().size() == 0){
-            toCart.hide();
+            cartButton.setVisibility(View.GONE);
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
@@ -75,10 +86,10 @@ public class CategoryListActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
-        toCart.setOnClickListener(new View.OnClickListener() {
+        cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                toCart.hide();
+                cartButton.setVisibility(View.GONE);
                 setResult(4);
                 finish();
             }
@@ -111,7 +122,12 @@ public class CategoryListActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
-            toCart.show();
+            cartButton.setVisibility(View.VISIBLE);
+            double total = 0;
+            for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+            }
+            cartButton.setTitle("$" + total);
         }
     }
 }
