@@ -23,12 +23,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
 /**
- *
+ * Activity to display all items within a category.
  * @author Riley Tschumper
  */
-
 public class MenuItemListActivity extends AppCompatActivity {
-    ImageView largeImage;
     Category category;
     private RecyclerView recyclerView;
     private MenuItemListAdapter mAdapter;
@@ -45,12 +43,17 @@ public class MenuItemListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Adds the text passed from the previous activity to the title bar
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
+
+        // sets category to the clicked category from the previous activity
         this.category = (Category) getIntent().getSerializableExtra("category");
 
         setContentView(R.layout.activity_menu_item_list);
 
+        // Finds order total $ and displays the cart button if there are items in it
         cartButton = (FloatingTextButton) findViewById(R.id.c_button);
         double total = 0;
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
@@ -102,6 +105,8 @@ public class MenuItemListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Displays the cart button if there are items in the cart
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             cartButton.setVisibility(View.VISIBLE);
             double total = 0;
@@ -144,7 +149,11 @@ public class MenuItemListActivity extends AppCompatActivity {
 
         return true;
     }
-
+    /**
+     * Activity to display all items within a category.
+     * @param item a MenuItem to be checked if a filter should be applied
+     * @author Riley Tschumper
+     */
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
             case R.id.meat_filter:

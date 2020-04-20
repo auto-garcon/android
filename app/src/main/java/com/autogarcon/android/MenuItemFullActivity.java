@@ -36,8 +36,12 @@ public class MenuItemFullActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Adds the text passed from the previous activity to the title bar
         title = (String)getIntent().getSerializableExtra("title");
         setTitle(title);
+
+        // sets menuItem to the clicked item from the previous activity
         this.menuItem = (MenuItem) getIntent().getSerializableExtra("item");
 
         setContentView(R.layout.activity_menu_item_full);
@@ -56,6 +60,8 @@ public class MenuItemFullActivity extends AppCompatActivity {
 
         CustomTheme theme = new CustomTheme();
         theme.applyTo(this);
+
+        // creates an OrderItem and adds it to order once button is clicked
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
