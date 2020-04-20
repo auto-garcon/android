@@ -15,11 +15,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
- *
+ * Activity to display all categories in a recycler view
  * @author Mitchell Nelson
  */
 public class CategoryListActivity extends AppCompatActivity {
-
     private RecyclerView recyclerView;
     private Menu menu;
     private CategoryListAdapter mAdapter;
@@ -32,12 +31,21 @@ public class CategoryListActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right);
     }
 
+    /**
+     * Initializes state and sets on click functionality for recycler view clicks
+     * @param savedInstanceState current state
+     * @author Mitchell Nelson
+     */
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        // Get extras from previous activity
         title = (String)getIntent().getSerializableExtra("title");
         this.menu = (Menu) getIntent().getSerializableExtra("menu");
         setContentView(R.layout.activity_category_list);
+
+        // Set title to show the name of the category
         setTitle(title);
 
         toCart = (FloatingActionButton) findViewById(R.id.goto_cart);
@@ -52,7 +60,8 @@ public class CategoryListActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(mAdapter);
-        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
+        recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getApplicationContext(),
+                recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), MenuItemListActivity.class);
@@ -79,6 +88,13 @@ public class CategoryListActivity extends AppCompatActivity {
         theme.applyTo(this);
     }
 
+    /**
+     * Finishes activity if the "toCart" button was pressed in the menu item list view
+     * @param requestCode status code of the request
+     * @param resultCode status code of the result
+     * @param data curent intent
+     * @author Mitchell Nelson
+     */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == 4){
@@ -87,6 +103,10 @@ public class CategoryListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Displays the "toCart" button if at least one order exists
+     * @author Mitchell Nelson
+     */
     @Override
     protected void onResume() {
         super.onResume();
