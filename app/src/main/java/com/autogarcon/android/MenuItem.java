@@ -37,7 +37,7 @@ public class MenuItem implements Serializable {
         this.category = category;
         this.dietaryTags = dietaryTags;
     }
-A
+
     /**
      * @return name String
      */
