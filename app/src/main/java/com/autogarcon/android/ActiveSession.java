@@ -23,7 +23,7 @@ public class ActiveSession implements Serializable {
     private String currentRestaurant;
     private int tableNumber;
     private ArrayList<OrderItem> orderItems;
-    private String userID;
+    private String userId;
 
     /**
      * @return ActiveSession Singleton instance
@@ -125,7 +125,7 @@ public class ActiveSession implements Serializable {
      * @author Mitchell Nelson
      */
     public String getUserId(){
-        return userID;
+        return userId;
     }
 
     /**
@@ -134,7 +134,7 @@ public class ActiveSession implements Serializable {
      * @author Mitchell Nelson
      */
     public void setUserId(String userID){
-        this.userID = userID;
+        this.userId = userID;
     }
 
     /**
