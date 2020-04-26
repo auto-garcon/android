@@ -57,6 +57,8 @@ public class LandingPageActivity extends AppCompatActivity {
         randomize = findViewById(R.id.randomize);
         welcomeName = findViewById(R.id.welcomeName);
 
+        welcomeName.append(ActiveSession.getInstance().getGoogleSignInAccount().getGivenName());
+
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
