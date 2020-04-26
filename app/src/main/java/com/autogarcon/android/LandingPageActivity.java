@@ -120,7 +120,7 @@ public class LandingPageActivity extends AppCompatActivity {
         double price = jsonObject.getDouble("price");
 
         // HARDCODED WHILE API IS UPDATED
-        int calories = 950; //jsonObject.getInt("calories");
+        int calories = jsonObject.getInt("calories");
         // HARDCODED WHILE API IS UPDATED
         String imagePath = "https://d1doqjmisr497k.cloudfront.net/-/media/mccormick-us/recipes/grill-mates/c/800/cowboy-burger-with-grilled-pickles-and-crispy-onion-straws.jpg"; //jsonObject.getString("imagePath");
 
