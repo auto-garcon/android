@@ -20,6 +20,7 @@ android {
 }
 
 dependencies {
+    implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.github.dimorinny:floating-text-button:0.0.4'
     implementation "com.google.android.gms:play-services-instantapps:17.0.0"
     implementation fileTree(dir: 'libs', include: ['*.jar'])

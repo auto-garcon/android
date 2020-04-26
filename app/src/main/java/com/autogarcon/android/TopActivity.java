@@ -10,14 +10,22 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -28,6 +36,8 @@ import android.widget.PopupWindow;
 import android.view.Gravity;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
@@ -38,7 +48,13 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.Optional;
+import java.net.URI;
 
 import static java.lang.Thread.sleep;
 
@@ -72,9 +88,7 @@ public class TopActivity extends AppCompatActivity {
         mPaymentsClient = PaymentsUtil.createPaymentsClient(this);
         final Fragment reciept = new ReceiptFragment();
         final Fragment menu = new MenuListFragment();
-
         constraintLayout = (ConstraintLayout) findViewById(R.id.container);
-
         String intentFragment = getIntent().getExtras().getString("frgToLoad");
 
         openFragment(menu);
@@ -116,9 +130,32 @@ public class TopActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu){
+    public boolean onCreateOptionsMenu(final Menu menu){
         getMenuInflater().inflate(R.menu.menu_help,menu);
+        final Uri uri = ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl();
 
+        // Get Google profile pic from url in new thread
+        Thread t = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    //Retrieve URL
+                    final Bitmap image = BitmapFactory.decodeStream(new URL(uri.toString()).openConnection().getInputStream());
+                    // Update UI on main thread
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            getMenuInflater().inflate(R.menu.user_profile,menu);
+                            MenuItem user_profile = menu.findItem(R.id.user_profile);
+                            user_profile.setIcon(new BitmapDrawable(getResources(), image));
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+        t.start();
         return true;
     }
 
