@@ -29,8 +29,8 @@ public class ReceiptItemAdapter extends RecyclerView.Adapter<ReceiptItemAdapter.
          */
         public MyViewHolder(View view) {
             super(view);
-            receiptItemName = (TextView) view.findViewById(R.id.list_receipt_item_name);
-            receiptItemPrice = (TextView) view.findViewById(R.id.list_receipt_item_price);
+            receiptItemName = (TextView) view.findViewById(R.id.list_restaurant_hours_name);
+            receiptItemPrice = (TextView) view.findViewById(R.id.list_restaurant_hours_start);
         }
 
     }

@@ -208,6 +208,13 @@ public class TopActivity extends AppCompatActivity {
             return true;
         }
 
+        if(id == R.id.user_profile) {
+            // Open the options menu
+            Intent intent = new Intent(TopActivity.this, UserOptionsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
+
         return super.onOptionsItemSelected(item);
     }
 

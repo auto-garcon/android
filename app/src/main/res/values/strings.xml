@@ -20,4 +20,15 @@
     <string name="clear_order_button">"Clear Order"</string>
     <string name="payments_show_name">Successfully received payment data for %s!</string>
     <string name="api">https://autogarcon.live/api/</string>
+    <string name="sign_out">Sign Out</string>
+    <string name="view_account">View Account</string>
+    <string name="display_settings">Display</string>
+    <string name="setting_colorblind">Colorblind Mode</string>
+    <string name="allergens">Allergens</string>
+    <string name="meat">Meat</string>
+    <string name="dairy">Dairy</string>
+    <string name="nuts">Nuts</string>
+    <string name="gluten">Gluten</string>
+    <string name="soy">Soy</string>
+    <string name="favorite_restaurants">Favorite Restaurants</string>
 </resources>
