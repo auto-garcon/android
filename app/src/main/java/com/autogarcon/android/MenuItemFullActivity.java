@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -32,6 +34,8 @@ public class MenuItemFullActivity extends AppCompatActivity {
     EditText chefNote;
     Button button;
     String title;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,5 +76,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
 
