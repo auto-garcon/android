@@ -19,14 +19,15 @@
         android:id="@+id/c_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
+        android:layout_marginBottom="36dp"
         app:floating_background_color="#03A9F4"
         app:floating_left_icon="@drawable/carticon"
         app:floating_title="Cart"
         app:floating_title_color="@android:color/black"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintHorizontal_bias="0.871"
+        app:layout_constraintStart_toStartOf="parent"/>
 
 
 
