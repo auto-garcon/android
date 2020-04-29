@@ -1,11 +1,22 @@
 package com.autogarcon.android;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 
 import org.json.JSONArray;
@@ -16,6 +27,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -254,5 +266,64 @@ public class LandingPageActivity extends AppCompatActivity {
                 Toast.makeText(this, "Invalid QR code", Toast.LENGTH_SHORT).show();
             }
         }
+    }
+
+    /**
+     * Creates top bar menu objects - link to user profile settings menu
+     * @param menu menu item for top bar
+     * @return success of menu creation
+     * @author Mitchell Nelson
+     */
+    @Override
+    public boolean onCreateOptionsMenu(final android.view.Menu menu){
+        final Uri uri = ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl();
+        if (uri != null) {
+            // Get Google profile pic from url in new thread
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //Retrieve URL
+                        final Bitmap image = BitmapFactory.decodeStream(new URL(uri.toString()).openConnection().getInputStream());
+                        // Update UI on main thread
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getMenuInflater().inflate(R.menu.user_profile, menu);
+                                android.view.MenuItem user_profile = menu.findItem(R.id.user_profile);
+                                user_profile.setIcon(new BitmapDrawable(getResources(), image));
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
+        }
+        else{
+            getMenuInflater().inflate(R.menu.user_profile, menu);
+        }
+        return true;
+    }
+
+
+    /**
+     * Opens the user Options activity when user profile icon menu is clicked
+     * @param item menu item that is clicked - user profile
+     * @return success of intent
+     * @author Mitchell Nelson
+     */
+    @Override
+    public boolean onOptionsItemSelected(android.view.MenuItem item) {
+        int id = item.getItemId();
+        if(id == R.id.user_profile) {
+            // Open the options menu
+            Intent intent = new Intent(LandingPageActivity.this, UserOptionsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 }
