@@ -156,7 +156,12 @@ public class UserOptionsActivity extends AppCompatActivity {
 
         // Fill in the user data
         userOptionsName.setText(ActiveSession.getInstance().getGoogleSignInAccount().getDisplayName());
-        ThumbnailManager.getInstance().getImage(ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl().toString(), userOptionsImage);
+        if (ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl() != null){
+            ThumbnailManager.getInstance().getImage(ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl().toString(), userOptionsImage);
+        }
+        else{
+            ThumbnailManager.getInstance().getImage("https://www.sackettwaconia.com/wp-content/uploads/default-profile.png", userOptionsImage);
+        }
     }
 
     /**
