@@ -61,7 +61,7 @@ public class MenuItemListActivity extends AppCompatActivity {
                 total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
             }
         }
-        cartButton.setTitle("$" + total);
+        cartButton.setTitle("$" + String.format("%.2f", total));
         if(ActiveSession.getInstance().getAllOrders().size() == 0){
             cartButton.setVisibility(View.GONE);
         }
@@ -113,7 +113,8 @@ public class MenuItemListActivity extends AppCompatActivity {
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
                 total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
             }
-            cartButton.setTitle("$" + total);
+            cartButton.setTitle("$" + String.format("%.2f", total));
+
         }
     }
 

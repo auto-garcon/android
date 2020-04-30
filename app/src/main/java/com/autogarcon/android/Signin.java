@@ -45,6 +45,9 @@ public class Signin extends AppCompatActivity {
         setContentView(R.layout.activity_signin);
         error = (TextView) findViewById(R.id.error);
 
+
+
+
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -73,6 +76,11 @@ public class Signin extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if(getIntent().getExtras() != null){
+            String action = getIntent().getExtras().getString("action");
+            signOut();
+        }
     }
 
     /**
@@ -85,6 +93,13 @@ public class Signin extends AppCompatActivity {
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        // If signed in, go straight to landing page
+        if (account != null){
+            ActiveSession.getInstance().setGoogleSignInAccount(account);
+            Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -97,8 +112,6 @@ public class Signin extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
-
 
     private void signOut() {
         mGoogleSignInClient.signOut()

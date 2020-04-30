@@ -14,35 +14,35 @@
         <menu>
             <item
                 android:id="@+id/meat_filter"
-                android:title="Meat"
+                android:title="@string/meat"
                 app:showAsAction="never"
                 android:checkable="true"
                 android:checked="true"
                 />
             <item
                 android:id="@+id/dairy_filter"
-                android:title="Dairy"
+                android:title="@string/dairy"
                 app:showAsAction="never"
                 android:checkable="true"
                 android:checked="true"
                 />
             <item
                 android:id="@+id/nuts_filter"
-                android:title="Nuts"
+                android:title="@string/nuts"
                 app:showAsAction="never"
                 android:checkable="true"
                 android:checked="true"
                 />
             <item
                 android:id="@+id/gluten_filter"
-                android:title="Gluten"
+                android:title="@string/gluten"
                 app:showAsAction="never"
                 android:checkable="true"
                 android:checked="true"
                 />
             <item
                 android:id="@+id/soy_filter"
-                android:title="Soy"
+                android:title="@string/soy"
                 app:showAsAction="never"
                 android:checkable="true"
                 android:checked="true"

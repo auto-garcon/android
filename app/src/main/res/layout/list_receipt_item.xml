@@ -7,7 +7,7 @@
     android:orientation="horizontal">
 
     <TextView
-        android:id="@+id/list_receipt_item_name"
+        android:id="@+id/list_restaurant_hours_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textSize="12sp"
@@ -22,7 +22,7 @@
         android:background="?android:attr/listDivider" />
 
     <TextView
-        android:id="@+id/list_receipt_item_price"
+        android:id="@+id/list_restaurant_hours_start"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="0"
