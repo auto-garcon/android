@@ -12,13 +12,16 @@ import android.util.Log;
  * @author Mitchell Nelson
  */
 public class MainActivity extends AppCompatActivity {
-
+    public static Context contextOfApplication;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        contextOfApplication = getApplicationContext();
         setContentView(R.layout.activity_signin);
         Intent intent = new Intent(getApplicationContext(), Signin.class);
         startActivity(intent);
+    }
+    public static Context getContextOfApplication(){
+        return contextOfApplication;
     }
 }

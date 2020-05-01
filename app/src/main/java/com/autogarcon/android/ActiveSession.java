@@ -1,5 +1,8 @@
 package com.autogarcon.android;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
@@ -24,7 +27,8 @@ public class ActiveSession implements Serializable {
     private int tableNumber;
     private ArrayList<OrderItem> orderItems;
     private String userId;
-
+    private ArrayList<DietaryTags> allergenPreferences;
+    private Context applicationContext;
     /**
      * @return ActiveSession Singleton instance
      * @author Mitchell Nelson
@@ -37,6 +41,39 @@ public class ActiveSession implements Serializable {
      */
     public ActiveSession(){
         this.orderItems = new ArrayList<>();
+        applicationContext = MainActivity.getContextOfApplication();
+        setPreferredAllergens();
+    }
+
+    public void setPreferredAllergens(){
+        // Set default value for all allergens in Shared preferences file
+        allergenPreferences = new ArrayList<DietaryTags>();
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences("allergens",Context.MODE_PRIVATE);
+        String defaultValue = "False";
+        String meat = sharedPref.getString("Meat", defaultValue);
+        if (meat.equals("True")){
+            allergenPreferences.add(DietaryTags.MEAT);
+        }
+        String dairy = sharedPref.getString("Dairy", defaultValue);
+        if (dairy.equals("True")){
+            allergenPreferences.add(DietaryTags.DAIRY);
+        }
+        String nuts = sharedPref.getString("Nuts", defaultValue);
+        if (nuts.equals("True")){
+            allergenPreferences.add(DietaryTags.NUTS);
+        }
+        String gluten = sharedPref.getString("Gluten", defaultValue);
+        if (gluten.equals("True")){
+            allergenPreferences.add(DietaryTags.GLUTEN);
+        }
+        String soy = sharedPref.getString("Soy", defaultValue);
+        if (soy.equals("True")){
+            allergenPreferences.add(DietaryTags.SOY);
+        }
+    }
+
+    public ArrayList<DietaryTags> getAllergenPreferences(){
+        return allergenPreferences;
     }
 
     /**
