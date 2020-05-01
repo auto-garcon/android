@@ -23,8 +23,8 @@ import java.io.IOException;
 
 public class ScannedBarcodeActivity extends AppCompatActivity {
 
-    SurfaceView surfaceView;
-    TextView txtBarcodeValue;
+    private SurfaceView surfaceView;
+    private TextView txtBarcodeValue;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;

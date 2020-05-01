@@ -1,5 +1,8 @@
 package com.autogarcon.android;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
@@ -26,7 +29,8 @@ public class ActiveSession implements Serializable {
     private String userId;
     private CustomTheme restaurantTheme;
     private CustomTheme colorblindTheme;
-
+    private ArrayList<DietaryTags> allergenPreferences;
+    private Context applicationContext;
     /**
      * @return ActiveSession Singleton instance
      * @author Mitchell Nelson
@@ -41,6 +45,46 @@ public class ActiveSession implements Serializable {
         this.orderItems = new ArrayList<>();
         this.restaurantTheme = new CustomTheme();
         this.colorblindTheme = new CustomTheme("#D81B60", null, "#1E88E5");
+        applicationContext = MainActivity.getContextOfApplication();
+        setPreferredAllergens();
+    }
+    /**
+     * Sets the preferredAllergen settings from the shared preferences file
+     * @author Riley Tschumper
+     */
+    public void setPreferredAllergens(){
+        // Set default value for all allergens in Shared preferences file
+        allergenPreferences = new ArrayList<DietaryTags>();
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE);
+        String defaultValue = "False";
+        String meat = sharedPref.getString("Meat", defaultValue);
+        if (meat.equals("True")){
+            allergenPreferences.add(DietaryTags.MEAT);
+        }
+        String dairy = sharedPref.getString("Dairy", defaultValue);
+        if (dairy.equals("True")){
+            allergenPreferences.add(DietaryTags.DAIRY);
+        }
+        String nuts = sharedPref.getString("Nuts", defaultValue);
+        if (nuts.equals("True")){
+            allergenPreferences.add(DietaryTags.NUTS);
+        }
+        String gluten = sharedPref.getString("Gluten", defaultValue);
+        if (gluten.equals("True")){
+            allergenPreferences.add(DietaryTags.GLUTEN);
+        }
+        String soy = sharedPref.getString("Soy", defaultValue);
+        if (soy.equals("True")){
+            allergenPreferences.add(DietaryTags.SOY);
+        }
+    }
+    /**
+     * Gets the preferredAllergen that were set from the shared preferences file
+     * @return Arraylist<DietaryTags> for all set allergens
+     * @author Riley Tschumper
+     */
+    public ArrayList<DietaryTags> getAllergenPreferences(){
+        return allergenPreferences;
     }
 
     /**

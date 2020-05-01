@@ -20,6 +20,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.ArrayList;
+
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
 /**
@@ -27,12 +29,13 @@ import ru.dimorinny.floatingtextbutton.FloatingTextButton;
  * @author Riley Tschumper
  */
 public class MenuItemListActivity extends AppCompatActivity {
-    Category category;
+    private Category category;
     private RecyclerView recyclerView;
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
     private String title;
     private FloatingTextButton cartButton;
+    private android.view.Menu filterMenu;
 
     @Override
     public void onBackPressed() {
@@ -123,6 +126,10 @@ public class MenuItemListActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(android.view.Menu menu){
         getMenuInflater().inflate(R.menu.menu_filtering,menu);
 
+        filterMenu = menu;
+        //Updates the filter menu based on the saved user preferences
+        updateFilterPreferences();
+
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
@@ -156,6 +163,7 @@ public class MenuItemListActivity extends AppCompatActivity {
      * @author Riley Tschumper
      */
     public boolean onOptionsItemSelected(MenuItem item){
+        //Log.d("MENUITEM", item);
         switch(item.getItemId()){
             case R.id.meat_filter:
                 if(item.isChecked()){
@@ -215,6 +223,57 @@ public class MenuItemListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Updates the filters to reflect the users saved preferences
+     * @author Riley Tschumper
+     */
+    public void updateFilterPreferences(){
+        ArrayList<DietaryTags> allergenPreferences = ActiveSession.getInstance().getAllergenPreferences();
+        if(allergenPreferences != null) {
+            if(allergenPreferences.contains(DietaryTags.MEAT)) {
+                MenuItem meatItem = filterMenu.findItem(R.id.meat_filter);
+                if (meatItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    meatItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternomeat");
+                }
+            }
+            if(allergenPreferences.contains(DietaryTags.NUTS)) {
+                MenuItem nutsItem = filterMenu.findItem(R.id.nuts_filter);
+                if (nutsItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    nutsItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternonuts");
+                }
+            }
+            if(allergenPreferences.contains(DietaryTags.GLUTEN)) {
+                MenuItem glutenItem = filterMenu.findItem(R.id.gluten_filter);
+                if (glutenItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    glutenItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternogluten");
+                }
+            }
+            if(allergenPreferences.contains(DietaryTags.DAIRY)) {
+                MenuItem dairyItem = filterMenu.findItem(R.id.dairy_filter);
+                if (dairyItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    dairyItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternodairy");
+                }
+            }
+            if(allergenPreferences.contains(DietaryTags.SOY)) {
+                MenuItem soyItem = filterMenu.findItem(R.id.soy_filter);
+                if (soyItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    soyItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternosoy");
+                }
+            }
+        }
+
     }
 
     @Override

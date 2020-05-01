@@ -13,12 +13,6 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 
 /**
  * Activity for the full view of a single menu item.
@@ -26,15 +20,14 @@ import com.android.volley.toolbox.Volley;
  */
 public class MenuItemFullActivity extends AppCompatActivity {
 
-    ImageView largeImage;
-    MenuItem menuItem;
-    TextView name;
-    TextView description;
-    TextView price;
-    EditText chefNote;
-    Button button;
-    String title;
-
+    private ImageView largeImage;
+    private MenuItem menuItem;
+    private TextView name;
+    private TextView description;
+    private TextView price;
+    private EditText chefNote;
+    private Button button;
+    private String title;
 
 
     @Override

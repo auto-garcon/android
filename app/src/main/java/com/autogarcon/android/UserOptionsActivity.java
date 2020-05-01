@@ -41,6 +41,15 @@ public class UserOptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
 
+        ArrayList<DietaryTags> dietaryTagsArrayList = ActiveSession.getInstance().getAllergenPreferences();
+        if(dietaryTagsArrayList != null) {
+            String sizeAsString = Integer.toString(dietaryTagsArrayList.size());
+            Log.d("NUMOFTRUETAGS", sizeAsString);
+        }
+        else{
+            Log.d("NUMOFTRUETAGS", "0");
+        }
+
         recyclerView = (RecyclerView) findViewById(R.id.user_options_restaurant_list);
         userOptionsName = (TextView) findViewById(R.id.user_options_name);
         userOptionsImage = (ImageView) findViewById(R.id.user_options_image);
@@ -108,7 +117,7 @@ public class UserOptionsActivity extends AppCompatActivity {
         );
 
         // Set default value for all allergens in Shared preferences file
-        SharedPreferences sharedPref = UserOptionsActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = UserOptionsActivity.this.getSharedPreferences(getString(R.string.preferences),Context.MODE_PRIVATE);
         String defaultValue = "False";
         String meat = sharedPref.getString("Meat", defaultValue);
         if (meat.equals("True")){
@@ -174,7 +183,7 @@ public class UserOptionsActivity extends AppCompatActivity {
      * @author Mitchell Nelson
      */
     public void savePreferences(CompoundButton buttonView, String tag) {
-        SharedPreferences sharedPref = UserOptionsActivity.this.getPreferences(Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = UserOptionsActivity.this.getSharedPreferences(getString(R.string.preferences),Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
         Log.d("check", "checked: " + tag);
         if(buttonView.isChecked()){
@@ -184,6 +193,7 @@ public class UserOptionsActivity extends AppCompatActivity {
             editor.putString(tag, "False");
         }
         editor.commit();
+        ActiveSession.getInstance().setPreferredAllergens();
     }
 
 
