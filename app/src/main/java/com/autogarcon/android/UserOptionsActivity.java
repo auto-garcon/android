@@ -162,6 +162,9 @@ public class UserOptionsActivity extends AppCompatActivity {
         else{
             ThumbnailManager.getInstance().getImage("https://www.sackettwaconia.com/wp-content/uploads/default-profile.png", userOptionsImage);
         }
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
     }
 
     /**

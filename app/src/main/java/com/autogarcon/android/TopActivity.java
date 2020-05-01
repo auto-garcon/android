@@ -110,8 +110,8 @@ public class TopActivity extends AppCompatActivity {
         f.runOnCommit(new Runnable() {
             @Override
             public void run() {
-                CustomTheme theme = new CustomTheme();
-                theme.applyTo(TopActivity.this);
+                // Apply the CustomTheme
+                ActiveSession.getInstance().getCustomTheme().applyTo(TopActivity.this);
             }
         });
         f.replace(R.id.top_frame, fragment);

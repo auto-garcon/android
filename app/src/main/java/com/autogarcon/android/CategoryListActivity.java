@@ -95,8 +95,8 @@ public class CategoryListActivity extends AppCompatActivity {
             }
         });
 
-        CustomTheme theme = new CustomTheme();
-        theme.applyTo(this);
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
     }
 
     /**

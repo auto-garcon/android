@@ -62,8 +62,8 @@ public class MenuItemFullActivity extends AppCompatActivity {
         description.setText(menuItem.getDescription());
         price.setText(String.format("$%.2f",menuItem.getPrice()));
 
-        CustomTheme theme = new CustomTheme();
-        theme.applyTo(this);
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
 
         // creates an OrderItem and adds it to order once button is clicked
         button.setOnClickListener(new View.OnClickListener() {

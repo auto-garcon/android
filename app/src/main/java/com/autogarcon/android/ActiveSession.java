@@ -24,6 +24,8 @@ public class ActiveSession implements Serializable {
     private int tableNumber;
     private ArrayList<OrderItem> orderItems;
     private String userId;
+    private CustomTheme restaurantTheme;
+    private CustomTheme colorblindTheme;
 
     /**
      * @return ActiveSession Singleton instance
@@ -37,6 +39,8 @@ public class ActiveSession implements Serializable {
      */
     public ActiveSession(){
         this.orderItems = new ArrayList<>();
+        this.restaurantTheme = new CustomTheme();
+        this.colorblindTheme = new CustomTheme("#D81B60", null, "#1E88E5");
     }
 
     /**
@@ -90,6 +94,36 @@ public class ActiveSession implements Serializable {
     public void setTableNumber(int newTableNumber){
         tableNumber = newTableNumber;
     }
+
+    /**
+     * Gets the needed theme. If accessibility mode is enabled, it will return
+     * the colorblind theme instead
+     * @return The theme that will be applied to an activity.
+     * @author Tim Callies
+     */
+    public CustomTheme getCustomTheme() {
+        //TODO: Determine if the user is in colorblind mode.
+        if(true) {
+            return restaurantTheme;
+        }
+        else {
+            return restaurantTheme;
+        }
+    }
+
+    /**
+     * Getter method for the theme of the current restaurant.
+     * @return The restaurant's theme.
+     * @author Tim Callies
+     */
+    public CustomTheme getRestaurantTheme() { return restaurantTheme; }
+
+    /**
+     * Setter method for the restaurant's theme.
+     * @param restaurantTheme The restaurant's theme.
+     * @author Tim Callies
+     */
+    public void setRestaurantTheme(CustomTheme restaurantTheme) { this.restaurantTheme = restaurantTheme;}
 
     /**
      * Adds an Order object to the current session
