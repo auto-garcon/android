@@ -44,11 +44,14 @@ public class ActiveSession implements Serializable {
         applicationContext = MainActivity.getContextOfApplication();
         setPreferredAllergens();
     }
-
+    /**
+     * Sets the preferredAllergen settings from the shared preferences file
+     * @author Riley Tschumper
+     */
     public void setPreferredAllergens(){
         // Set default value for all allergens in Shared preferences file
         allergenPreferences = new ArrayList<DietaryTags>();
-        SharedPreferences sharedPref = applicationContext.getSharedPreferences("allergens",Context.MODE_PRIVATE);
+        SharedPreferences sharedPref = applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE);
         String defaultValue = "False";
         String meat = sharedPref.getString("Meat", defaultValue);
         if (meat.equals("True")){
@@ -71,7 +74,11 @@ public class ActiveSession implements Serializable {
             allergenPreferences.add(DietaryTags.SOY);
         }
     }
-
+    /**
+     * Gets the preferredAllergen that were set from the shared preferences file
+     * @return Arraylist<DietaryTags> for all set allergens
+     * @author Riley Tschumper
+     */
     public ArrayList<DietaryTags> getAllergenPreferences(){
         return allergenPreferences;
     }

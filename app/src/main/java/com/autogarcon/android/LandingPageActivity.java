@@ -53,11 +53,11 @@ import java.util.regex.Pattern;
  */
 public class LandingPageActivity extends AppCompatActivity {
 
-    ImageView imageView;
-    TextView textView;
-    TextView welcomeName;
-    TextView welcome;
-    Button randomize;
+    private ImageView imageView;
+    private TextView textView;
+    private TextView welcomeName;
+    private TextView welcome;
+    private Button randomize;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

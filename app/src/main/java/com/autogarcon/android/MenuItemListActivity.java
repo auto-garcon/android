@@ -29,7 +29,7 @@ import ru.dimorinny.floatingtextbutton.FloatingTextButton;
  * @author Riley Tschumper
  */
 public class MenuItemListActivity extends AppCompatActivity {
-    Category category;
+    private Category category;
     private RecyclerView recyclerView;
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
@@ -127,6 +127,7 @@ public class MenuItemListActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_filtering,menu);
 
         filterMenu = menu;
+        //Updates the filter menu based on the saved user preferences
         updateFilterPreferences();
 
         // Associate searchable configuration with the SearchView
@@ -224,6 +225,10 @@ public class MenuItemListActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * Updates the filters to reflect the users saved preferences
+     * @author Riley Tschumper
+     */
     public void updateFilterPreferences(){
         ArrayList<DietaryTags> allergenPreferences = ActiveSession.getInstance().getAllergenPreferences();
         if(allergenPreferences != null) {
