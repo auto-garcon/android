@@ -354,4 +354,16 @@ public class TopActivity extends AppCompatActivity {
                     mPaymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
     }
+
+
+    protected void onResume() {
+        super.onResume();
+        if(ActiveSession.getInstance().getButtonFlag() == true){
+            ActiveSession.getInstance().setButtonFlag(false);
+            final Fragment reciept = new ReceiptFragment();
+            openFragment(reciept);
+        }
+
+    }
 }
+

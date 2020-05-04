@@ -28,6 +28,8 @@ public class MenuItemFullActivity extends AppCompatActivity {
     private EditText chefNote;
     private Button button;
     private String title;
+    private TextView charCount;
+
 
 
     @Override
@@ -43,6 +45,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_menu_item_full);
 
+        charCount = (TextView) findViewById(R.id.charCount);
         button = (Button) findViewById(R.id.button);
         name = (TextView) findViewById(R.id.itemFullName);
         description = (TextView) findViewById(R.id.itemFullDescription);
@@ -54,6 +57,9 @@ public class MenuItemFullActivity extends AppCompatActivity {
         name.setText(menuItem.getName());
         description.setText(menuItem.getDescription());
         price.setText(String.format("$%.2f",menuItem.getPrice()));
+
+
+        chefNote.addTextChangedListener(mTextEditorWatcher);
 
         // Apply the CustomTheme
         ActiveSession.getInstance().getCustomTheme().applyTo(this);
@@ -70,6 +76,19 @@ public class MenuItemFullActivity extends AppCompatActivity {
         });
     }
 
+
+    private final TextWatcher mTextEditorWatcher = new TextWatcher() {
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+        }
+
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            //This sets a textview to the current length
+            charCount.setText("                                                                     " + (250 - s.toString().length()) + "/250");
+        }
+
+        public void afterTextChanged(Editable s) {
+        }
+    };
 
 }
 

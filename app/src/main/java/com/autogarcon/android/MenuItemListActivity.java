@@ -95,6 +95,7 @@ public class MenuItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cartButton.setVisibility(View.GONE);
+                ActiveSession.getInstance().setButtonFlag(true);
                 setResult(4);
                 finish();
             }
@@ -104,6 +105,7 @@ public class MenuItemListActivity extends AppCompatActivity {
         ActiveSession.getInstance().getCustomTheme().applyTo(this);
 
     }
+
 
     @Override
     protected void onResume() {
