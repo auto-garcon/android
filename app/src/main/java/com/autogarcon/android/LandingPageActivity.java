@@ -10,6 +10,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Parcelable;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -27,6 +28,8 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
@@ -42,9 +45,15 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.APIUtils;
+import com.google.gson.Gson;
 
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.autogarcon.android.API.Menu;
+import com.google.gson.reflect.TypeToken;
 
 /**
  * Activity for the landing page that users see after logging in.
@@ -96,83 +105,12 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     /**
-     * createMenu: This method takes in already parsed JSONObject of a single menu
-     * @param obj JSONObject representation of a menu
-     * @return resulting Menu object
-     * @throws JSONException
-     * @author Mitchell Nelson, Riley Tschumper
-     */
-    public Menu createMenu(JSONObject obj) throws JSONException{
-        Menu menu = new Menu(obj.getString("menuName"));
-        JSONArray menuItems = obj.getJSONArray("menuItems");
-
-        for (int i = 0; i < menuItems.length(); i++) {
-            try {
-                MenuItem newItem = getMenuItemFromJSONObject(menuItems.getJSONObject(i));
-                menu.addMenuItem(newItem);
-            }
-            catch (JSONException e) {
-                // Handle exception
-                Log.d("MENU", "JSONException: " + e.toString());
-            }
-        }
-        return menu;
-    }
-
-    /**
-     * getMenuItemFromJSONObject: This method takes in a JSONObject that represents a single MenuItem
-     *                            and outputs the corresponding MenuItem object
-     *
-     * @param jsonObject JSON representation of a single MenuItem object
-     * @return resulting MenuItem
-     * @throws JSONException
-     * @author Mitchell Nelson
-     */
-    private MenuItem getMenuItemFromJSONObject(JSONObject jsonObject) throws JSONException{
-        String name = jsonObject.getString("name");
-        String description = jsonObject.getString("description");
-        double price = jsonObject.getDouble("price");
-
-        // HARDCODED WHILE API IS UPDATED
-        int calories = jsonObject.getInt("calories");
-        // HARDCODED WHILE API IS UPDATED
-        String imagePath = "https://d1doqjmisr497k.cloudfront.net/-/media/mccormick-us/recipes/grill-mates/c/800/cowboy-burger-with-grilled-pickles-and-crispy-onion-straws.jpg"; //jsonObject.getString("imagePath");
-
-        String category = jsonObject.getString("category");
-
-        ArrayList<DietaryTags> dietaryTags = new ArrayList<>();
-        JSONArray tags = jsonObject.getJSONArray("allergens");
-
-        // Loops through all allergens in the array and adds any that are present
-        for(int i = 0; i < tags.length(); i++){
-            if(tags.get(i).equals("MEAT")){
-                dietaryTags.add(DietaryTags.MEAT);
-            }
-            if(tags.get(i).equals("DAIRY")){
-                dietaryTags.add(DietaryTags.DAIRY);
-            }
-            if(tags.get(i).equals("NUTS")){
-                dietaryTags.add(DietaryTags.NUTS);
-            }
-            if(tags.get(i).equals("GLUTEN")){
-                dietaryTags.add(DietaryTags.GLUTEN);
-            }
-            if(tags.get(i).equals("SOY")){
-                dietaryTags.add(DietaryTags.SOY);
-            }
-        }
-
-        MenuItem newItem = new MenuItem(name,description,price,calories,imagePath,category,dietaryTags);
-        return newItem;
-    }
-
-    /**
      * requestMenus: This method takes in a JSONObject that represents a single MenuItem
      *                            and outputs the corresponding MenuItem object
      *
      * @param restaurantId A string of the restaurant ID parsed from the QR code URL
      * @param tableId A string of the table ID parsed from the QR code URL
-     * @author Mitchell Nelson, Riley Tschumper
+     * @author Mitchell Nelson, Riley Tschumper, Tim Callies
      */
     private void requestMenus(final String restaurantId, final String tableId){
         // Instantiate the RequestQueue.
@@ -184,41 +122,15 @@ public class LandingPageActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        try {
-                            JSONArray menuJSON = new JSONArray(response);
-                            ArrayList<Menu> menuList = new ArrayList<>();
+                        Type listType = new TypeToken<ArrayList<Menu>>(){}.getType();
+                        List<Menu> menuList = new Gson().fromJson(response, listType);
+                        List<Menu> activeMenus = APIUtils.getActiveMenus(menuList);
 
-                            // gets the current time in military time HHMM format
-                            SimpleDateFormat sdf = new SimpleDateFormat("HHMM");
-                            String dateString = sdf.format(new Date());
-                            int dateInt = Integer.parseInt(dateString);
-
-                            for (int i = 0; i < menuJSON.length(); i++){
-
-                                // Finds if a menu is to be shown during the current time
-                                JSONArray timeRangeArray = menuJSON.getJSONObject(i).getJSONArray("timeRanges");
-                                boolean validTime = false;
-                                for(int j = 0; j < timeRangeArray.length(); j++){
-                                    int startTime = timeRangeArray.getJSONObject(j).getInt("startTime");
-                                    int endTime = timeRangeArray.getJSONObject(j).getInt("endTime");
-                                    validTime |= startTime < dateInt && dateInt < endTime;
-                                }
-
-                                // Given an active menu that is valid during this time, add it to our current menu list to be displayed
-                                if(menuJSON.getJSONObject(i).getString("status").equals("ACTIVE") && validTime) {
-                                    menuList.add(createMenu(menuJSON.getJSONObject(i)));
-                                }
-                            }
-
-                            // Passes menuList to the next activity to be displayed on screen
-                            Intent intent = new Intent(getApplicationContext(), TopActivity.class);
-                            intent.putExtra("menuList", menuList);
-                            intent.putExtra("title", restaurantId + " - Table " + tableId);
-                            startActivity(intent);
-
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+                        // Passes menuList to the next activity to be displayed on screen
+                        Intent intent = new Intent(getApplicationContext(), TopActivity.class);
+                        intent.putExtra("menuList", (Serializable) activeMenus);
+                        intent.putExtra("title", restaurantId + " - Table " + tableId);
+                        startActivity(intent);
 
                     }
                 }, new Response.ErrorListener() {

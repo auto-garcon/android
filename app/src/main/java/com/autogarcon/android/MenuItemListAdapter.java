@@ -14,6 +14,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.autogarcon.android.API.Allergen;
+import com.autogarcon.android.API.MenuItem;
+
 /**
  * The adapter for the menu list RecyclerView
  * @author Riley Tschumper
@@ -23,7 +26,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
     private List<MenuItem> menuList;
     private List<MenuItem> menuListFiltered;
     private List<MenuItem> currentlyDisplayed;
-    private List<DietaryTags> currentFilters = new ArrayList<>();
+    private List<Allergen> currentFilters = new ArrayList<>();
 
     /**
      * Describes an item view and metadata about its place within the RecyclerView.
@@ -73,7 +76,7 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
         holder.description.setText(String.valueOf(menuItem.getDescription()));
         holder.calories.setText(String.format("(%d kcal)",menuItem.getCalories()));
         holder.price.setText(String.format("%.2f", menuItem.getPrice()));
-        ThumbnailManager.getInstance().getImage(menuItem.getImagePath(),holder.menuImage);
+        ThumbnailManager.getInstance().getImage(menuItem.getImageURL(),holder.menuImage);
     }
 
     @Override
@@ -105,8 +108,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
                     currentlyDisplayed = new ArrayList<>(menuList);
                     for(MenuItem row : menuList){
-                        for(DietaryTags tag : currentFilters) {
-                            if (row.getDietaryTags().contains(tag)) {
+                        for(Allergen tag : currentFilters) {
+                            if (row.getAllergens().contains(tag)) {
                                 currentlyDisplayed.remove(row);
                                 break;
                             }
@@ -119,40 +122,40 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
                             list of active filters
                         */
                         if(charString.equals("nomeat")){
-                            currentFilters.add(DietaryTags.MEAT);
+                            currentFilters.add(Allergen.MEAT);
                         }
                         if (charString.equals("meat")) {
-                            currentFilters.remove(DietaryTags.MEAT);
+                            currentFilters.remove(Allergen.MEAT);
                         }
                         if(charString.equals("nodairy")){
-                            currentFilters.add(DietaryTags.DAIRY);
+                            currentFilters.add(Allergen.DAIRY);
                         }
                         if (charString.equals("dairy")) {
-                            currentFilters.remove(DietaryTags.DAIRY);
+                            currentFilters.remove(Allergen.DAIRY);
                         }
                         if (charString.equals("nonuts")){
-                            currentFilters.add(DietaryTags.NUTS);
+                            currentFilters.add(Allergen.NUTS);
                         }
                         if (charString.equals("nuts")){
-                            currentFilters.remove(DietaryTags.NUTS);
+                            currentFilters.remove(Allergen.NUTS);
                         }
                         if (charString.equals("nogluten")){
-                            currentFilters.add(DietaryTags.GLUTEN);
+                            currentFilters.add(Allergen.GLUTEN);
                         }
                         if (charString.equals("gluten")){
-                            currentFilters.remove(DietaryTags.GLUTEN);
+                            currentFilters.remove(Allergen.GLUTEN);
                         }
                         if (charString.equals("nosoy")){
-                            currentFilters.add(DietaryTags.SOY);
+                            currentFilters.add(Allergen.SOY);
                         }
                         if (charString.equals("soy")){
-                            currentFilters.remove(DietaryTags.SOY);
+                            currentFilters.remove(Allergen.SOY);
                         }
 
                         currentlyDisplayed = new ArrayList<>(menuList);
                         for(MenuItem row : menuList){
-                            for(DietaryTags tag : currentFilters) {
-                                if (row.getDietaryTags().contains(tag)) {
+                            for(Allergen tag : currentFilters) {
+                                if (row.getAllergens().contains(tag)) {
                                     currentlyDisplayed.remove(row);
                                     break;
                                 }
@@ -164,8 +167,8 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
                         // First only displays the items based on the allergen filters
                         currentlyDisplayed = new ArrayList<>(menuList);
                         for (MenuItem row : menuList) {
-                            for (DietaryTags tag : currentFilters) {
-                                if (row.getDietaryTags().contains(tag)) {
+                            for (Allergen tag : currentFilters) {
+                                if (row.getAllergens().contains(tag)) {
                                     currentlyDisplayed.remove(row);
                                     break;
                                 }

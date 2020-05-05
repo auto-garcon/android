@@ -49,7 +49,6 @@ import java.io.IOException;
 
 import java.net.URL;
 import java.util.Optional;
-import java.net.URI;
 
 import static java.lang.Thread.sleep;
 

@@ -2,16 +2,15 @@ package com.autogarcon.android;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.autogarcon.android.API.MenuItem;
+import com.autogarcon.android.API.OrderItem;
 
 
 /**
@@ -49,7 +48,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
         price = (TextView) findViewById(R.id.itemFullPrice);
         largeImage = (ImageView) findViewById(R.id.itemFullImage);
         chefNote = (EditText) findViewById(R.id.itemFullChefNotes);
-        ThumbnailManager.getInstance().getImage(menuItem.getImagePath(),largeImage);
+        ThumbnailManager.getInstance().getImage(menuItem.getImageURL(),largeImage);
 
         name.setText(menuItem.getName());
         description.setText(menuItem.getDescription());
@@ -62,7 +61,9 @@ public class MenuItemFullActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderItem orderItem = new OrderItem(menuItem, chefNote.getText().toString());
+                OrderItem orderItem = new OrderItem();
+                orderItem.setMenuItem(menuItem);
+                orderItem.setChefNote(chefNote.getText().toString());
                 ActiveSession.getInstance().addOrder(orderItem);
                 setResult(2);
                 finish();

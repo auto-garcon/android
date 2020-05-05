@@ -8,13 +8,18 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.autogarcon.android.API.MenuItem;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * A bridge between CategoryList layout and data source that helps us to fill data into the layout.
  * @author Mitchell Nelson
  */
 public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.MyViewHolder> {
 
-    private Menu menu;
+    private List<Map.Entry<String, List<MenuItem>>> categories;
 
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView categoryName;
@@ -39,8 +44,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     }
 
-    public CategoryListAdapter(Menu menu) {
-        this.menu = menu;
+    public CategoryListAdapter(List<Map.Entry<String, List<MenuItem>>> categories) {
+        this.categories = categories;
     }
 
     @Override
@@ -52,37 +57,38 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     @Override
     public void onBindViewHolder(CategoryListAdapter.MyViewHolder holder, int position) {
-        Category category = menu.getCategories().get(position);
-        holder.categoryName.setText(String.valueOf(category.getName()));
+        Map.Entry<String, List<MenuItem>> category = categories.get(position);
 
-        if  (category.getMenuItems().size() == 1) {
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImageFull);
+        holder.categoryName.setText(category.getKey());
+
+        if  (category.getValue().size() == 1) {
+            ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImageFull);
         }
 
-        else if(category.getMenuItems().size() == 2) {
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage3);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage4);
+        else if(category.getValue().size() == 2) {
+            ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImage1);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(1).getImageURL(), holder.categoryImage2);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(1).getImageURL(), holder.categoryImage3);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImage4);
         }
 
-        else if(category.getMenuItems().size() == 3) {
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(2).getImagePath(), holder.categoryImage3);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage4);
+        else if(category.getValue().size() == 3) {
+            ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImage1);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(1).getImageURL(), holder.categoryImage2);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(2).getImageURL(), holder.categoryImage3);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImage4);
         }
 
-        else if(category.getMenuItems().size() >= 4) {
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(0).getImagePath(), holder.categoryImage1);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(1).getImagePath(), holder.categoryImage2);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(2).getImagePath(), holder.categoryImage3);
-            ThumbnailManager.getInstance().getImage(category.getMenuItems().get(3).getImagePath(), holder.categoryImage4);
+        else if(category.getValue().size() >= 4) {
+            ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImage1);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(1).getImageURL(), holder.categoryImage2);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(2).getImageURL(), holder.categoryImage3);
+            ThumbnailManager.getInstance().getImage(category.getValue().get(3).getImageURL(), holder.categoryImage4);
         }
     }
 
     @Override
     public int getItemCount() {
-        return menu.getCategories().size();
+        return categories.size();
     }
 }

@@ -3,6 +3,9 @@ package com.autogarcon.android;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.autogarcon.android.API.Allergen;
+import com.autogarcon.android.API.MenuItem;
+import com.autogarcon.android.API.OrderItem;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
@@ -20,22 +23,26 @@ import java.util.ArrayList;
  */
 public class ActiveSession implements Serializable {
 
-    private static final ActiveSession ourInstance = new ActiveSession();
+    private static ActiveSession ourInstance;
 
     private GoogleSignInAccount googleSignInAccount;
-    private String currentRestaurant;
     private int tableNumber;
     private ArrayList<OrderItem> orderItems;
     private String userId;
-    private CustomTheme restaurantTheme;
+    public Restaurant restaurant;
     private CustomTheme colorblindTheme;
-    private ArrayList<DietaryTags> allergenPreferences;
+    private ArrayList<Allergen> allergenPreferences;
     private Context applicationContext;
     /**
      * @return ActiveSession Singleton instance
      * @author Mitchell Nelson
      */
-    public static ActiveSession getInstance(){return ourInstance;}
+    public static ActiveSession getInstance(){
+        if(ourInstance == null) {
+            ourInstance = new ActiveSession();
+        }
+        return ourInstance;
+    }
 
     /**
      * Constructor for ActiveSession object
@@ -43,7 +50,7 @@ public class ActiveSession implements Serializable {
      */
     public ActiveSession(){
         this.orderItems = new ArrayList<>();
-        this.restaurantTheme = new CustomTheme();
+        this. restaurant = new Restaurant();
         this.colorblindTheme = new CustomTheme("#D81B60", null, "#1E88E5");
         applicationContext = MainActivity.getContextOfApplication();
         setPreferredAllergens();
@@ -54,28 +61,29 @@ public class ActiveSession implements Serializable {
      */
     public void setPreferredAllergens(){
         // Set default value for all allergens in Shared preferences file
-        allergenPreferences = new ArrayList<DietaryTags>();
+        allergenPreferences = new ArrayList<Allergen>();
+
         SharedPreferences sharedPref = applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE);
         String defaultValue = "False";
         String meat = sharedPref.getString("Meat", defaultValue);
         if (meat.equals("True")){
-            allergenPreferences.add(DietaryTags.MEAT);
+            allergenPreferences.add(Allergen.MEAT);
         }
         String dairy = sharedPref.getString("Dairy", defaultValue);
         if (dairy.equals("True")){
-            allergenPreferences.add(DietaryTags.DAIRY);
+            allergenPreferences.add(Allergen.DAIRY);
         }
         String nuts = sharedPref.getString("Nuts", defaultValue);
         if (nuts.equals("True")){
-            allergenPreferences.add(DietaryTags.NUTS);
+            allergenPreferences.add(Allergen.NUTS);
         }
         String gluten = sharedPref.getString("Gluten", defaultValue);
         if (gluten.equals("True")){
-            allergenPreferences.add(DietaryTags.GLUTEN);
+            allergenPreferences.add(Allergen.GLUTEN);
         }
         String soy = sharedPref.getString("Soy", defaultValue);
         if (soy.equals("True")){
-            allergenPreferences.add(DietaryTags.SOY);
+            allergenPreferences.add(Allergen.SOY);
         }
     }
     /**
@@ -83,7 +91,7 @@ public class ActiveSession implements Serializable {
      * @return Arraylist<DietaryTags> for all set allergens
      * @author Riley Tschumper
      */
-    public ArrayList<DietaryTags> getAllergenPreferences(){
+    public ArrayList<Allergen> getAllergenPreferences(){
         return allergenPreferences;
     }
 
@@ -102,24 +110,6 @@ public class ActiveSession implements Serializable {
      * @author Mitchell Nelson
      */
     public void setGoogleSignInAccount(GoogleSignInAccount googleSignInAccount){this.googleSignInAccount = googleSignInAccount;}
-
-    /**
-     * Getter method for the restaurant name
-     * @return String representing the restaurant name
-     * @author Mitchell Nelson
-     */
-    public String getCurrentRestaurant() {
-        return currentRestaurant;
-    }
-
-    /**
-     * Setter method for the name of the restauraunt that the customer is current at
-     * @param restaurantName New restrauant name to update the object with
-     * @author Mitchell Nelson
-     */
-    public void setCurrentRestaurant(String restaurantName){
-        currentRestaurant = restaurantName;
-    }
 
     /**
      * Getter method for the customer's table number
@@ -148,26 +138,12 @@ public class ActiveSession implements Serializable {
     public CustomTheme getCustomTheme() {
         //TODO: Determine if the user is in colorblind mode.
         if(true) {
-            return restaurantTheme;
+            return restaurant.getTheme();
         }
         else {
-            return restaurantTheme;
+            return colorblindTheme;
         }
     }
-
-    /**
-     * Getter method for the theme of the current restaurant.
-     * @return The restaurant's theme.
-     * @author Tim Callies
-     */
-    public CustomTheme getRestaurantTheme() { return restaurantTheme; }
-
-    /**
-     * Setter method for the restaurant's theme.
-     * @param restaurantTheme The restaurant's theme.
-     * @author Tim Callies
-     */
-    public void setRestaurantTheme(CustomTheme restaurantTheme) { this.restaurantTheme = restaurantTheme;}
 
     /**
      * Adds an Order object to the current session
@@ -204,6 +180,14 @@ public class ActiveSession implements Serializable {
      */
     public String getUserId(){
         return userId;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
     }
 
     /**
@@ -252,7 +236,7 @@ public class ActiveSession implements Serializable {
             JSONArray orders = new JSONArray();
             for (int i = 0; i < orderItems.size(); i++) {
                 JSONObject order = new JSONObject();
-                order.put("menuItem", orderItems.get(i).getMenuItem().getName());
+                order.put("menuItem", orderItems.get(i).getMenuItem().getPrice());
                 order.put("chefNote", orderItems.get(i).getChefNote());
                 orders.put(order);
             }

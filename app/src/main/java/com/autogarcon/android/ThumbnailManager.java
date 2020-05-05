@@ -78,6 +78,9 @@ public class ThumbnailManager {
      * @param store States whether or not the image will be stored after it is recieved.
      */
     private void helper(final String url, final ImageView imageView, final boolean store) {
+        if(url == null) {
+            return;
+        }
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {

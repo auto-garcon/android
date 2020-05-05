@@ -11,12 +11,15 @@ public class Restaurant {
     private List<RestaurantMenu> restaurantMenuList;
     private String name;
     private String logoUrl;
+    private CustomTheme theme;
+    private String description;
 
     /**
      * Initialize the restaurant with no data
      */
     public Restaurant() {
         this.restaurantMenuList = new ArrayList<>();
+        theme = new CustomTheme();
     }
 
     /**
@@ -39,20 +42,21 @@ public class Restaurant {
     public void setName(String name) {
         this.name = name;
     }
-
     public void setLogoUrl(String logoUrl) {
         this.logoUrl = logoUrl;
     }
+    public void setDescription(String description) {this.description = description;}
+    public void setTheme(CustomTheme theme) { this.theme = theme; }
 
     //Getters
     public String getName() {
         return name;
     }
-
     public String getLogoUrl() {
         return logoUrl;
     }
-
+    public String getDescription() {return description;}
+    public CustomTheme getTheme() {return theme;}
     public List<RestaurantMenu> getRestaurantHoursList() {
         return restaurantMenuList;
     }
@@ -79,24 +83,18 @@ public class Restaurant {
         public void setName(String name) {
             this.name = name;
         }
-
         public void setStartTime(String startTime) {
             this.startTime = startTime;
         }
-
         public void setEndTime(String endTime) {
             this.endTime = endTime;
         }
 
         //Getters
-        public String getName() {
-            return name;
-        }
-
+        public String getName() { return name; }
         public String getStartTime() {
             return startTime;
         }
-
         public String getEndTime() {
             return endTime;
         }

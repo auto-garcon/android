@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.autogarcon.android.API.Menu;
 
 import java.util.ArrayList;
 
@@ -40,7 +41,7 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
     @Override
     public void onBindViewHolder(MenuListAdapter.MyViewHolder holder, int position) {
         Menu menu = menuList.get(position);
-        holder.menuName.setText(String.valueOf(menu.getMenuName()));
+        holder.menuName.setText(menu.getMenuName());
         holder.menuImage.setImageResource(R.drawable.placeholder);
     }
 

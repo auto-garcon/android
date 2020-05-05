@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.autogarcon.android.API.OrderItem;
+
 /**
  * Creates a a list of price modifications that will be shown on every ReceiptAdapter.
  * @author Tim Callies

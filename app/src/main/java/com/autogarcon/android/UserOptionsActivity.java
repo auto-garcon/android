@@ -19,6 +19,7 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.autogarcon.android.API.Allergen;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -41,7 +42,7 @@ public class UserOptionsActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
 
-        ArrayList<DietaryTags> dietaryTagsArrayList = ActiveSession.getInstance().getAllergenPreferences();
+        ArrayList<Allergen> dietaryTagsArrayList = ActiveSession.getInstance().getAllergenPreferences();
         if(dietaryTagsArrayList != null) {
             String sizeAsString = Integer.toString(dietaryTagsArrayList.size());
             Log.d("NUMOFTRUETAGS", sizeAsString);

@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,7 +12,9 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.fragment.app.FragmentManager;
+
+import com.autogarcon.android.API.Allergen;
+import com.autogarcon.android.API.MenuItem;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -21,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
@@ -29,7 +31,7 @@ import ru.dimorinny.floatingtextbutton.FloatingTextButton;
  * @author Riley Tschumper
  */
 public class MenuItemListActivity extends AppCompatActivity {
-    private Category category;
+    List<MenuItem> category;
     private RecyclerView recyclerView;
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
@@ -52,7 +54,7 @@ public class MenuItemListActivity extends AppCompatActivity {
         setTitle(title);
 
         // sets category to the clicked category from the previous activity
-        this.category = (Category) getIntent().getSerializableExtra("category");
+        this.category = (List<MenuItem>) getIntent().getSerializableExtra("category");
 
         setContentView(R.layout.activity_menu_item_list);
 
@@ -70,7 +72,7 @@ public class MenuItemListActivity extends AppCompatActivity {
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MenuItemListAdapter(category.getMenuItems());
+        mAdapter = new MenuItemListAdapter(category);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -79,7 +81,7 @@ public class MenuItemListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(MenuItemListActivity.this, MenuItemFullActivity.class);
-                intent.putExtra("item", category.getMenuItems().get(position));
+                intent.putExtra("item", category.get(position));
                 intent.putExtra("title", title);
                 ImageView image = ((MenuItemListAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemListActivity.this, (View)image, "itemImage");
@@ -162,7 +164,7 @@ public class MenuItemListActivity extends AppCompatActivity {
      * @param item a MenuItem to be checked if a filter should be applied
      * @author Riley Tschumper
      */
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(android.view.MenuItem item){
         //Log.d("MENUITEM", item);
         switch(item.getItemId()){
             case R.id.meat_filter:
@@ -230,42 +232,42 @@ public class MenuItemListActivity extends AppCompatActivity {
      * @author Riley Tschumper
      */
     public void updateFilterPreferences(){
-        ArrayList<DietaryTags> allergenPreferences = ActiveSession.getInstance().getAllergenPreferences();
+        ArrayList<Allergen> allergenPreferences = ActiveSession.getInstance().getAllergenPreferences();
         if(allergenPreferences != null) {
-            if(allergenPreferences.contains(DietaryTags.MEAT)) {
-                MenuItem meatItem = filterMenu.findItem(R.id.meat_filter);
+            if(allergenPreferences.contains(Allergen.MEAT)) {
+                android.view.MenuItem meatItem = filterMenu.findItem(R.id.meat_filter);
                 if (meatItem.isChecked()) {
                     // If item already checked then unchecked it
                     meatItem.setChecked(false);
                     mAdapter.getFilter().filter("filternomeat");
                 }
             }
-            if(allergenPreferences.contains(DietaryTags.NUTS)) {
-                MenuItem nutsItem = filterMenu.findItem(R.id.nuts_filter);
+            if(allergenPreferences.contains(Allergen.NUTS)) {
+                android.view.MenuItem nutsItem = filterMenu.findItem(R.id.nuts_filter);
                 if (nutsItem.isChecked()) {
                     // If item already checked then unchecked it
                     nutsItem.setChecked(false);
                     mAdapter.getFilter().filter("filternonuts");
                 }
             }
-            if(allergenPreferences.contains(DietaryTags.GLUTEN)) {
-                MenuItem glutenItem = filterMenu.findItem(R.id.gluten_filter);
+            if(allergenPreferences.contains(Allergen.GLUTEN)) {
+                android.view.MenuItem glutenItem = filterMenu.findItem(R.id.gluten_filter);
                 if (glutenItem.isChecked()) {
                     // If item already checked then unchecked it
                     glutenItem.setChecked(false);
                     mAdapter.getFilter().filter("filternogluten");
                 }
             }
-            if(allergenPreferences.contains(DietaryTags.DAIRY)) {
-                MenuItem dairyItem = filterMenu.findItem(R.id.dairy_filter);
+            if(allergenPreferences.contains(Allergen.DAIRY)) {
+                android.view.MenuItem dairyItem = filterMenu.findItem(R.id.dairy_filter);
                 if (dairyItem.isChecked()) {
                     // If item already checked then unchecked it
                     dairyItem.setChecked(false);
                     mAdapter.getFilter().filter("filternodairy");
                 }
             }
-            if(allergenPreferences.contains(DietaryTags.SOY)) {
-                MenuItem soyItem = filterMenu.findItem(R.id.soy_filter);
+            if(allergenPreferences.contains(Allergen.SOY)) {
+                android.view.MenuItem soyItem = filterMenu.findItem(R.id.soy_filter);
                 if (soyItem.isChecked()) {
                     // If item already checked then unchecked it
                     soyItem.setChecked(false);
