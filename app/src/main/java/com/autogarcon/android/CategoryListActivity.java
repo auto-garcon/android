@@ -100,6 +100,7 @@ public class CategoryListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cartButton.setVisibility(View.GONE);
+                ActiveSession.getInstance().setButtonFlag(true);
                 setResult(4);
                 finish();
             }

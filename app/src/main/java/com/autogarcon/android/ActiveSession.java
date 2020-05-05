@@ -33,6 +33,8 @@ public class ActiveSession implements Serializable {
     private CustomTheme colorblindTheme;
     private ArrayList<Allergen> allergenPreferences;
     private Context applicationContext;
+    private boolean buttonFlag = false;
+
     /**
      * @return ActiveSession Singleton instance
      * @author Mitchell Nelson
@@ -215,6 +217,13 @@ public class ActiveSession implements Serializable {
         return totalPrice;
     }
 
+    public boolean getButtonFlag(){
+        return buttonFlag;
+    }
+
+    public void setButtonFlag(boolean wasClicked){
+        buttonFlag = wasClicked;
+    }
     /**
      * Performs an HTTP request to the server to get an updated status of all orders
      * that have been submitted by the user
