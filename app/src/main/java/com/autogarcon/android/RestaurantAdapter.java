@@ -1,13 +1,23 @@
 package com.autogarcon.android;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.Restaurant;
 
 import java.util.List;
 
@@ -15,7 +25,7 @@ import java.util.List;
  * Creates a view for a restaurant that is used on the user settings screen to display favorites.
  * @Author Tim Callies
  */
-public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.MyViewHolder> {
+public abstract class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.MyViewHolder> {
     private RecyclerView.RecycledViewPool viewPool;
     private List<Restaurant> restaurantList;
 
@@ -28,6 +38,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
         public RecyclerView restaurantHours;
         public ImageView restaurantLogo;
         public TextView restaurantName;
+        public Button removeButton;
 
         /**
          * Binds layout views to local variables
@@ -40,6 +51,7 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
             restaurantHours = (RecyclerView) view.findViewById(R.id.list_restaurant_hours);
             restaurantHours.setLayoutManager(new LinearLayoutManager(view.getContext()));
             restaurantHours.setRecycledViewPool(viewPool);
+            removeButton = (Button) view.findViewById(R.id.restuarant_remove_button);
 
         }
 
@@ -62,16 +74,23 @@ public class RestaurantAdapter extends RecyclerView.Adapter<RestaurantAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(RestaurantAdapter.MyViewHolder holder, int position) {
-        Restaurant restaurant = restaurantList.get(position);
+    public void onBindViewHolder(RestaurantAdapter.MyViewHolder holder, final int position) {
+        final Restaurant restaurant = restaurantList.get(position);
         RestaurantHoursAdapter adapter = new RestaurantHoursAdapter(restaurant);
         holder.restaurantHours.setAdapter(adapter);
-        holder.restaurantName.setText(restaurant.getName());
-        ThumbnailManager.getInstance().getImage(restaurant.getLogoUrl(), holder.restaurantLogo);
+        holder.restaurantName.setText(restaurant.getRestaurantName());
+        holder.removeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeItem(restaurant.getRestaurantID());
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return restaurantList.size();
     }
+
+    public abstract void removeItem(int restauarantID);
 }

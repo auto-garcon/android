@@ -19,10 +19,24 @@ import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.APIUtils;
 import com.autogarcon.android.API.Allergen;
+import com.autogarcon.android.API.FavoriteMenu;
+import com.autogarcon.android.API.Menu;
+import com.autogarcon.android.API.Restaurant;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,11 +50,16 @@ public class UserOptionsActivity extends AppCompatActivity {
     private ImageView userOptionsImage;
     private Button userSignout;
     private Button viewAccount;
+    private Button addCurrentRestaurant;
+    private RequestQueue queue;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_user_options);
+
+        queue = Volley.newRequestQueue(this);
 
         ArrayList<Allergen> dietaryTagsArrayList = ActiveSession.getInstance().getAllergenPreferences();
         if(dietaryTagsArrayList != null) {
@@ -55,6 +74,7 @@ public class UserOptionsActivity extends AppCompatActivity {
         userOptionsName = (TextView) findViewById(R.id.user_options_name);
         userOptionsImage = (ImageView) findViewById(R.id.user_options_image);
         userSignout = (Button) findViewById(R.id.user_signout);
+        addCurrentRestaurant = (Button) findViewById(R.id.user_options_add_restaurant);
         viewAccount = (Button) findViewById(R.id.viewAccount);
 
         userSignout.setOnClickListener(new View.OnClickListener() {
@@ -63,7 +83,12 @@ public class UserOptionsActivity extends AppCompatActivity {
                 signOut();
             }
         });
-
+        addCurrentRestaurant.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addRestaurantAsFavorite();
+            }
+        });
         viewAccount.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent();
@@ -141,28 +166,8 @@ public class UserOptionsActivity extends AppCompatActivity {
             checkBoxSoy.setChecked(true);
         }
 
-        // Dummy data
-        List<Restaurant> restaurantList = new ArrayList<>();
-        Restaurant restaurant1 = new Restaurant();
-        restaurant1.setName("Blue Door Pub");
-        restaurant1.setLogoUrl("https://www.sporcle.com/blog/wp-content/uploads/2018/08/1-36.jpg");
-        restaurant1.addRestaurantMenu("Lunch", "10:00AM", "4:00PM");
-        restaurant1.addRestaurantMenu("Dinner", "3:00PM", "8:00PM");
-        restaurantList.add(restaurant1);
-        Restaurant restaurant2 = new Restaurant();
-        restaurant2.setName("McDonalds");
-        restaurant2.setLogoUrl("https://1000logos.net/wp-content/uploads/2017/03/McDonalds-Logo.png");
-        restaurant2.addRestaurantMenu("Breakfast", "7:00AM", "11:00AM");
-        restaurant2.addRestaurantMenu("Lunch", "11:00AM", "3:30PM");
-        restaurant2.addRestaurantMenu("Dinner", "3:00PM", "8:00PM");
-        restaurantList.add(restaurant2);
 
-        // Prepare the restaurant adapter
-        RestaurantAdapter mAdapter = new RestaurantAdapter(restaurantList);
-        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.setAdapter(mAdapter);
+        getFavoriteRestaurants();
 
         // Fill in the user data
         userOptionsName.setText(ActiveSession.getInstance().getGoogleSignInAccount().getDisplayName());
@@ -175,6 +180,112 @@ public class UserOptionsActivity extends AppCompatActivity {
 
         // Apply the CustomTheme
         ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
+
+    /**
+     * Makes a request to add a single restaurant to the favorites
+     */
+    public void addRestaurantAsFavorite() {
+        // Request a string response from the provided URL.
+        String apiURL = String.format("https://autogarcon.live/api/users/%s/favorites/restaurant/%d/add",
+                ActiveSession.getInstance().getUserId(), ActiveSession.getInstance().getRestaurant().getRestaurantID());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        getFavoriteRestaurants();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEYERROR" ,"That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+    }
+
+    /**
+     * Makes a request to retrieve a user's favorite restaurants.
+     * @author Tim Callies
+     */
+    public void getFavoriteRestaurants() {
+        String apiURL = String.format("https://autogarcon.live/api/users/%s/favorites",
+                ActiveSession.getInstance().getUserId());
+
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Type listType = new TypeToken<ArrayList<FavoriteMenu>>(){}.getType();
+                        List<FavoriteMenu> favoriteMenus = new Gson().fromJson(response, listType);
+                        List<Restaurant> restaurants = APIUtils.getRestuarantsFromFavoritesList(favoriteMenus);
+                        RestaurantAdapter mAdapter = new RestaurantAdapter(restaurants) {
+                            @Override
+                            public void removeItem(int restauarantID) {
+                                String apiURL = String.format("https://autogarcon.live/api/users/%s/favorites/restaurant/%d/remove",
+                                        ActiveSession.getInstance().getUserId(), ActiveSession.getInstance().getRestaurant().getRestaurantID());
+
+                                StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL,
+                                        new Response.Listener<String>() {
+                                            @Override
+                                            public void onResponse(String response) {
+                                                getFavoriteRestaurants();
+                                            }
+                                        }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("VOLLEYERROR" ,"That didn't work!");
+                                    }
+                                });
+
+                                // Add the request to the RequestQueue.
+                                queue.add(stringRequest);
+                            }
+                        };
+                        RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+
+                        recyclerView.setLayoutManager(mLayoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        recyclerView.setAdapter(mAdapter);
+
+                        if(ActiveSession.getInstance().getRestaurant() != null) {
+                            addCurrentRestaurant.setVisibility(View.VISIBLE);
+
+                            for (Restaurant restaurant : restaurants) {
+                                if(restaurant.getRestaurantID() ==  ActiveSession.getInstance().getRestaurant().getRestaurantID()) {
+                                    addCurrentRestaurant.setVisibility(View.GONE);
+                                }
+                            }
+                        }
+                        else {
+                            addCurrentRestaurant.setVisibility(View.GONE);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getApplicationContext(), 2);
+
+                recyclerView.setLayoutManager(mLayoutManager);
+                recyclerView.setAdapter(null);
+
+                if(ActiveSession.getInstance().getRestaurant() != null) {
+                    addCurrentRestaurant.setVisibility(View.VISIBLE);
+                }
+                else {
+                    addCurrentRestaurant.setVisibility(View.GONE);
+                }
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
 
     /**

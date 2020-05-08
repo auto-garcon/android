@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.autogarcon.android.API.Allergen;
 import com.autogarcon.android.API.MenuItem;
 import com.autogarcon.android.API.OrderItem;
+import com.autogarcon.android.API.Restaurant;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 
 import org.json.JSONArray;
@@ -29,7 +30,7 @@ public class ActiveSession implements Serializable {
     private int tableNumber;
     private ArrayList<OrderItem> orderItems;
     private String userId;
-    public Restaurant restaurant;
+    private Restaurant restaurant;
     private CustomTheme colorblindTheme;
     private ArrayList<Allergen> allergenPreferences;
     private Context applicationContext;
@@ -57,6 +58,9 @@ public class ActiveSession implements Serializable {
         applicationContext = MainActivity.getContextOfApplication();
         setPreferredAllergens();
     }
+
+
+
     /**
      * Sets the preferredAllergen settings from the shared preferences file
      * @author Riley Tschumper
@@ -140,7 +144,7 @@ public class ActiveSession implements Serializable {
     public CustomTheme getCustomTheme() {
         //TODO: Determine if the user is in colorblind mode.
         if(true) {
-            return restaurant.getTheme();
+            return new CustomTheme();
         }
         else {
             return colorblindTheme;
@@ -181,7 +185,8 @@ public class ActiveSession implements Serializable {
      * @author Mitchell Nelson
      */
     public String getUserId(){
-        return userId;
+        return applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE)
+                .getString("userID", null);
     }
 
     public Restaurant getRestaurant() {
@@ -198,7 +203,8 @@ public class ActiveSession implements Serializable {
      * @author Mitchell Nelson
      */
     public void setUserId(String userID){
-        this.userId = userID;
+        applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE)
+                .edit().putString("userID", userID).apply();
     }
 
     /**
