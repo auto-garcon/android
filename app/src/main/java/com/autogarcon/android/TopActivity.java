@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -30,24 +31,40 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.view.Gravity;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.RequestFuture;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.APIUtils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 
+import java.io.Serializable;
+import java.lang.reflect.Type;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static java.lang.Thread.sleep;
@@ -58,6 +75,10 @@ import static java.lang.Thread.sleep;
  * @author Tim Callies
  */
 public class TopActivity extends AppCompatActivity {
+
+    private Menu menu;
+    private ToggleButton toggleButton;
+    private Boolean inFavorites = false;
     
     ConstraintLayout constraintLayout;
     /**
@@ -125,7 +146,14 @@ public class TopActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(final Menu menu){
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_favorite, menu);
         getMenuInflater().inflate(R.menu.menu_help,menu);
+
+        menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+
+        setFavoriteStar();
+        Log.d("FAVORITE", "here");
 
         final Uri uri = ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl();
         if (uri != null) {
@@ -156,6 +184,52 @@ public class TopActivity extends AppCompatActivity {
             getMenuInflater().inflate(R.menu.user_profile, menu);
         }
         return true;
+    }
+
+    public void setFavoriteStar(){
+        final String userId = ActiveSession.getInstance().getUserId();
+        Log.d("UserID", userId);
+        final String restaurantId = ActiveSession.getInstance().getCurrentRestaurantId();
+
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+        String getFavoritesRequestURL = "https://autogarcon.live/api/users/" + userId + "/favorites";
+        String addToFavoritesURL = "https://autogarcon.live/api/users/" + userId + "/favorites/restaurant/" + restaurantId + "/add";
+
+        //If this restaurant is already on our favorites, then leave it
+        // Send request with api/users/:userid/favorites
+
+
+        //final String restaurantId = ActiveSession.getInstance().getRestaurant()
+
+        // Request a string response from the provided URL.
+        StringRequest favoritesRequest = new StringRequest(Request.Method.GET, getFavoritesRequestURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Type listType = new TypeToken<ArrayList<com.autogarcon.android.API.Favorites>>(){}.getType();
+                        List<com.autogarcon.android.API.Favorites> favoritesList = new Gson().fromJson(response, listType);
+                        Log.d("ISTHISCALLED", "YES");
+                        inFavorites = APIUtils.currentlyFavorite(favoritesList);
+                        if(inFavorites) {
+                            Log.d("INFAVORITES", "TRUE");
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_white_24dp));
+                            ActiveSession.getInstance().setFavoritesStarFlag(true);
+                        } else{
+                            Log.d("INFAVORITES", "FALSE");
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+                            ActiveSession.getInstance().setFavoritesStarFlag(false);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEYERROR" ,"That didn't work!");
+            }
+        });
+        MyRequestQueue.add(favoritesRequest);
+        //return inFavorites;
     }
 
     @Override
@@ -205,6 +279,59 @@ public class TopActivity extends AppCompatActivity {
                 }
             });
             return true;
+        }
+
+        if(id == R.id.favoritesswitch){
+
+            Log.d("Something", "Anything");
+
+            final String userId = ActiveSession.getInstance().getUserId();
+            Log.d("UserID", userId);
+            final String restaurantId = ActiveSession.getInstance().getCurrentRestaurantId();
+
+            RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+            String getFavoritesRequestURL = "https://autogarcon.live/api/users/" + userId + "/favorites";
+            String addToFavoritesURL = "https://autogarcon.live/api/users/" + userId + "/favorites/restaurant/" + restaurantId + "/add";
+            String removeFromFavoritesURL = "https://autogarcon.live/api/users/" + userId + "/favorites/restaurant/" + restaurantId + "/remove";
+
+            // If currently set to true, remove from favorites and change icon to border star
+            if(ActiveSession.getInstance().getFavoritesStarFlag()){
+                StringRequest removeRequest = new StringRequest(Request.Method.POST, removeFromFavoritesURL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("REMOVED", "YES");
+                                menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+                                ActiveSession.getInstance().setFavoritesStarFlag(false);
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("VOLLEYERROR" ,"That didn't work!");
+                    }
+                });
+                MyRequestQueue.add(removeRequest);
+            }
+            else{
+                StringRequest addRequest = new StringRequest(Request.Method.POST, addToFavoritesURL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("ADDED", "YES");
+                                menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_white_24dp));
+                                ActiveSession.getInstance().setFavoritesStarFlag(true);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("VOLLEYERROR" ,"That didn't work!");
+                    }
+                });
+                MyRequestQueue.add(addRequest);
+            }
+
         }
 
         if(id == R.id.user_profile) {

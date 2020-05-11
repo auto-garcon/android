@@ -3,6 +3,8 @@ package com.autogarcon.android.API;
 import android.util.ArrayMap;
 import android.util.Log;
 
+import com.autogarcon.android.ActiveSession;
+
 import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
@@ -85,5 +87,17 @@ public class APIUtils {
             }
         }
         return output;
+    }
+
+    public static boolean currentlyFavorite(List<Favorites> favoritesList){
+        Log.d("Length", Integer.toString(favoritesList.size()));
+        for (Favorites fav : favoritesList){
+            Log.d("currentFavs", Integer.toString(fav.getRestaurantID()));
+            Log.d("activeFavs", ActiveSession.getInstance().getCurrentRestaurantId());
+            if(fav.getRestaurantID() == Integer.parseInt(ActiveSession.getInstance().getCurrentRestaurantId())){
+                return true;
+            }
+        }
+        return false;
     }
 }

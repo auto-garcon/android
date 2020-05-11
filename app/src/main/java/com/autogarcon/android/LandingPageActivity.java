@@ -91,6 +91,7 @@ public class LandingPageActivity extends AppCompatActivity {
         welcome.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ActiveSession.getInstance().setCurrentRestaurantId("5");
                 requestMenus("5","5");
             }
         });
@@ -169,6 +170,7 @@ public class LandingPageActivity extends AppCompatActivity {
             if(matcher.matches()) {
                 // parses out the restaurantId and tableId from the QR code URL
                 final String restaurantId = matcher.group(1);
+                ActiveSession.getInstance().setCurrentRestaurantId(restaurantId);
                 final String tableId = matcher.group(2);
 
                 requestMenus(restaurantId, tableId);

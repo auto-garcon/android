@@ -162,6 +162,7 @@ public class Signin extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Set the userId from server
+                        Log.d("UserID", response);
                         ActiveSession.getInstance().setUserId(response);
                     }
                 },

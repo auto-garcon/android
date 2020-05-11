@@ -34,6 +34,8 @@ public class ActiveSession implements Serializable {
     private ArrayList<Allergen> allergenPreferences;
     private Context applicationContext;
     private boolean buttonFlag = false;
+    private String currentRestaurantId;
+    private boolean favoritesStarFlag = false;
 
     /**
      * @return ActiveSession Singleton instance
@@ -57,6 +59,23 @@ public class ActiveSession implements Serializable {
         applicationContext = MainActivity.getContextOfApplication();
         setPreferredAllergens();
     }
+
+    public boolean getFavoritesStarFlag() {
+        return favoritesStarFlag;
+    }
+
+    public void setFavoritesStarFlag(boolean favoritesStarFlag) {
+        this.favoritesStarFlag = favoritesStarFlag;
+    }
+
+    public void setCurrentRestaurantId(String id){
+        currentRestaurantId = id;
+    }
+
+    public String getCurrentRestaurantId(){
+        return currentRestaurantId;
+    }
+
     /**
      * Sets the preferredAllergen settings from the shared preferences file
      * @author Riley Tschumper
