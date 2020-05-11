@@ -2,6 +2,7 @@ package com.autogarcon.android.API;
 
 import java.io.Serializable;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Menu implements Serializable {
@@ -12,9 +13,35 @@ public class Menu implements Serializable {
     private String menuName;
     private int restaurantID;
 
-    public class TimeRange implements Serializable {
-        public int startTime;
-        public int endTime;
+    public Menu() {
+        this.timeRanges = new ArrayList<>();
+        this.menuItems = new ArrayList<>();
+    }
+
+    public static class TimeRange implements Serializable {
+        private int startTime;
+        private int endTime;
+
+        public int getStartTime() {
+            return startTime;
+        }
+
+        public void setStartTime(int startTime) {
+            this.startTime = startTime;
+        }
+
+        public int getEndTime() {
+            return endTime;
+        }
+
+        public void setEndTime(int endTime) {
+            this.endTime = endTime;
+        }
+
+        public TimeRange(int startTime, int endTime) {
+            this.startTime = startTime;
+            this.endTime = endTime;
+        }
     }
 
     public enum MenuStatus {

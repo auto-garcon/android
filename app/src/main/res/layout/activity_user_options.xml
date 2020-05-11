@@ -9,6 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <LinearLayout
@@ -165,8 +166,19 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/user_options_restaurant_list"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
+            android:nestedScrollingEnabled="false"
+            android:scrollbars="none"
             tools:itemCount="14"
-            tools:listitem="@layout/list_restaurant" />
+            tools:listitem="@layout/list_restaurant">
+
+        </androidx.recyclerview.widget.RecyclerView>
+
+        <Button
+            android:id="@+id/user_options_add_restaurant"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/add_current_restaurant"
+            android:visibility="gone" />
     </LinearLayout>
 </ScrollView>

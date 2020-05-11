@@ -7,13 +7,19 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.autogarcon.android.API.Menu;
+import com.autogarcon.android.API.Restaurant;
+
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 /**
  * Creates a view for a menu name along with the associated hours.
  */
 public class RestaurantHoursAdapter extends RecyclerView.Adapter<RestaurantHoursAdapter.MyViewHolder> {
-    private List<Restaurant.RestaurantMenu> hoursList;
+    private List<Menu> menuList;
     public class MyViewHolder extends RecyclerView.ViewHolder {
         TextView restaurantHoursStart;
         TextView restaurantHoursEnd;
@@ -35,7 +41,7 @@ public class RestaurantHoursAdapter extends RecyclerView.Adapter<RestaurantHours
      * @param restaurant The restaurant that we want to look at.
      */
     public RestaurantHoursAdapter(Restaurant restaurant) {
-        this.hoursList = restaurant.getRestaurantHoursList();
+        this.menuList = restaurant.getMenuList();
     }
 
     @Override
@@ -47,14 +53,23 @@ public class RestaurantHoursAdapter extends RecyclerView.Adapter<RestaurantHours
 
     @Override
     public void onBindViewHolder(RestaurantHoursAdapter.MyViewHolder holder, int position) {
-        Restaurant.RestaurantMenu menu = hoursList.get(position);
-        holder.restaurantHoursName.setText(menu.getName());
-        holder.restaurantHoursStart.setText(menu.getStartTime());
-        holder.restaurantHoursEnd.setText(menu.getStartTime());
+        Menu menu = menuList.get(position);
+        holder.restaurantHoursName.setText(menu.getMenuName());
+        SimpleDateFormat inFormat = new SimpleDateFormat("HHMM");
+        SimpleDateFormat outFormat = new SimpleDateFormat("hh:mm a");
+        try{
+            holder.restaurantHoursStart.setText(outFormat.format(inFormat.parse(
+                    String.valueOf(menu.getTimeRanges().get(0).getStartTime()))));
+            holder.restaurantHoursEnd.setText(outFormat.format(inFormat.parse(
+                    String.valueOf(menu.getTimeRanges().get(0).getEndTime()))));
+
+
+
+        }catch (ParseException pe) {}
     }
 
     @Override
     public int getItemCount() {
-        return hoursList.size();
+        return menuList.size();
     }
 }

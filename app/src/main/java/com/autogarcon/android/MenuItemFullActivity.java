@@ -60,6 +60,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
         price.setText(String.format("$%.2f",menuItem.getPrice()));
 
 
+
         chefNote.addTextChangedListener(mTextEditorWatcher);
 
         // Apply the CustomTheme

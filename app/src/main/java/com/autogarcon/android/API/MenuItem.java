@@ -3,6 +3,7 @@ package com.autogarcon.android.API;
 import android.util.Log;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MenuItem implements Serializable {
@@ -14,6 +15,10 @@ public class MenuItem implements Serializable {
     private int calories;
     private String imageURL;
     private float price;
+
+    public MenuItem() {
+        this.allergens = new ArrayList<>();
+    }
 
     public int getItemID() {
         return itemID;

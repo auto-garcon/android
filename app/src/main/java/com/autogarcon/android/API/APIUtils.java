@@ -70,14 +70,14 @@ public class APIUtils {
             for (Menu.TimeRange timeRange : menu.getTimeRanges()) {
                 int currentTime = Integer.parseInt(dateFormat.format(new Date()));
                 // If the time range goes through midnight
-                if(timeRange.startTime > timeRange.endTime) {
-                    if(currentTime > timeRange.startTime || currentTime < timeRange.endTime) {
+                if(timeRange.getStartTime() > timeRange.getEndTime()) {
+                    if(currentTime > timeRange.getStartTime() || currentTime < timeRange.getEndTime()) {
                         active = true;
                     }
                 }
                 // If the time range is normal.
                 else {
-                    if(currentTime >= timeRange.startTime && currentTime <= timeRange.endTime) {
+                    if(currentTime >= timeRange.getStartTime() && currentTime <= timeRange.getEndTime()) {
                         active = true;
                     }
                 }
@@ -89,15 +89,64 @@ public class APIUtils {
         return output;
     }
 
-    public static boolean currentlyFavorite(List<Favorites> favoritesList){
+    public static boolean currentlyFavorite(List<Favorites> favoritesList) {
         Log.d("Length", Integer.toString(favoritesList.size()));
-        for (Favorites fav : favoritesList){
+        for (Favorites fav : favoritesList) {
             Log.d("currentFavs", Integer.toString(fav.getRestaurantID()));
             Log.d("activeFavs", ActiveSession.getInstance().getCurrentRestaurantId());
-            if(fav.getRestaurantID() == Integer.parseInt(ActiveSession.getInstance().getCurrentRestaurantId())){
+            if (fav.getRestaurantID() == Integer.parseInt(ActiveSession.getInstance().getCurrentRestaurantId())) {
                 return true;
             }
         }
         return false;
+    }
+    /**
+     * Generates a more useful list of restaurants and menus based on the input we recieve from
+     * the FavoriteMenu
+     * @author Tim Callies
+     * @param favoriteMenus The list that is recieved from /user/:userID/favorites/
+     * @return A list of Restaurants that are only populated with the data that can be inferred
+     * from FavoriteMenu.
+     */
+    public static List<Restaurant> getRestuarantsFromFavoritesList(List<FavoriteMenu> favoriteMenus) {
+        List<Restaurant> restaurants = new ArrayList<>();
+
+
+        for (FavoriteMenu favoriteMenu : favoriteMenus) {
+            Restaurant restaurant = null;
+            // Try to find the restauarant.
+            for (Restaurant r : restaurants) {
+                if(r.getRestaurantID() == favoriteMenu.getRestaurantID()) {
+                    restaurant = r;
+                }
+            }
+            // If it does not exist, add the restaurant.
+            if(restaurant == null) {
+                restaurant = new Restaurant();
+                restaurant.setRestaurantName(favoriteMenu.getRestaurantName());
+                restaurant.setRestaurantID(favoriteMenu.getRestaurantID());
+                restaurants.add(restaurant);
+            }
+
+            // Try to find the menu.
+            Menu menu = null;
+            for (Menu m : restaurant.getMenuList()) {
+                if(m.getMenuID() == favoriteMenu.getMenuID()) {
+                    menu = m;
+                }
+            }
+            // If it does not exist, add the menu.
+            if(menu == null) {
+                menu = new Menu();
+                menu.setMenuName(favoriteMenu.getMenuName());
+                menu.setMenuID(favoriteMenu.getMenuID());
+                restaurant.getMenuList().add(menu);
+            }
+
+            // Add the timeRange
+            menu.getTimeRanges().add(new Menu.TimeRange(favoriteMenu.getStartTime(), favoriteMenu.getEndTime()));
+        }
+
+        return restaurants;
     }
 }

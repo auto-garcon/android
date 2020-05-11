@@ -46,6 +46,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.autogarcon.android.API.APIUtils;
+import com.autogarcon.android.API.Restaurant;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -133,6 +134,24 @@ public class LandingPageActivity extends AppCompatActivity {
                         intent.putExtra("title", restaurantId + " - Table " + tableId);
                         startActivity(intent);
 
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEYERROR" ,"That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+
+        apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId ;
+        stringRequest = new StringRequest(Request.Method.GET, apiURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Restaurant restaurant = new Gson().fromJson(response, Restaurant.class);
+                        ActiveSession.getInstance().setRestaurant(restaurant);
                     }
                 }, new Response.ErrorListener() {
             @Override
