@@ -29,6 +29,8 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +185,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
         initialiseDetectorsAndSources();
     }
 }

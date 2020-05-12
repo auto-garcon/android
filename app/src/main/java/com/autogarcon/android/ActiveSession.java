@@ -32,6 +32,8 @@ public class ActiveSession implements Serializable {
     private String userId;
     private Restaurant restaurant;
     private CustomTheme colorblindTheme;
+    private CustomTheme defaultTheme;
+    private CustomTheme restaurantTheme;
     private ArrayList<Allergen> allergenPreferences;
     private Context applicationContext;
     private boolean buttonFlag = false;
@@ -55,8 +57,10 @@ public class ActiveSession implements Serializable {
      */
     public ActiveSession(){
         this.orderItems = new ArrayList<>();
-        this. restaurant = new Restaurant();
+        this.restaurant = new Restaurant();
         this.colorblindTheme = new CustomTheme("#D81B60", null, "#1E88E5");
+        this.defaultTheme = new CustomTheme();
+
         applicationContext = MainActivity.getContextOfApplication();
         setPreferredAllergens();
     }
@@ -159,11 +163,14 @@ public class ActiveSession implements Serializable {
      */
     public CustomTheme getCustomTheme() {
         //TODO: Determine if the user is in colorblind mode.
-        if(true) {
-            return new CustomTheme();
+        if(getColorblindMode()) {
+            return colorblindTheme;
+        }
+        else if (restaurantTheme != null) {
+            return restaurantTheme;
         }
         else {
-            return colorblindTheme;
+            return defaultTheme;
         }
     }
 
@@ -205,12 +212,43 @@ public class ActiveSession implements Serializable {
                 .getString("userID", null);
     }
 
+    /**
+     * Gets the colorblind mode preference from the shared preferences
+     * @return The colorblind preference
+     * @author Tim Callies
+     */
+    public boolean getColorblindMode(){
+        return applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE)
+                .getBoolean("colorblindMode", false);
+    }
+
+    /**
+     * Sets the colorblind shared preference
+     * @param colorblindMode True if colorblind mode should be enabled.
+     * @author Tim Callies
+     */
+    public void setColorblindMode(boolean colorblindMode){
+        applicationContext.getSharedPreferences(applicationContext.getString(R.string.preferences),Context.MODE_PRIVATE)
+                .edit().putBoolean("colorblindMode", colorblindMode).apply();
+    }
+
     public Restaurant getRestaurant() {
         return restaurant;
     }
 
+    /**
+     * Attempts to set the restaurant, and will generate the restaurant theme if possible.
+     * @param restaurant The new restaurant
+     * @author Tim Callies
+     */
     public void setRestaurant(Restaurant restaurant) {
         this.restaurant = restaurant;
+        if(this.restaurant.getPrimaryColor() != null) {
+            this.restaurantTheme = new CustomTheme(restaurant.getPrimaryColor(),restaurant.getSecondaryColor());
+        }
+        else {
+            this.restaurantTheme = null;
+        }
     }
 
     /**

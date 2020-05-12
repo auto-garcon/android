@@ -13,6 +13,14 @@ import android.util.Log;
  */
 public class MainActivity extends AppCompatActivity {
     public static Context contextOfApplication;
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

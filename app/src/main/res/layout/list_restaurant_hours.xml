@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="34dp"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:orientation="horizontal"
     android:padding="4dp">
 
@@ -11,20 +11,17 @@
         android:id="@+id/list_restaurant_hours_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="12dp"
-        tools:text="MENU" />
-
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="wrap_content"
-        android:layout_height="1dp"
-        android:layout_margin="8dp"
         android:layout_weight="1"
-        android:background="?android:attr/listDivider" />
+        android:ellipsize="end"
+        android:lines="1"
+        android:scrollHorizontally="true"
+        android:textSize="12dp"
+        tools:text="Red Cow Dinner Menu" />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
+        android:gravity="center_horizontal"
         android:orientation="vertical">
 
         <TextView

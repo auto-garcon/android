@@ -32,9 +32,10 @@
                 android:id="@+id/user_options_name"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:foregroundTint="#FFFFFF"
                 android:textAlignment="center"
                 android:textAppearance="@style/TextAppearance.AppCompat.Large"
-                android:textColor="@color/colorGray"
+                android:textColor="@color/colorPrimaryDark"
                 tools:text="User Name" />
 
             <LinearLayout
@@ -45,16 +46,20 @@
 
                 <Button
                     android:id="@+id/user_signout"
+                    style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/colorAccent"
                     android:text="@string/sign_out" />
 
                 <Button
                     android:id="@+id/viewAccount"
+                    style="@style/Widget.AppCompat.Button.Colored"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
+                    android:backgroundTint="@color/colorAccent"
                     android:text="@string/view_account" />
             </LinearLayout>
         </LinearLayout>
@@ -72,14 +77,17 @@
         <com.google.android.material.chip.ChipGroup
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorAccent"
             android:clipToPadding="false"
             app:chipSpacing="4dp">
 
             <CheckBox
+                android:id="@+id/user_options_colorblind_box"
                 style="@style/Widget.AppCompat.CompoundButton.CheckBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="0dp"
+                android:buttonTint="@color/colorAccent"
                 android:padding="8dp"
                 android:text="@string/setting_colorblind"
                 android:textSize="14sp" />

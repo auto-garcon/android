@@ -53,6 +53,12 @@ public class UserOptionsActivity extends AppCompatActivity {
     private Button addCurrentRestaurant;
     private RequestQueue queue;
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,7 +110,7 @@ public class UserOptionsActivity extends AppCompatActivity {
         CheckBox checkBoxNuts = (CheckBox)findViewById(R.id.checkBoxNuts);
         CheckBox checkBoxGluten = (CheckBox)findViewById(R.id.checkBoxGluten);
         CheckBox checkBoxSoy = (CheckBox)findViewById(R.id.checkBoxSoy);
-
+        CheckBox checkBoxColorblind = (CheckBox)findViewById(R.id.user_options_colorblind_box);
         // Set allergen checkbox onclick listeners
         checkBoxMeat.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                     @Override
@@ -141,6 +147,15 @@ public class UserOptionsActivity extends AppCompatActivity {
                   }
             }
         );
+        checkBoxColorblind.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                   @Override
+                   public void onCheckedChanged(CompoundButton buttonView,boolean isChecked) {
+                        ActiveSession.getInstance().setColorblindMode(isChecked);
+                       ActiveSession.getInstance().getCustomTheme().applyTo(UserOptionsActivity.this);
+
+                   }
+               }
+        );
 
         // Set default value for all allergens in Shared preferences file
         SharedPreferences sharedPref = UserOptionsActivity.this.getSharedPreferences(getString(R.string.preferences),Context.MODE_PRIVATE);
@@ -165,6 +180,7 @@ public class UserOptionsActivity extends AppCompatActivity {
         if (soy.equals("True")){
             checkBoxSoy.setChecked(true);
         }
+        checkBoxColorblind.setChecked(ActiveSession.getInstance().getColorblindMode());
 
 
         getFavoriteRestaurants();
@@ -178,8 +194,7 @@ public class UserOptionsActivity extends AppCompatActivity {
             ThumbnailManager.getInstance().getImage("https://www.sackettwaconia.com/wp-content/uploads/default-profile.png", userOptionsImage);
         }
 
-        // Apply the CustomTheme
-        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
     }
 
     /**
@@ -221,9 +236,9 @@ public class UserOptionsActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Type listType = new TypeToken<ArrayList<FavoriteMenu>>(){}.getType();
-                        List<FavoriteMenu> favoriteMenus = new Gson().fromJson(response, listType);
-                        List<Restaurant> restaurants = APIUtils.getRestuarantsFromFavoritesList(favoriteMenus);
+                        Type listType = new TypeToken<ArrayList<Restaurant>>(){}.getType();
+                        List<Restaurant> restaurants = new Gson().fromJson(response, listType);
+                        //List<Restaurant> restaurants = APIUtils.getRestuarantsFromFavoritesList(favoriteMenus);
                         RestaurantAdapter mAdapter = new RestaurantAdapter(restaurants) {
                             @Override
                             public void removeItem(int restauarantID) {

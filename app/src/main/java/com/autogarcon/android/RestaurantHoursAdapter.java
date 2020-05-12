@@ -10,7 +10,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.autogarcon.android.API.Menu;
 import com.autogarcon.android.API.Restaurant;
 
-import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -41,7 +40,7 @@ public class RestaurantHoursAdapter extends RecyclerView.Adapter<RestaurantHours
      * @param restaurant The restaurant that we want to look at.
      */
     public RestaurantHoursAdapter(Restaurant restaurant) {
-        this.menuList = restaurant.getMenuList();
+        this.menuList = restaurant.getMenus();
     }
 
     @Override

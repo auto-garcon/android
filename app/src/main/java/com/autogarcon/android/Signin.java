@@ -43,6 +43,13 @@ public class Signin extends AppCompatActivity {
     private TextView error;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);

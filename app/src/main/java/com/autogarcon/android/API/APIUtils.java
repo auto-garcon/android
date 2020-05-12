@@ -1,6 +1,5 @@
 package com.autogarcon.android.API;
 
-import android.util.ArrayMap;
 import android.util.Log;
 
 import com.autogarcon.android.ActiveSession;
@@ -9,7 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -130,7 +128,7 @@ public class APIUtils {
 
             // Try to find the menu.
             Menu menu = null;
-            for (Menu m : restaurant.getMenuList()) {
+            for (Menu m : restaurant.getMenus()) {
                 if(m.getMenuID() == favoriteMenu.getMenuID()) {
                     menu = m;
                 }
@@ -140,7 +138,7 @@ public class APIUtils {
                 menu = new Menu();
                 menu.setMenuName(favoriteMenu.getMenuName());
                 menu.setMenuID(favoriteMenu.getMenuID());
-                restaurant.getMenuList().add(menu);
+                restaurant.getMenus().add(menu);
             }
 
             // Add the timeRange

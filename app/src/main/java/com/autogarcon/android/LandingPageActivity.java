@@ -70,6 +70,16 @@ public class LandingPageActivity extends AppCompatActivity {
     private Button randomize;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Clear the restaurant
+        ActiveSession.getInstance().setRestaurant(new Restaurant());
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_landing_page);
