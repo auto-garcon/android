@@ -7,11 +7,12 @@ public class Order implements Serializable {
     private int orderID;
     private int tableID;
     private int customerID;
-    private OrderStatus status;
+    private OrderStatus orderStatus;
     private float chargeAmount;
     private int restaurantID;
     private int numMenuItems;
     private List<OrderItem> orderItems;
+    private String orderTime;
 
     public enum OrderStatus {
         OPEN, CLOSED
@@ -41,12 +42,12 @@ public class Order implements Serializable {
         this.customerID = customerID;
     }
 
-    public OrderStatus getStatus() {
-        return status;
+    public OrderStatus getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setStatus(OrderStatus status) {
-        this.status = status;
+    public void setOrderStatus(OrderStatus orderStatus) {
+        this.orderStatus = orderStatus;
     }
 
     public float getChargeAmount() {
@@ -79,5 +80,13 @@ public class Order implements Serializable {
 
     public void setOrderItems(List<OrderItem> orderItems) {
         this.orderItems = orderItems;
+    }
+
+    public String getOrderTime() {
+        return orderTime;
+    }
+
+    public void setOrderTime(String orderTime) {
+        this.orderTime = orderTime;
     }
 }

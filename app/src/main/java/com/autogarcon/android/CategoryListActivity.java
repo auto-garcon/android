@@ -67,7 +67,7 @@ public class CategoryListActivity extends AppCompatActivity {
         double total = 0;
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
-                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getPrice();
             }
         }
         cartButton.setTitle("$" + String.format("%.2f", total));
@@ -139,7 +139,7 @@ public class CategoryListActivity extends AppCompatActivity {
             cartButton.setVisibility(View.VISIBLE);
             double total = 0;
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
-                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getPrice();
             }
             cartButton.setTitle("$" + String.format("%.2f", total));
         }

@@ -76,6 +76,7 @@ public class LandingPageActivity extends AppCompatActivity {
         super.onResume();
         // Clear the restaurant
         ActiveSession.getInstance().setRestaurant(new Restaurant());
+        ActiveSession.getInstance().clearOrders();
 
         // Apply the CustomTheme
         ActiveSession.getInstance().getCustomTheme().applyTo(this);
@@ -231,10 +232,9 @@ public class LandingPageActivity extends AppCompatActivity {
                 final String restaurantId = matcher.group(1);
                 //ActiveSession.getInstance().setCurrentRestaurantId(restaurantId);
                 final String tableId = matcher.group(2);
-
+                ActiveSession.getInstance().setTableNumber(Integer.parseInt(tableId));
                 requestMenus(restaurantId, tableId);
                 initOrder(restaurantId, tableId);
-                ActiveSession.getInstance().setTableNumber(Integer.parseInt(tableId));
             }
             // The URL was not correct
             else {

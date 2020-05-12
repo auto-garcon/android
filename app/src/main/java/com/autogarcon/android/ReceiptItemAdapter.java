@@ -8,13 +8,14 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.autogarcon.android.API.OrderItem;
+import com.autogarcon.android.API.Restaurant;
 
 /**
  * Creates a a list of price modifications that will be shown on every ReceiptAdapter.
  * @author Tim Callies
  */
 public class ReceiptItemAdapter extends RecyclerView.Adapter<ReceiptItemAdapter.MyViewHolder> {
-    private final double TAX_RATE = 0.1f;
+
     private OrderItem orderItem;
 
     /**
@@ -54,19 +55,20 @@ public class ReceiptItemAdapter extends RecyclerView.Adapter<ReceiptItemAdapter.
 
     @Override
     public void onBindViewHolder(ReceiptItemAdapter.MyViewHolder holder, int position) {
-        double price = orderItem.getMenuItem().getPrice();
-        //TODO: Loop through customizations and add those to the price.
+        double price = orderItem.getPrice();
+
+        float tax = ActiveSession.getInstance().getRestaurant().getSalesTax();
 
         // Show the tax
         if(position == 0) {
-            holder.receiptItemPrice.setText(String.format("$%.2f",price*TAX_RATE));
+            holder.receiptItemPrice.setText(String.format("$%.2f",price*tax));
             holder.receiptItemName.setText("Tax");
         }
 
         // Show the total
         if (position == 1) {
 
-            holder.receiptItemPrice.setText(String.format("$%.2f",price+price*TAX_RATE));
+            holder.receiptItemPrice.setText(String.format("$%.2f",price+price*tax));
             holder.receiptItemName.setText("Total");
         }
     }

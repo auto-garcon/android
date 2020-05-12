@@ -162,11 +162,11 @@ public class CustomTheme {
                     colored = true;
                 }
                 else if(thisColorDrawable.getColor() == originalColorPrimaryDark) {
-                    thisColorDrawable.setTint(originalColorPrimaryDark);
+                    thisColorDrawable.setTint(colorPrimaryDark);
                     colored = true;
                 }
                 else if(thisColorDrawable.getColor() == originalColorAccent) {
-                    thisColorDrawable.setTint(originalColorAccent);
+                    thisColorDrawable.setTint(colorAccent);
                     colored = true;
                 }
             }

@@ -79,6 +79,7 @@ public class TopActivity extends AppCompatActivity {
     private Menu menu;
     private ToggleButton toggleButton;
     private Boolean inFavorites = false;
+    BottomNavigationView navView;
     
     ConstraintLayout constraintLayout;
     /**
@@ -99,7 +100,7 @@ public class TopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         mPaymentsClient = PaymentsUtil.createPaymentsClient(this);
         final Fragment reciept = new ReceiptFragment();
         final Fragment menu = new MenuListFragment();
@@ -492,6 +493,7 @@ public class TopActivity extends AppCompatActivity {
         if(ActiveSession.getInstance().getButtonFlag() == true){
             ActiveSession.getInstance().setButtonFlag(false);
             final Fragment reciept = new ReceiptFragment();
+            navView.setSelectedItemId(R.id.menu_receipt);
             openFragment(reciept);
         }
 

@@ -254,7 +254,7 @@ public class UserOptionsActivity extends AppCompatActivity {
                                         }, new Response.ErrorListener() {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
-                                        Log.d("VOLLEYERROR" ,"That didn't work!");
+                                        Log.d("VOLLEYERROR" ,error.getMessage());
                                     }
                                 });
 

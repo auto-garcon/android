@@ -16,6 +16,7 @@ public class Restaurant implements Serializable {
     private String state;
     private String primaryColor;
     private String secondaryColor;
+    private float salesTax;
 
     public Restaurant() {
         this.menus = new ArrayList<>();
@@ -107,5 +108,13 @@ public class Restaurant implements Serializable {
 
     public void setSecondaryColor(String secondaryColor) {
         this.secondaryColor = secondaryColor;
+    }
+
+    public float getSalesTax() {
+        return salesTax;
+    }
+
+    public void setSalesTax(float salesTax) {
+        this.salesTax = salesTax;
     }
 }

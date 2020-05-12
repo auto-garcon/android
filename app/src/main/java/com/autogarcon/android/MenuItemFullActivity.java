@@ -67,9 +67,7 @@ public class MenuItemFullActivity extends AppCompatActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                OrderItem orderItem = new OrderItem();
-                orderItem.setMenuItem(menuItem);
-                orderItem.setChefNote(chefNote.getText().toString());
+                OrderItem orderItem = new OrderItem(menuItem, chefNote.getText().toString());
                 ActiveSession.getInstance().addOrder(orderItem);
                 setResult(2);
                 finish();

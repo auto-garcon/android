@@ -143,7 +143,7 @@ public class ActiveSession implements Serializable {
      * @author Mitchell Nelson
      */
     public void setTableNumber(int newTableNumber){
-        tableNumber = newTableNumber;
+        this.tableNumber = newTableNumber;
     }
 
     /**
@@ -261,7 +261,7 @@ public class ActiveSession implements Serializable {
         double totalPrice = 0.0;
         if(getOrderSize() != 0){
             for (int i=0; i < getOrderSize(); i++){
-                totalPrice += orderItems.get(i).getMenuItem().getPrice();
+                totalPrice += orderItems.get(i).getPrice();
             }
 
         }
@@ -296,8 +296,8 @@ public class ActiveSession implements Serializable {
             JSONArray orders = new JSONArray();
             for (int i = 0; i < orderItems.size(); i++) {
                 JSONObject order = new JSONObject();
-                order.put("menuItem", orderItems.get(i).getMenuItem().getPrice());
-                order.put("chefNote", orderItems.get(i).getChefNote());
+                order.put("menuItem", orderItems.get(i).getPrice());
+                order.put("chefNote", orderItems.get(i).getComments());
                 orders.put(order);
             }
             jsonObject.put("orderItems", orders);

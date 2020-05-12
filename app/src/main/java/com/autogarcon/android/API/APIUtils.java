@@ -52,6 +52,8 @@ public class APIUtils {
         return output;
     }
 
+
+
     /**
      * Looks through a list of menus, and returns only the ones that are active, based on the
      * current time
@@ -98,6 +100,26 @@ public class APIUtils {
         }
         return false;
     }
+
+    /**
+     * Gets the menuItem for a given orderItem
+     * @param orderItem The orderItem that you want to find a menuItem for
+     * @return The menuItem that is being ordered.
+     */
+    public static MenuItem getMenuItem(OrderItem orderItem) {
+        for (Menu menu : ActiveSession.getInstance().getRestaurant().getMenus()) {
+            for (MenuItem menuItem : menu.getMenuItems()) {
+                if(menuItem.getItemID() == orderItem.getMenuItemID()) {
+                    return menuItem;
+                }
+            }
+        }
+
+        // If the menuItem is not found, remove this item.
+        ActiveSession.getInstance().removeOrderItem(orderItem);
+        return new MenuItem();
+    }
+
     /**
      * Generates a more useful list of restaurants and menus based on the input we recieve from
      * the FavoriteMenu

@@ -15,6 +15,7 @@ public class MenuItem implements Serializable {
     private int calories;
     private String imageURL;
     private float price;
+    private int menuID;
 
     public MenuItem() {
         this.allergens = new ArrayList<>();
@@ -82,5 +83,13 @@ public class MenuItem implements Serializable {
 
     public void setPrice(float price) {
         this.price = price;
+    }
+
+    public int getMenuID() {
+        return menuID;
+    }
+
+    public void setMenuID(int menuID) {
+        this.menuID = menuID;
     }
 }
