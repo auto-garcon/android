@@ -107,7 +107,6 @@ public class LandingPageActivity extends AppCompatActivity {
                 ActiveSession.getInstance().setCurrentRestaurantId("5");
                 requestMenus("5","1");
                 initOrder("5","1");
-                setRestaurant("5");
             }
         });
         // Starts the random restaurant activity when clicked
@@ -121,35 +120,6 @@ public class LandingPageActivity extends AppCompatActivity {
     }
 
     /**
-     * setRestaurant performs an HTTP GET request to the API server to retrieve
-     *  information about the current restaurant, given a restaruantId
-     *
-     * @param restaurantId Current restaurant that the user is at
-     * @author Mitchell Nelson
-     */
-    private void setRestaurant(final String restaurantId) {
-        // Instantiate the RequestQueue.
-        RequestQueue queue = Volley.newRequestQueue(this);
-        String apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId;
-
-        // Request a string response from the provided URL.
-        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-
-                        Restaurant restaurant = new Gson().fromJson(response, Restaurant.class);
-                        ActiveSession.getInstance().setRestaurant(restaurant);
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("VOLLEYERROR", "That didn't work!");
-            }
-        });
-        queue.add(stringRequest);
-    }
-    /**
      * requestMenus: This method takes in a JSONObject that represents a single MenuItem
      *                            and outputs the corresponding MenuItem object
      *
@@ -160,21 +130,21 @@ public class LandingPageActivity extends AppCompatActivity {
     private void requestMenus(final String restaurantId, final String tableId){
         // Instantiate the RequestQueue.
         RequestQueue queue = Volley.newRequestQueue(this);
-        String apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId + "/menu";
+        String apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId + "/withmenus";
 
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Type listType = new TypeToken<ArrayList<Menu>>(){}.getType();
-                        List<Menu> menuList = new Gson().fromJson(response, listType);
-                        List<Menu> activeMenus = APIUtils.getActiveMenus(menuList);
+                        Restaurant restaurant = new Gson().fromJson(response, Restaurant.class);
+
+                        ActiveSession.getInstance().setRestaurant(restaurant);
 
                         // Passes menuList to the next activity to be displayed on screen
                         Intent intent = new Intent(getApplicationContext(), TopActivity.class);
-                        intent.putExtra("menuList", (Serializable) activeMenus);
-                        intent.putExtra("title", restaurantId + " - Table " + tableId);
+                        intent.putExtra("menuList", (Serializable) restaurant.getMenus());
+                        intent.putExtra("title", restaurant.getRestaurantName());
                         startActivity(intent);
 
                     }

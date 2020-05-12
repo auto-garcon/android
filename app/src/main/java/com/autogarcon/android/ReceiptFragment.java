@@ -254,7 +254,7 @@ public class ReceiptFragment extends Fragment {
     }
 
     private void refreshPage() {
-        String url = getResources().getString(R.string.api) + String.format("users/%d/orders",
+        String url = getResources().getString(R.string.api) + String.format("users/%s/orders",
                 ActiveSession.getInstance().getUserId());
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
