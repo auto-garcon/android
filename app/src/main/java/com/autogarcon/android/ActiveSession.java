@@ -37,7 +37,6 @@ public class ActiveSession implements Serializable {
     private ArrayList<Allergen> allergenPreferences;
     private Context applicationContext;
     private boolean buttonFlag = false;
-    private String currentRestaurantId;
     private boolean favoritesStarFlag = false;
 
     /**
@@ -71,14 +70,6 @@ public class ActiveSession implements Serializable {
 
     public void setFavoritesStarFlag(boolean favoritesStarFlag) {
         this.favoritesStarFlag = favoritesStarFlag;
-    }
-
-    public void setCurrentRestaurantId(String id){
-        currentRestaurantId = id;
-    }
-
-    public String getCurrentRestaurantId(){
-        return currentRestaurantId;
     }
 
     /**

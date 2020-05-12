@@ -194,8 +194,9 @@ public class TopActivity extends AppCompatActivity {
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-        String getFavoritesRequestURL = "https://autogarcon.live/api/users/" + userId + "/favorites";
-        String addToFavoritesURL = "https://autogarcon.live/api/users/" + userId + "/favorites/restaurant/" + restaurantId + "/add";
+        String getFavoritesRequestURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites";
+
+
 
         //If this restaurant is already on our favorites, then leave it
         // Send request with api/users/:userid/favorites
@@ -288,13 +289,12 @@ public class TopActivity extends AppCompatActivity {
 
             final String userId = ActiveSession.getInstance().getUserId();
             Log.d("UserID", userId);
-            final String restaurantId = ActiveSession.getInstance().getCurrentRestaurantId();
+            final String restaurantId = String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID());
 
             RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
-            String getFavoritesRequestURL = "https://autogarcon.live/api/users/" + userId + "/favorites";
-            String addToFavoritesURL = "https://autogarcon.live/api/users/" + userId + "/favorites/restaurant/" + restaurantId + "/add";
-            String removeFromFavoritesURL = "https://autogarcon.live/api/users/" + userId + "/favorites/restaurant/" + restaurantId + "/remove";
+            String addToFavoritesURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites/restaurant/" + restaurantId + "/add";
+            String removeFromFavoritesURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites/restaurant/" + restaurantId + "/remove";
 
             // If currently set to true, remove from favorites and change icon to border star
             if(ActiveSession.getInstance().getFavoritesStarFlag()){

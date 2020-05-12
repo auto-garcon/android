@@ -91,8 +91,8 @@ public class APIUtils {
         Log.d("Length", Integer.toString(favoritesList.size()));
         for (Favorites fav : favoritesList) {
             Log.d("currentFavs", Integer.toString(fav.getRestaurantID()));
-            Log.d("activeFavs", ActiveSession.getInstance().getCurrentRestaurantId());
-            if (fav.getRestaurantID() == Integer.parseInt(ActiveSession.getInstance().getCurrentRestaurantId())) {
+            Log.d("activeFavs", String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID()));
+            if (fav.getRestaurantID() == ActiveSession.getInstance().getRestaurant().getRestaurantID()) {
                 return true;
             }
         }
