@@ -105,6 +105,7 @@ public class TopActivity extends AppCompatActivity {
         final Fragment menu = new MenuListFragment();
         constraintLayout = (ConstraintLayout) findViewById(R.id.container);
         String intentFragment = getIntent().getExtras().getString("frgToLoad");
+        setTitle(ActiveSession.getInstance().getRestaurant().getRestaurantName());
 
         openFragment(menu);
 
@@ -189,7 +190,7 @@ public class TopActivity extends AppCompatActivity {
     public void setFavoriteStar(){
         final String userId = ActiveSession.getInstance().getUserId();
         Log.d("UserID", userId);
-        final String restaurantId = ActiveSession.getInstance().getCurrentRestaurantId();
+        final String restaurantId = String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID());
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
