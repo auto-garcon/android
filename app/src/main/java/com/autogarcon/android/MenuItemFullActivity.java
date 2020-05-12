@@ -63,9 +63,6 @@ public class MenuItemFullActivity extends AppCompatActivity {
 
         chefNote.addTextChangedListener(mTextEditorWatcher);
 
-        // Apply the CustomTheme
-        ActiveSession.getInstance().getCustomTheme().applyTo(this);
-
         // creates an OrderItem and adds it to order once button is clicked
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,5 +91,11 @@ public class MenuItemFullActivity extends AppCompatActivity {
         }
     };
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
 }
 

@@ -39,6 +39,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         surfaceView = findViewById(R.id.surfaceView);
     }
 
+
     /**
      * Creates a barcode detector and processes results. Results including restaurant name and table number from
      * barcode scanning are passed back to the landing page intent.

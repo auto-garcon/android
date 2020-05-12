@@ -30,17 +30,21 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.Order;
 import com.autogarcon.android.API.OrderItem;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.gms.wallet.Wallet;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.util.ArrayList;
@@ -250,12 +254,32 @@ public class ReceiptFragment extends Fragment {
     }
 
     private void refreshPage() {
-        String url ="https://jsonplaceholder.typicode.com/todos/1";
+        String url = getResources().getString(R.string.api) + String.format("users/%d/orders",
+                ActiveSession.getInstance().getUserId());
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
+                        Type listType = new TypeToken<List<Order>>() {}.getType();
+                        List<Order> orderList = new Gson().fromJson(response, listType);
+
+                        inProgressOrders.clear();
+                        completedOrders.clear();
+
+                        for (Order order : orderList) {
+                            for (OrderItem orderItem : order.getOrderItems()) {
+                                switch (orderItem.getOrderStatus()) {
+                                    case COMPLETE:
+                                        completedOrders.add(orderItem);
+                                        break;
+                                    case SUBMITTED:
+                                        inProgressOrders.add(orderItem);
+                                        break;
+                                }
+                            }
+                        }
+
                         swipeContainer.setRefreshing(false);
                         updateViews();
                     }
@@ -263,7 +287,7 @@ public class ReceiptFragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 swipeContainer.setRefreshing(false);
-                Toast.makeText(view.getContext(), "Could not load order", Toast.LENGTH_SHORT).show();
+                Toast.makeText(view.getContext(), "Could not load orders", Toast.LENGTH_SHORT).show();
             }
         });
 

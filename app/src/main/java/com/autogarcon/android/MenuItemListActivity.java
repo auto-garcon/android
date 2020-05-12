@@ -103,8 +103,7 @@ public class MenuItemListActivity extends AppCompatActivity {
             }
         });
 
-        // Apply the CustomTheme
-        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
 
     }
 
@@ -112,6 +111,9 @@ public class MenuItemListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
 
         // Displays the cart button if there are items in the cart
         if(ActiveSession.getInstance().getAllOrders().size() > 0){

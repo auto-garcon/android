@@ -36,6 +36,8 @@ public class CategoryListActivity extends AppCompatActivity {
     private List<Map.Entry<String, List<MenuItem>>> categories;
     private FloatingTextButton cartButton;
 
+
+
     @Override
     public void onBackPressed() {
         super.onBackPressed();
@@ -105,9 +107,6 @@ public class CategoryListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        // Apply the CustomTheme
-        ActiveSession.getInstance().getCustomTheme().applyTo(this);
     }
 
     /**
@@ -132,6 +131,10 @@ public class CategoryListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             cartButton.setVisibility(View.VISIBLE);
             double total = 0;

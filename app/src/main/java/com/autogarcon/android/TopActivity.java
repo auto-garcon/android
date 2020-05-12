@@ -484,6 +484,10 @@ public class TopActivity extends AppCompatActivity {
 
     protected void onResume() {
         super.onResume();
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
         if(ActiveSession.getInstance().getButtonFlag() == true){
             ActiveSession.getInstance().setButtonFlag(false);
             final Fragment reciept = new ReceiptFragment();
