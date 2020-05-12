@@ -39,6 +39,7 @@ import java.util.Date;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -46,6 +47,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.autogarcon.android.API.APIUtils;
+import com.autogarcon.android.API.NewOrderRequest;
 import com.autogarcon.android.API.Restaurant;
 import com.google.gson.Gson;
 
@@ -103,7 +105,9 @@ public class LandingPageActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ActiveSession.getInstance().setCurrentRestaurantId("5");
-                requestMenus("5","5");
+                requestMenus("5","1");
+                initOrder("5","1");
+                setRestaurant("5");
             }
         });
         // Starts the random restaurant activity when clicked
@@ -116,6 +120,35 @@ public class LandingPageActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * setRestaurant performs an HTTP GET request to the API server to retrieve
+     *  information about the current restaurant, given a restaruantId
+     *
+     * @param restaurantId Current restaurant that the user is at
+     * @author Mitchell Nelson
+     */
+    private void setRestaurant(final String restaurantId) {
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId;
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        Restaurant restaurant = new Gson().fromJson(response, Restaurant.class);
+                        ActiveSession.getInstance().setRestaurant(restaurant);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEYERROR", "That didn't work!");
+            }
+        });
+        queue.add(stringRequest);
+    }
     /**
      * requestMenus: This method takes in a JSONObject that represents a single MenuItem
      *                            and outputs the corresponding MenuItem object
@@ -154,23 +187,50 @@ public class LandingPageActivity extends AppCompatActivity {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
+    }
 
-        apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId ;
-        stringRequest = new StringRequest(Request.Method.GET, apiURL,
+    /**
+     * initOrder performs an HTTP POST request to the API server to setup a new order
+     *
+     * @param restaurantId current restaruant that the user is at
+     * @param tableId current table number that the user is at
+     * @author Mitchell Nelson
+     */
+    private void initOrder(final String restaurantId, final String tableId){
+        NewOrderRequest request = new NewOrderRequest();
+        final String jsonBody = new Gson().toJson(request);
+
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String apiURL = getResources().getString(R.string.api) + "restaurant/" + restaurantId + "/tables/" + tableId + "/order/new";
+
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, apiURL,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Restaurant restaurant = new Gson().fromJson(response, Restaurant.class);
-                        ActiveSession.getInstance().setRestaurant(restaurant);
+                        // Set the userId from server
+                        Log.d("order", response);
                     }
-                }, new Response.ErrorListener() {
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("signin","Request Failure");
+                    }
+                })
+        {
             @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.d("VOLLEYERROR" ,"That didn't work!");
+            public String getBodyContentType() {
+                return "application/json; charset=utf-8";
             }
-        });
 
-        // Add the request to the RequestQueue.
+            @Override
+            public byte[] getBody() throws AuthFailureError {
+                Log.d("order", "json = " + jsonBody);
+                return jsonBody.getBytes();
+            }
+        };
         queue.add(stringRequest);
     }
 
@@ -203,6 +263,8 @@ public class LandingPageActivity extends AppCompatActivity {
                 final String tableId = matcher.group(2);
 
                 requestMenus(restaurantId, tableId);
+                initOrder(restaurantId, tableId);
+                ActiveSession.getInstance().setTableNumber(Integer.parseInt(tableId));
             }
             // The URL was not correct
             else {
