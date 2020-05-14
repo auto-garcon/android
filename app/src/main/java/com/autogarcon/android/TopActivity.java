@@ -487,6 +487,8 @@ public class TopActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
+        setFavoriteStar();
+
         // Apply the CustomTheme
         ActiveSession.getInstance().getCustomTheme().applyTo(this);
 
