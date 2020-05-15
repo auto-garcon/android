@@ -55,12 +55,16 @@ android:orientation="vertical">
                         android:id="@+id/categoryImage1"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_menu_item"
+                        android:tint="@color/colorPrimaryDark"
                         android:scaleType="centerCrop" />
 
                     <ImageView
                         android:id="@+id/categoryImage2"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_menu_item"
+                        android:tint="@color/colorPrimaryDark"
                         android:scaleType="centerCrop" />
                 </TableRow>
 
@@ -72,12 +76,16 @@ android:orientation="vertical">
                         android:id="@+id/categoryImage3"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_menu_item"
+                        android:tint="@color/colorPrimaryDark"
                         android:scaleType="centerCrop" />
 
                     <ImageView
                         android:id="@+id/categoryImage4"
                         android:layout_width="50dp"
                         android:layout_height="50dp"
+                        app:srcCompat="@drawable/ic_menu_item"
+                        android:tint="@color/colorPrimaryDark"
                         android:scaleType="centerCrop" />
                 </TableRow>
 
@@ -88,10 +96,13 @@ android:orientation="vertical">
                 android:layout_width="100dp"
                 android:layout_height="100dp"
                 android:scaleType="centerCrop"
+                android:tint="@color/colorPrimaryDark"
+                android:visibility="invisible"
                 app:layout_constraintBottom_toBottomOf="@+id/tableLayout"
                 app:layout_constraintEnd_toEndOf="@+id/tableLayout"
                 app:layout_constraintStart_toStartOf="@+id/tableLayout"
-                app:layout_constraintTop_toTopOf="@+id/tableLayout" />
+                app:layout_constraintTop_toTopOf="@+id/tableLayout"
+                app:srcCompat="@drawable/ic_menu_item" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

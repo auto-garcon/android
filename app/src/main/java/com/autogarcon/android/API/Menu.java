@@ -11,6 +11,7 @@ public class Menu implements Serializable {
     private List<MenuItem> menuItems;
     private MenuStatus status;
     private String menuName;
+    private String imageUrl;
     private int restaurantID;
 
     public Menu() {
@@ -96,5 +97,11 @@ public class Menu implements Serializable {
         this.restaurantID = restaurantID;
     }
 
+    public String getImageUrl() {
+        return imageUrl;
+    }
 
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
 }

@@ -28,9 +28,11 @@
 
             <ImageView
                 android:id="@+id/list_restaurant_image"
-                android:layout_width="match_parent"
+                android:layout_width="160dp"
                 android:layout_height="80dp"
-                android:layout_margin="4dp" />
+                android:layout_margin="4dp"
+                android:tint="@color/colorAccent"
+                app:srcCompat="@drawable/ic_restaurant" />
 
             <TextView
                 android:id="@+id/list_restaurant_name"

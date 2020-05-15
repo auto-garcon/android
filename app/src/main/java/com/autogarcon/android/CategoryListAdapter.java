@@ -62,10 +62,12 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
         holder.categoryName.setText(category.getKey());
 
         if  (category.getValue().size() == 1) {
+            holder.categoryImage1.setVisibility(View.VISIBLE);
             ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImageFull);
         }
 
         else if(category.getValue().size() == 2) {
+            holder.categoryImage1.setVisibility(View.INVISIBLE);
             ThumbnailManager.getInstance().getImage(category.getValue().get(0).getImageURL(), holder.categoryImage1);
             ThumbnailManager.getInstance().getImage(category.getValue().get(1).getImageURL(), holder.categoryImage2);
             ThumbnailManager.getInstance().getImage(category.getValue().get(1).getImageURL(), holder.categoryImage3);

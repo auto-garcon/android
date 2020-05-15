@@ -8,6 +8,7 @@ import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -105,7 +106,7 @@ public class CustomTheme {
             final View thisView = viewStack.pop();
             boolean colored = false;
 
-            // If the view has a tint
+            // If the view has a background tint
             if(thisView.getBackgroundTintList() != null) {
                 // Attempts to set the tag
                 if(getColorTag(thisView) == -1) {
@@ -120,6 +121,27 @@ public class CustomTheme {
                 if(getColorTag(thisView) != -1) {
                     thisView.setBackgroundTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[getColorTag(thisView)]}));
                     colored = true;
+                }
+            }
+
+            // If the view is a tinted image
+            if(thisView instanceof ImageView) {
+                ImageView thisImage = (ImageView) thisView;
+                if(thisImage.getImageTintList() != null) {
+                    // Attempts to set the tag
+                    if(getColorTag(thisImage) == -1) {
+                        for (int i=0; i<colorArray.length; i++) {
+                            if(thisImage.getImageTintList().getDefaultColor() == originalColorArray[i]) {
+                                setColorTag(thisImage, i);
+                            }
+                        }
+                    }
+
+                    // Applies the color, if a tag is set
+                    if(getColorTag(thisImage) != -1) {
+                        thisImage.setImageTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[getColorTag(thisImage)]}));
+                        colored = true;
+                    }
                 }
             }
 

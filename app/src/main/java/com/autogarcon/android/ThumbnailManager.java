@@ -50,6 +50,7 @@ public class ThumbnailManager {
     public void getImage(String url, ImageView image) {
         if(bitmapMap.containsKey(url)) {
             image.setImageBitmap(bitmapMap.get(url));
+            image.setImageTintList(null);
         }
         else {
             addImageToStack(url, image);
@@ -97,7 +98,9 @@ public class ThumbnailManager {
                             public void run() {
                                 Deque<ImageView> deque = imageViewMap.get(url);
                                 while(!deque.isEmpty()) {
-                                    deque.pop().setImageBitmap(image);
+                                    ImageView item = deque.pop();
+                                    item.setImageBitmap(image);
+                                    item.setImageTintList(null);
                                 }
                             }
                         });
