@@ -89,11 +89,15 @@ public class APIUtils {
         return output;
     }
 
-    public static boolean currentlyFavorite(List<Favorites> favoritesList) {
-        Log.d("Length", Integer.toString(favoritesList.size()));
-        for (Favorites fav : favoritesList) {
-            Log.d("currentFavs", Integer.toString(fav.getRestaurantID()));
-            Log.d("activeFavs", String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID()));
+    /**
+     * Parse through a list of favorites received by the API to match with current user
+     * and current restaurant
+     * @author Riley Tschumper
+     * @param favoritesList A list of all the favorites for all users.
+     * @return if the current restaurant is in the user's favorites
+     */
+    public static boolean currentlyFavorite(List<Restaurant> favoritesList) {
+        for (Restaurant fav : favoritesList) {
             if (fav.getRestaurantID() == ActiveSession.getInstance().getRestaurant().getRestaurantID()) {
                 return true;
             }
@@ -120,53 +124,4 @@ public class APIUtils {
         return new MenuItem();
     }
 
-    /**
-     * Generates a more useful list of restaurants and menus based on the input we recieve from
-     * the FavoriteMenu
-     * @author Tim Callies
-     * @param favoriteMenus The list that is recieved from /user/:userID/favorites/
-     * @return A list of Restaurants that are only populated with the data that can be inferred
-     * from FavoriteMenu.
-     */
-    public static List<Restaurant> getRestuarantsFromFavoritesList(List<FavoriteMenu> favoriteMenus) {
-        List<Restaurant> restaurants = new ArrayList<>();
-
-
-        for (FavoriteMenu favoriteMenu : favoriteMenus) {
-            Restaurant restaurant = null;
-            // Try to find the restauarant.
-            for (Restaurant r : restaurants) {
-                if(r.getRestaurantID() == favoriteMenu.getRestaurantID()) {
-                    restaurant = r;
-                }
-            }
-            // If it does not exist, add the restaurant.
-            if(restaurant == null) {
-                restaurant = new Restaurant();
-                restaurant.setRestaurantName(favoriteMenu.getRestaurantName());
-                restaurant.setRestaurantID(favoriteMenu.getRestaurantID());
-                restaurants.add(restaurant);
-            }
-
-            // Try to find the menu.
-            Menu menu = null;
-            for (Menu m : restaurant.getMenus()) {
-                if(m.getMenuID() == favoriteMenu.getMenuID()) {
-                    menu = m;
-                }
-            }
-            // If it does not exist, add the menu.
-            if(menu == null) {
-                menu = new Menu();
-                menu.setMenuName(favoriteMenu.getMenuName());
-                menu.setMenuID(favoriteMenu.getMenuID());
-                restaurant.getMenus().add(menu);
-            }
-
-            // Add the timeRange
-            menu.getTimeRanges().add(new Menu.TimeRange(favoriteMenu.getStartTime(), favoriteMenu.getEndTime()));
-        }
-
-        return restaurants;
-    }
 }
