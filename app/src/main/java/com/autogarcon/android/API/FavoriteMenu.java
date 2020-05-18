@@ -1,5 +1,7 @@
 package com.autogarcon.android.API;
 
+
+
 public class FavoriteMenu {
     private String firstName;
     private String lastName;

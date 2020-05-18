@@ -89,11 +89,15 @@ public class APIUtils {
         return output;
     }
 
+    /**
+     * Parse through a list of favorites received by the API to match with current user
+     * and current restaurant
+     * @author Riley Tschumper
+     * @param favoritesList A list of all the favorites for all users.
+     * @return if the current restaurant is in the user's favorites
+     */
     public static boolean currentlyFavorite(List<Favorites> favoritesList) {
-        Log.d("Length", Integer.toString(favoritesList.size()));
         for (Favorites fav : favoritesList) {
-            Log.d("currentFavs", Integer.toString(fav.getRestaurantID()));
-            Log.d("activeFavs", String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID()));
             if (fav.getRestaurantID() == ActiveSession.getInstance().getRestaurant().getRestaurantID()) {
                 return true;
             }
