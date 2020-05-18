@@ -19,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.autogarcon.android.API.SignInRequest;
+import com.autogarcon.android.API.SignInResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -179,7 +180,8 @@ public class Signin extends AppCompatActivity {
                     public void onResponse(String response) {
                         // Set the userId from server
                         Log.d("UserID", response);
-                        ActiveSession.getInstance().setUserId(response);
+
+                        ActiveSession.getInstance().setUserId(new Gson().fromJson(response, SignInResponse.class).getUserID());
                     }
                 },
 
