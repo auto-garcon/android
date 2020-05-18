@@ -58,9 +58,9 @@ public class RestaurantHoursAdapter extends RecyclerView.Adapter<RestaurantHours
         SimpleDateFormat outFormat = new SimpleDateFormat("hh:mm a");
         try{
             holder.restaurantHoursStart.setText(outFormat.format(inFormat.parse(
-                    String.valueOf(menu.getTimeRanges().get(0).getStartTime()))));
+                    rightFillZeroes(String.valueOf(menu.getTimeRanges().get(0).getStartTime())))));
             holder.restaurantHoursEnd.setText(outFormat.format(inFormat.parse(
-                    String.valueOf(menu.getTimeRanges().get(0).getEndTime()))));
+                    rightFillZeroes(String.valueOf(menu.getTimeRanges().get(0).getEndTime())))));
 
 
 
@@ -70,5 +70,14 @@ public class RestaurantHoursAdapter extends RecyclerView.Adapter<RestaurantHours
     @Override
     public int getItemCount() {
         return menuList.size();
+    }
+
+    private String rightFillZeroes(String in) {
+        StringBuilder sb = new StringBuilder();
+        while(sb.length() + in.length() < 4) {
+            sb.append("0");
+        }
+        sb.append(in);
+        return sb.toString();
     }
 }
