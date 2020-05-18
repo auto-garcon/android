@@ -210,8 +210,9 @@ public class TopActivity extends AppCompatActivity {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        Type listType = new TypeToken<ArrayList<com.autogarcon.android.API.Favorites>>(){}.getType();
-                        List<com.autogarcon.android.API.Favorites> favoritesList = new Gson().fromJson(response, listType);
+                        Type listType = new TypeToken<ArrayList<com.autogarcon.android.API.Restaurant>>(){}.getType();
+                        //Type listType = new TypeToken<ArrayList<com.autogarcon.android.API.Favorites>>(){}.getType();
+                        List<com.autogarcon.android.API.Restaurant> favoritesList = new Gson().fromJson(response, listType);
                         Log.d("ISTHISCALLED", "YES");
                         inFavorites = APIUtils.currentlyFavorite(favoritesList);
                         if(inFavorites) {
@@ -285,8 +286,6 @@ public class TopActivity extends AppCompatActivity {
         }
 
         if(id == R.id.favoritesswitch){
-
-            Log.d("Something", "Anything");
 
             final String userId = ActiveSession.getInstance().getUserId();
             Log.d("UserID", userId);
