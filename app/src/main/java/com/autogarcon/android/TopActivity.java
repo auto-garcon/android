@@ -43,7 +43,6 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.android.volley.toolbox.RequestFuture;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.autogarcon.android.API.APIUtils;
@@ -60,14 +59,12 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import java.io.IOException;
 
-import java.io.Serializable;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static java.lang.Thread.sleep;
 
 /**
  * The top level navigation for the menu of a single restaurant. This activity contains a navigation bar, as well
@@ -154,7 +151,6 @@ public class TopActivity extends AppCompatActivity {
         menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
 
         setFavoriteStar();
-        Log.d("FAVORITE", "here");
 
         final Uri uri = ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl();
         if (uri != null) {
@@ -186,23 +182,17 @@ public class TopActivity extends AppCompatActivity {
         }
         return true;
     }
-
+    /**
+     * Sets the favorites star on the top bar to either filled or open
+     * @author Riley Tschumper
+     */
     public void setFavoriteStar(){
         final String userId = ActiveSession.getInstance().getUserId();
-        Log.d("UserID", userId);
         final String restaurantId = String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID());
 
         RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
 
         String getFavoritesRequestURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites";
-
-
-
-        //If this restaurant is already on our favorites, then leave it
-        // Send request with api/users/:userid/favorites
-
-
-        //final String restaurantId = ActiveSession.getInstance().getRestaurant()
 
         // Request a string response from the provided URL.
         StringRequest favoritesRequest = new StringRequest(Request.Method.GET, getFavoritesRequestURL,
@@ -232,7 +222,6 @@ public class TopActivity extends AppCompatActivity {
             }
         });
         MyRequestQueue.add(favoritesRequest);
-        //return inFavorites;
     }
 
     @Override
