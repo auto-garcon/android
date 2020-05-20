@@ -1,8 +1,12 @@
 package com.autogarcon.android.API;
 
-        import java.io.Serializable;
-        import java.util.List;
+import java.io.Serializable;
+import java.util.List;
 
+/**
+ * A class representation of the Order JSON object
+ * @author Tim Callies
+ */
 public class Order implements Serializable {
     private int orderID;
     private int tableID;

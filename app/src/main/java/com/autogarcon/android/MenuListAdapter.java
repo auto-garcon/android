@@ -11,6 +11,10 @@ import com.autogarcon.android.API.Menu;
 
 import java.util.ArrayList;
 
+/**
+ * Adpater for the full view of a single menu item.
+ * @author Riley Tschumper
+ */
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyViewHolder> {
 
     private ArrayList<Menu> menuList;

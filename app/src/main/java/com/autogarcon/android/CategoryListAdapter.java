@@ -21,6 +21,10 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
 
     private List<Map.Entry<String, List<MenuItem>>> categories;
 
+    /**
+     * A class that represents each item in our collection and will be used to display it.
+     * @author Mitchell Nelson
+     */
     public class MyViewHolder extends RecyclerView.ViewHolder{
         public TextView categoryName;
         public ImageView categoryImage1;

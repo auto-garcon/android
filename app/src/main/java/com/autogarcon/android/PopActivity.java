@@ -27,9 +27,8 @@ import java.util.Random;
  * */
 public class PopActivity extends Activity {
 
-    TextView tv_resturantName;
-    ImageView iv;
-
+    private TextView tv_resturantName;
+    private ImageView iv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +43,7 @@ public class PopActivity extends Activity {
             Random r = new Random();
             int index = r.nextInt(restaurants.size());
             tv_resturantName.setText(restaurants.get(index).name);
-            //this part doesnt quite work
+            //this part doesn't quite work
             iv.setImageResource(Integer.parseInt(restaurants.get(index).imagePath));
 
 

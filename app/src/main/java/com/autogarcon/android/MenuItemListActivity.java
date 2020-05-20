@@ -102,11 +102,7 @@ public class MenuItemListActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-
-
     }
-
 
     @Override
     protected void onResume() {
@@ -126,7 +122,6 @@ public class MenuItemListActivity extends AppCompatActivity {
 
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu){
@@ -169,7 +164,6 @@ public class MenuItemListActivity extends AppCompatActivity {
      * @author Riley Tschumper
      */
     public boolean onOptionsItemSelected(android.view.MenuItem item){
-        //Log.d("MENUITEM", item);
         switch(item.getItemId()){
             case R.id.meat_filter:
                 if(item.isChecked()){

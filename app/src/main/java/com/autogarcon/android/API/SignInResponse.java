@@ -1,5 +1,9 @@
 package com.autogarcon.android.API;
 
+/**
+ * A class representation of the SignIn JSON object response
+ * @author Riley Tschumper
+ */
 public class SignInResponse {
     private String userID;
 

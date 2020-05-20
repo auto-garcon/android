@@ -21,6 +21,10 @@ import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
+/**
+ * The activity that is used to scan the QR code at a restaurant table
+ * @author Mitchell Nelson
+ */
 public class ScannedBarcodeActivity extends AppCompatActivity {
 
     private SurfaceView surfaceView;

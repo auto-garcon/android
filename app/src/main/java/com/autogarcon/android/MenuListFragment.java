@@ -6,16 +6,11 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.os.Parcelable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -26,12 +21,15 @@ import com.autogarcon.android.API.APIUtils;
 import com.autogarcon.android.API.Menu;
 import com.autogarcon.android.API.MenuItem;
 
+/**
+ * Splits the MenuList into a fragment.
+ * @author Tim Callies
+ */
 public class MenuListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Menu> menuList;
     private MenuListAdapter mAdapter;
-    private String title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,6 +82,7 @@ public class MenuListFragment extends Fragment {
             openFragment(new ReceiptFragment());
         }
     }
+
 
     private void openFragment(Fragment fragment) {
         FragmentTransaction f = getActivity().getSupportFragmentManager().beginTransaction();

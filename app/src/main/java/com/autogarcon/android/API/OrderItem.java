@@ -1,5 +1,9 @@
 package com.autogarcon.android.API;
 
+/**
+ * A class representation of a single OrderItem JSON object that will be packaged into an Order
+ * @author Tim Callies
+ */
 public class OrderItem {
     private int orderItemID;
     private int menuItemID;

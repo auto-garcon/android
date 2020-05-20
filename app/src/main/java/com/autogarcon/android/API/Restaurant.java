@@ -1,9 +1,13 @@
 package com.autogarcon.android.API;
 
-        import java.io.Serializable;
-        import java.util.ArrayList;
-        import java.util.List;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
+/**
+ * A class representation of the Restaurant JSON object
+ * @author Tim Callies
+ */
 public class Restaurant implements Serializable {
     private int restaurantID;
     private String restaurantName;

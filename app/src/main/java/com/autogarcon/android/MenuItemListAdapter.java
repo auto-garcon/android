@@ -101,7 +101,6 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
                     filter = true;
                 }
                 charString = charString.substring(6);
-                //Log.d("IN FILTER", "Sent to Filter: " + charString);
 
                 if (charString.isEmpty()){
                     Log.d("IS EMPTY", "charString is Empty");
@@ -179,7 +178,6 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
                         // the title or description match the entered text
                         for (MenuItem row : menuList) {
                             if (!row.getName().toLowerCase().contains(charString.toLowerCase()) && !row.getDescription().toLowerCase().contains(charString.toLowerCase())) {
-                                Log.d("FOUND", "Added: " + row.getName());
                                 currentlyDisplayed.remove(row);
                             }
                         }
@@ -193,8 +191,6 @@ public class MenuItemListAdapter extends RecyclerView.Adapter<MenuItemListAdapte
 
             @Override
             protected void publishResults(CharSequence constraint, FilterResults results) {
-                Log.d("PUBLISH RESULTS", "Here");
-                Log.d("RESULTS", "results" + results.values);
                 menuListFiltered = (ArrayList<MenuItem>) results.values;
                 notifyDataSetChanged();
             }

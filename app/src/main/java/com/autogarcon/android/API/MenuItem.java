@@ -6,6 +6,10 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representation of the MenuItem JSON object
+ * @author Tim Callies
+ */
 public class MenuItem implements Serializable {
     private int itemID;
     private String name;

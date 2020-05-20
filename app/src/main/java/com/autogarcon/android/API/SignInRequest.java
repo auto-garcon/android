@@ -1,5 +1,9 @@
 package com.autogarcon.android.API;
 
+/**
+ * A class representation of the SignIn JSON object request
+ * @author Riley Tschumper
+ */
 public class SignInRequest {
     private String token;
     private String firstName;

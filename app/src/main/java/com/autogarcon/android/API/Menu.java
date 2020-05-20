@@ -1,10 +1,13 @@
 package com.autogarcon.android.API;
 
 import java.io.Serializable;
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * A class representation of the Menu JSON object
+ * @author Tim Callies
+ */
 public class Menu implements Serializable {
     private int menuID;
     private List<TimeRange> timeRanges;

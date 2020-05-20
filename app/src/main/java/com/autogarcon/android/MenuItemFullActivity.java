@@ -31,8 +31,6 @@ public class MenuItemFullActivity extends AppCompatActivity {
     private String title;
     private TextView charCount;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,8 +56,6 @@ public class MenuItemFullActivity extends AppCompatActivity {
         name.setText(menuItem.getName());
         description.setText(menuItem.getDescription());
         price.setText(String.format("$%.2f",menuItem.getPrice()));
-
-
 
         chefNote.addTextChangedListener(mTextEditorWatcher);
 

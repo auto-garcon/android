@@ -79,9 +79,8 @@ public class TopActivity extends AppCompatActivity {
     private Menu menu;
     private ToggleButton toggleButton;
     private Boolean inFavorites = false;
-    BottomNavigationView navView;
-    
-    ConstraintLayout constraintLayout;
+    private BottomNavigationView navView;
+    private ConstraintLayout constraintLayout;
     /**
      * A client for interacting with the Google Pay API.
      *
