@@ -72,7 +72,8 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
         OrderItem orderItem = orderItemList.get(position);
         ReceiptItemAdapter adapter = new ReceiptItemAdapter(orderItem);
         holder.receiptItems.setAdapter(adapter);
-        holder.receiptName.setText(APIUtils.getMenuItem(orderItem).getName());
+        //holder.receiptName.setText(APIUtils.getMenuItem(orderItem).getName());
+        holder.receiptName.setText(orderItem.getItemName());
         holder.receiptPrice.setText(String.format("$%.2f",orderItem.getPrice()));
         holder.receiptOrderTime.setText(orderItem.getOrderTime());
         holder.receiptCalories.setText(String.format("(%d kcal)",APIUtils.getMenuItem(orderItem).getCalories()));

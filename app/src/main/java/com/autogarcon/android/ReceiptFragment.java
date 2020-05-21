@@ -154,7 +154,7 @@ public class ReceiptFragment extends Fragment {
                         ActiveSession.getInstance().getRestaurant().getRestaurantID(),
                         ActiveSession.getInstance().getTableNumber()
                 );
-                //((TopActivity) getActivity()).requestPayment(view);
+                ((TopActivity) getActivity()).requestPayment(view);
 
                 //TopActivity.requestPayment(view);
 
@@ -256,7 +256,15 @@ public class ReceiptFragment extends Fragment {
     private void refreshPage() {
         String url = getResources().getString(R.string.api) + String.format("users/%s/orders",
                 ActiveSession.getInstance().getUserId());
+        double totalPrice = 0;
+        List<OrderItem> allOrders = ActiveSession.getInstance().getAllOrders();
+        for(int i = 0; i < ActiveSession.getInstance().getOrderSize(); i++){
+            totalPrice += allOrders.get(i).getPrice();
+        }
+        totalPrice += totalPrice * ActiveSession.getInstance().getRestaurant().getSalesTax();
+        String totalPriceAsString = String.format("%.2f", totalPrice);
 
+        receiptOrderButton.setText("Order " + "( $" + totalPriceAsString + ")");
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
