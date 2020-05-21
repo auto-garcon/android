@@ -13,6 +13,15 @@ public class OrderItem {
     private int orderID;
     private float price;
     private String orderTime;
+    private String itemName;
+
+    public String getItemName() {
+        return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
+    }
 
     public OrderItem(MenuItem menuItem, String comments) {
         setMenuItemID(menuItem.getItemID());
@@ -20,6 +29,7 @@ public class OrderItem {
         setQuantity(1);
         setComments(comments);
         setPrice(menuItem.getPrice());
+        setItemName(menuItem.getName());
     }
 
     public int getOrderItemID() {
