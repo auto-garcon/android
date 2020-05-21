@@ -1,34 +1,34 @@
 package com.autogarcon.android;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.Activity;
-import android.media.Image;
 import android.os.Bundle;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+import com.autogarcon.android.API.Restaurant;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.RestaurantResponse;
+import com.google.gson.Gson;
+
+import java.util.concurrent.ThreadLocalRandom;
+
 /** Activity for popup the user sees when they shake to randomly select a restaurant
  * @author Kyzr Snapko
  * */
 public class PopActivity extends Activity {
 
-    TextView tv_resturantName;
-    ImageView iv;
+    private TextView tv_resturantName;
+    private TextView tv_resturantAddress;
+    private ImageView iv;
+    private Restaurant randomRestaurant;
 
 
     @Override
@@ -37,27 +37,19 @@ public class PopActivity extends Activity {
         setContentView(R.layout.activity_pop);
 
         tv_resturantName = (TextView) findViewById(R.id.tv_resurantName);
+        tv_resturantAddress = (TextView) findViewById(R.id.tv_resurantAddress);
         iv = (ImageView) findViewById(R.id.imageView);
 
         try {
-            ArrayList<Restaurant> restaurants = createRestaurantList(readRestaurantToString("restaurant"));
-            Random r = new Random();
-            int index = r.nextInt(restaurants.size());
-            tv_resturantName.setText(restaurants.get(index).name);
-            //this part doesnt quite work
-            iv.setImageResource(Integer.parseInt(restaurants.get(index).imagePath));
+            requestRestaurant();
+
+            tv_resturantName.setText(randomRestaurant.getRestaurantName());
+            iv.setImageResource(R.drawable.ic_restaurant);
 
 
-        } catch (JSONException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-
-        //here i will set the textview and imageview to the name and logo of the randomly selected resturant
-        //tv_resturantName.setText("test");
-        //iv.setImageResource(R.drawable.scan);
 
         DisplayMetrics dm = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -65,73 +57,49 @@ public class PopActivity extends Activity {
         int width = dm.widthPixels;
         int height = dm.heightPixels;
 
-        getWindow().setLayout((int) (width*.8), (int) (height*.5));
+        getWindow().setLayout((int) (width*.8), (int) (height*.8));
     }
 
-
-    private Restaurant getRestaurantFromJSONObject(JSONObject jsonObject) throws JSONException {
-        String name = jsonObject.getString("name");
-        String imagePath = jsonObject.getString("imagePath");;
-        Restaurant restaurant = new Restaurant(name,imagePath);
-        return restaurant;
-    }
-
-    /**
-     * Takes in the name of a menu type and reads in the file from the 'assets/menu' directory.
-     * reused method from mitchel in order to read restaurant json file
-     * @param fileName The file to be stringified
-     * @return The contents of the file.
-     * @throws IOException If no file such as 'assets;menu/(fileName).json' exists.
-     */
-    private String readRestaurantToString(String fileName) throws IOException {
-        StringBuilder sb = new StringBuilder();
-        InputStream is = getApplicationContext().getAssets().open("menu/"+fileName+".json");
-        BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8 ));
-
-        String str;
-        while((str = reader.readLine()) != null) {
-            sb.append(str);
-        }
-
-        return sb.toString();
-    }
-    /**
-     * method that gets a list of resturants from a passed in JSON string
-     * @return an arrayList of resturant objects
-     * */
-    public ArrayList<Restaurant> createRestaurantList(String jsonStr) throws JSONException{
-        ArrayList<Restaurant> restaurantList = new ArrayList<>();
-        JSONObject obj = new JSONObject(jsonStr);
-        JSONArray restaurants = obj.getJSONArray("restaurants");
-        for (int i = 0; i < restaurants.length(); i++) {
-            try {
-                Restaurant newRest = getRestaurantFromJSONObject(restaurants.getJSONObject(i));
-                restaurantList.add(newRest);
-                //Log.d("items", "newItem: " + newItem.toString());
-            }
-            catch (JSONException e) {
-                // Handle exception
-                Log.d("MENU", "JSONException: " + e.toString());
-            }
-        }
-        return restaurantList;
-    }
-    /**
+    /** A method that requests all restaurants from the server to display a random one
      * @author Kyzr Snapko
      * */
-    private class Restaurant {
-        private String name;
-        private String imagePath;
+    private void requestRestaurant(){
+        // Instantiate the RequestQueue.
+        RequestQueue queue = Volley.newRequestQueue(this);
+        String apiURL = getResources().getString(R.string.api) + "restaurant";
 
-        public Restaurant(String name, String imagePath){
-            this.name = name;
-            this.imagePath = imagePath;
-        }
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        RestaurantResponse restaurantList = new Gson().fromJson(response, RestaurantResponse.class);
 
-        public String getImagePath() { return imagePath; }
+                        int random = ThreadLocalRandom.current().nextInt(restaurantList.getNumRestaurants());
+                        randomRestaurant = restaurantList.getRestaurants().get(random);
 
-        public String getName() { return name;}
+                        String fullAddress = randomRestaurant.getAddress() + "\n" + randomRestaurant.getCity() +
+                                ", " + randomRestaurant.getState() + " " + randomRestaurant.getZipCode();
+                        tv_resturantName.setText(randomRestaurant.getRestaurantName());
+                        tv_resturantAddress.setText(fullAddress);
 
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEYERROR" ,"That didn't work!");
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
     }
-}
 
+    protected void onResume(Bundle savedInstanceState) {
+        requestRestaurant();
+
+        tv_resturantName.setText(randomRestaurant.getRestaurantName());
+    }
+
+}

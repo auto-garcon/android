@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer name="color_tag" value="546546"/>
+    <integer name="color_primary" value="1"/>
+    <integer name="color_primary_dark" value="2"/>
+    <integer name="color_accent" value="3"/>
+</resources>

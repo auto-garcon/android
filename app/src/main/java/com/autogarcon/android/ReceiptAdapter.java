@@ -1,14 +1,15 @@
 package com.autogarcon.android;
 
-import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.autogarcon.android.API.APIUtils;
+import com.autogarcon.android.API.OrderItem;
 
 import java.util.List;
 
@@ -71,10 +72,12 @@ public class ReceiptAdapter extends RecyclerView.Adapter<ReceiptAdapter.MyViewHo
         OrderItem orderItem = orderItemList.get(position);
         ReceiptItemAdapter adapter = new ReceiptItemAdapter(orderItem);
         holder.receiptItems.setAdapter(adapter);
-        holder.receiptName.setText(orderItem.getMenuItem().getName());
-        holder.receiptPrice.setText(String.format("$%.2f",orderItem.getMenuItem().getPrice()));
-        holder.receiptOrderTime.setText("Ordered at 1:21PM");
-        holder.receiptCalories.setText(String.format("(%d kcal)",orderItem.getMenuItem().getCalories()));
+        holder.receiptName.setText(APIUtils.getMenuItem(orderItem).getName());
+        holder.receiptPrice.setText(String.format("$%.2f",orderItem.getPrice()));
+        holder.receiptOrderTime.setText(orderItem.getOrderTime());
+        holder.receiptCalories.setText(String.format("(%d kcal)",APIUtils.getMenuItem(orderItem).getCalories()));
+
+        //TODO: SET TIME
     }
 
     @Override

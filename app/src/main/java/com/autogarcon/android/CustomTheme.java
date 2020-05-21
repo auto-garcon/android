@@ -4,17 +4,17 @@ import android.app.Activity;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
+import android.os.Build;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.ColorUtils;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
@@ -52,6 +52,15 @@ public class CustomTheme {
      */
     public CustomTheme(String colorPrimary, String colorPrimaryDark, String colorAccent) {
         setColors(colorPrimary,colorPrimaryDark,colorAccent);
+    }
+
+    /**
+     * Constructs a theme by passing in two of the needed color values as strings.
+     * @param colorPrimary The primary color of the theme.
+     * @param colorAccent An accent color that may complement the primary color.
+     */
+    public CustomTheme(String colorPrimary, String colorAccent) {
+        setColors(colorPrimary,null,colorAccent);
     }
 
     /**
@@ -95,35 +104,99 @@ public class CustomTheme {
 
         while(!viewStack.isEmpty()) {
             final View thisView = viewStack.pop();
+            boolean colored = false;
 
-            // If the view has a tint
+            // If the view has a background tint
             if(thisView.getBackgroundTintList() != null) {
-                for (int i=0; i<colorArray.length; i++) {
-                    if(thisView.getBackgroundTintList().getDefaultColor() == originalColorArray[i]) {
-                        thisView.setBackgroundTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[i]}));
+                // Attempts to set the tag
+                if(getColorTag(thisView) == -1) {
+                    for (int i=0; i<colorArray.length; i++) {
+                        if(thisView.getBackgroundTintList().getDefaultColor() == originalColorArray[i]) {
+                            setColorTag(thisView, i);
+                        }
+                    }
+                }
+
+                // Applies the color, if a tag is set
+                if(getColorTag(thisView) != -1) {
+                    thisView.setBackgroundTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[getColorTag(thisView)]}));
+                    colored = true;
+                }
+            }
+
+            // If the view is a tinted image
+            if(thisView instanceof ImageView) {
+                ImageView thisImage = (ImageView) thisView;
+                if(thisImage.getImageTintList() != null) {
+                    // Attempts to set the tag
+                    if(getColorTag(thisImage) == -1) {
+                        for (int i=0; i<colorArray.length; i++) {
+                            if(thisImage.getImageTintList().getDefaultColor() == originalColorArray[i]) {
+                                setColorTag(thisImage, i);
+                            }
+                        }
+                    }
+
+                    // Applies the color, if a tag is set
+                    if(getColorTag(thisImage) != -1) {
+                        thisImage.setImageTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[getColorTag(thisImage)]}));
+                        colored = true;
                     }
                 }
             }
 
+            // If the view is a textView
+            if(thisView instanceof TextView && !colored) {
+                TextView thisTextView = (TextView) thisView;
+
+                if(thisTextView.getTextColors().getDefaultColor() == myColorStateList.getDefaultColor()) {
+                    thisTextView.setTextColor(myColorStateList);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                        thisTextView.setCompoundDrawableTintList(myColorStateList);
+                    }
+                }
+                else {
+
+
+                    for(int i=0; i<3; i++) {
+                        if(thisTextView.getTextColors().getDefaultColor() == originalColorArray[i]) {
+                            thisTextView.setTextColor(colorArray[i]);
+                            setColorTag(thisTextView, i);
+                            i=100;
+                        }
+                    }
+
+                    // Applies the color, if a tag is set
+                    if(getColorTag(thisTextView) != -1) {
+                        thisTextView.setTextColor(colorArray[getColorTag(thisTextView)]);
+                        //thisView.setBackgroundTintList(new ColorStateList(new int[][] {new int[] {}}, new int[] {colorArray[getColorTag(thisView)]}));
+                    }
+                }
+            }
 
             // If the view has a background
-            if(thisView.getBackground() instanceof ColorDrawable) {
+            if(thisView.getBackground() instanceof ColorDrawable  && !colored) {
                 ColorDrawable thisColorDrawable = (ColorDrawable) thisView.getBackground();
 
+
                 if(thisColorDrawable.getColor() == originalColorPrimary) {
-                    thisColorDrawable.setColor(colorPrimary);
+                    thisColorDrawable.setTint(colorPrimary);
+                    colored = true;
                 }
                 else if(thisColorDrawable.getColor() == originalColorPrimaryDark) {
-                    thisColorDrawable.setColor(colorPrimaryDark);
+                    thisColorDrawable.setTint(colorPrimaryDark);
+                    colored = true;
                 }
                 else if(thisColorDrawable.getColor() == originalColorAccent) {
-                    thisColorDrawable.setColor(colorAccent);
+                    thisColorDrawable.setTint(colorAccent);
+                    colored = true;
                 }
             }
 
             // If the view is a toolbar
             if(thisView instanceof Toolbar) {
                 ((Toolbar) thisView).setBackgroundColor(colorPrimary);
+                colored = true;
             }
 
             // If the view is a group
@@ -133,22 +206,6 @@ public class CustomTheme {
                 for(int i=0; i<thisViewGroup.getChildCount(); i++) {
                     View child = thisViewGroup.getChildAt(i);
                     viewStack.push(child);
-                }
-            }
-
-            // If the view is a textView
-            if(thisView instanceof TextView) {
-                TextView thisTextView = (TextView) thisView;
-                if(thisTextView.getTextColors().getDefaultColor() == myColorStateList.getDefaultColor()) {
-                    thisTextView.setTextColor(myColorStateList);
-                }
-                else {
-                    for(int i=0; i<3; i++) {
-                        if(thisTextView.getTextColors().getDefaultColor() == originalColorArray[i]) {
-                            thisTextView.setTextColor(colorArray[i]);
-                            i=100;
-                        }
-                    }
                 }
             }
 
@@ -169,5 +226,26 @@ public class CustomTheme {
                 });
             }
         }
+    }
+
+    /**
+     * Sets a color tag, that will be used to store  the original color of a view in the future.
+     * @param view The view you want to set the tag on
+     * @param value The value you want the tag to be
+     */
+    private void setColorTag(final View view, int value) {
+        view.setTag(new Integer(value));
+    }
+
+    /**
+     * Gets a color tag
+     * @param view The view you want to get a tag from
+     * @return The tag that you want to retrieve. -1 means it does not exist.
+     */
+    private int getColorTag(final View view) {
+        if(view.getTag() instanceof Integer) {
+            return (Integer)view.getTag();
+        }
+        return -1;
     }
 }

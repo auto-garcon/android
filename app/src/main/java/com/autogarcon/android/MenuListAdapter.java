@@ -7,9 +7,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import com.autogarcon.android.API.Menu;
 
 import java.util.ArrayList;
 
+/**
+ * Adpater for the full view of a single menu item.
+ * @author Riley Tschumper
+ */
 public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyViewHolder> {
 
     private ArrayList<Menu> menuList;
@@ -40,8 +45,8 @@ public class MenuListAdapter extends RecyclerView.Adapter<MenuListAdapter.MyView
     @Override
     public void onBindViewHolder(MenuListAdapter.MyViewHolder holder, int position) {
         Menu menu = menuList.get(position);
-        holder.menuName.setText(String.valueOf(menu.getMenuName()));
-        holder.menuImage.setImageResource(R.drawable.placeholder);
+        holder.menuName.setText(menu.getMenuName());
+        ThumbnailManager.getInstance().getImage(menu.getImageUrl(), holder.menuImage);
     }
 
     @Override

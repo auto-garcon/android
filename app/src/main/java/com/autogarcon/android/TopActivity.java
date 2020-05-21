@@ -4,43 +4,67 @@ import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.SearchManager;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.StrictMode;
 import android.os.SystemClock;
 import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.view.Gravity;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.APIUtils;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.wallet.AutoResolveHelper;
 import com.google.android.gms.wallet.PaymentData;
 import com.google.android.gms.wallet.PaymentDataRequest;
 import com.google.android.gms.wallet.PaymentsClient;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+import java.io.IOException;
 
+import java.lang.reflect.Type;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
-import static java.lang.Thread.sleep;
 
 /**
  * The top level navigation for the menu of a single restaurant. This activity contains a navigation bar, as well
@@ -48,8 +72,12 @@ import static java.lang.Thread.sleep;
  * @author Tim Callies
  */
 public class TopActivity extends AppCompatActivity {
-    
-    ConstraintLayout constraintLayout;
+
+    private Menu menu;
+    private ToggleButton toggleButton;
+    private Boolean inFavorites = false;
+    private BottomNavigationView navView;
+    private ConstraintLayout constraintLayout;
     /**
      * A client for interacting with the Google Pay API.
      *
@@ -68,14 +96,13 @@ public class TopActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_top);
-        BottomNavigationView navView = findViewById(R.id.nav_view);
+        navView = findViewById(R.id.nav_view);
         mPaymentsClient = PaymentsUtil.createPaymentsClient(this);
         final Fragment reciept = new ReceiptFragment();
         final Fragment menu = new MenuListFragment();
-
         constraintLayout = (ConstraintLayout) findViewById(R.id.container);
-
         String intentFragment = getIntent().getExtras().getString("frgToLoad");
+        setTitle(ActiveSession.getInstance().getRestaurant().getRestaurantName());
 
         openFragment(menu);
 
@@ -101,8 +128,8 @@ public class TopActivity extends AppCompatActivity {
         f.runOnCommit(new Runnable() {
             @Override
             public void run() {
-                CustomTheme theme = new CustomTheme();
-                theme.applyTo(TopActivity.this);
+                // Apply the CustomTheme
+                ActiveSession.getInstance().getCustomTheme().applyTo(TopActivity.this);
             }
         });
         f.replace(R.id.top_frame, fragment);
@@ -116,10 +143,85 @@ public class TopActivity extends AppCompatActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(android.view.Menu menu){
+    public boolean onCreateOptionsMenu(final Menu menu){
+        this.menu = menu;
+        getMenuInflater().inflate(R.menu.menu_favorite, menu);
         getMenuInflater().inflate(R.menu.menu_help,menu);
 
+        menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+
+        setFavoriteStar();
+
+        final Uri uri = ActiveSession.getInstance().getGoogleSignInAccount().getPhotoUrl();
+        if (uri != null) {
+            // Get Google profile pic from url in new thread
+            Thread t = new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        //Retrieve URL
+                        final Bitmap image = BitmapFactory.decodeStream(new URL(uri.toString()).openConnection().getInputStream());
+                        // Update UI on main thread
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                getMenuInflater().inflate(R.menu.user_profile, menu);
+                                MenuItem user_profile = menu.findItem(R.id.user_profile);
+                                user_profile.setIcon(new BitmapDrawable(getResources(), image));
+                            }
+                        });
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            });
+            t.start();
+        }
+        else{
+            getMenuInflater().inflate(R.menu.user_profile, menu);
+        }
         return true;
+    }
+    /**
+     * Sets the favorites star on the top bar to either filled or open
+     * @author Riley Tschumper
+     */
+    public void setFavoriteStar(){
+        final String userId = ActiveSession.getInstance().getUserId();
+        final String restaurantId = String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID());
+
+        RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+        String getFavoritesRequestURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites";
+
+        // Request a string response from the provided URL.
+        StringRequest favoritesRequest = new StringRequest(Request.Method.GET, getFavoritesRequestURL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        Type listType = new TypeToken<ArrayList<com.autogarcon.android.API.Restaurant>>(){}.getType();
+                        //Type listType = new TypeToken<ArrayList<com.autogarcon.android.API.Favorites>>(){}.getType();
+                        List<com.autogarcon.android.API.Restaurant> favoritesList = new Gson().fromJson(response, listType);
+                        Log.d("ISTHISCALLED", "YES");
+                        inFavorites = APIUtils.currentlyFavorite(favoritesList);
+                        if(inFavorites) {
+                            Log.d("INFAVORITES", "TRUE");
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_white_24dp));
+                            ActiveSession.getInstance().setFavoritesStarFlag(true);
+                        } else{
+                            Log.d("INFAVORITES", "FALSE");
+                            menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+                            ActiveSession.getInstance().setFavoritesStarFlag(false);
+                        }
+
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Log.d("VOLLEYERROR" ,"That didn't work!");
+            }
+        });
+        MyRequestQueue.add(favoritesRequest);
     }
 
     @Override
@@ -169,6 +271,63 @@ public class TopActivity extends AppCompatActivity {
                 }
             });
             return true;
+        }
+
+        if(id == R.id.favoritesswitch){
+
+            final String userId = ActiveSession.getInstance().getUserId();
+            Log.d("UserID", userId);
+            final String restaurantId = String.valueOf(ActiveSession.getInstance().getRestaurant().getRestaurantID());
+
+            RequestQueue MyRequestQueue = Volley.newRequestQueue(this);
+
+            String addToFavoritesURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites/restaurant/" + restaurantId + "/add";
+            String removeFromFavoritesURL = getResources().getString(R.string.api) + "users/" + userId + "/favorites/restaurant/" + restaurantId + "/remove";
+
+            // If currently set to true, remove from favorites and change icon to border star
+            if(ActiveSession.getInstance().getFavoritesStarFlag()){
+                StringRequest removeRequest = new StringRequest(Request.Method.POST, removeFromFavoritesURL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("REMOVED", "YES");
+                                menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_border_white_24dp));
+                                ActiveSession.getInstance().setFavoritesStarFlag(false);
+
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("VOLLEYERROR" ,"That didn't work!");
+                    }
+                });
+                MyRequestQueue.add(removeRequest);
+            }
+            else{
+                StringRequest addRequest = new StringRequest(Request.Method.POST, addToFavoritesURL,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("ADDED", "YES");
+                                menu.getItem(0).setIcon(ContextCompat.getDrawable(getApplicationContext(), R.drawable.ic_star_white_24dp));
+                                ActiveSession.getInstance().setFavoritesStarFlag(true);
+                            }
+                        }, new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.d("VOLLEYERROR" ,"That didn't work!");
+                    }
+                });
+                MyRequestQueue.add(addRequest);
+            }
+
+        }
+
+        if(id == R.id.user_profile) {
+            // Open the options menu
+            Intent intent = new Intent(TopActivity.this, UserOptionsActivity.class);
+            startActivity(intent);
+            overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
         }
 
         return super.onOptionsItemSelected(item);
@@ -310,4 +469,23 @@ public class TopActivity extends AppCompatActivity {
                     mPaymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
     }
+
+
+    protected void onResume() {
+        super.onResume();
+
+        setFavoriteStar();
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
+        if(ActiveSession.getInstance().getButtonFlag() == true){
+            ActiveSession.getInstance().setButtonFlag(false);
+            final Fragment reciept = new ReceiptFragment();
+            navView.setSelectedItemId(R.id.menu_receipt);
+            openFragment(reciept);
+        }
+
+    }
 }
+

@@ -12,9 +12,16 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.autogarcon.android.API.APIUtils;
+import com.autogarcon.android.API.Menu;
+
+import com.autogarcon.android.API.MenuItem;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
@@ -24,10 +31,12 @@ import ru.dimorinny.floatingtextbutton.FloatingTextButton;
  */
 public class CategoryListActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
-    private Menu menu;
     private CategoryListAdapter mAdapter;
     private String title;
+    private List<Map.Entry<String, List<MenuItem>>> categories;
     private FloatingTextButton cartButton;
+
+
 
     @Override
     public void onBackPressed() {
@@ -44,9 +53,11 @@ public class CategoryListActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+
         // Get extras from previous activity
         title = (String)getIntent().getSerializableExtra("title");
-        this.menu = (Menu) getIntent().getSerializableExtra("menu");
+        this.categories = (List<Map.Entry<String, List<MenuItem>>>) getIntent().getSerializableExtra("menu");
         setContentView(R.layout.activity_category_list);
 
         // Set title to show the name of the category
@@ -56,16 +67,16 @@ public class CategoryListActivity extends AppCompatActivity {
         double total = 0;
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
-                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getPrice();
             }
         }
-        cartButton.setTitle("$" + total);
+        cartButton.setTitle("$" + String.format("%.2f", total));
         if(ActiveSession.getInstance().getAllOrders().size() == 0){
             cartButton.setVisibility(View.GONE);
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new CategoryListAdapter(menu);
+        mAdapter = new CategoryListAdapter(categories);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -76,8 +87,8 @@ public class CategoryListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(getApplicationContext(), MenuItemListActivity.class);
-                intent.putExtra("category", menu.getCategories().get(position));
-                intent.putExtra("title", menu.getCategories().get(position).getName());
+                intent.putExtra("category", (Serializable) categories.get(position).getValue());
+                intent.putExtra("title", categories.get(position).getKey());
                 startActivityForResult(intent,2);
                 overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
             }
@@ -86,17 +97,16 @@ public class CategoryListActivity extends AppCompatActivity {
             public void onLongItemClick(View view, int position) {
             }
         }));
+
         cartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 cartButton.setVisibility(View.GONE);
+                ActiveSession.getInstance().setButtonFlag(true);
                 setResult(4);
                 finish();
             }
         });
-
-        CustomTheme theme = new CustomTheme();
-        theme.applyTo(this);
     }
 
     /**
@@ -121,13 +131,17 @@ public class CategoryListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             cartButton.setVisibility(View.VISIBLE);
             double total = 0;
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
-                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getPrice();
             }
-            cartButton.setTitle("$" + total);
+            cartButton.setTitle("$" + String.format("%.2f", total));
         }
     }
 }

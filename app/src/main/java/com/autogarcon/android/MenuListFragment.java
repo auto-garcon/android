@@ -6,24 +6,30 @@ import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.FragmentManager;
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
+import com.autogarcon.android.API.APIUtils;
+import com.autogarcon.android.API.Menu;
+import com.autogarcon.android.API.MenuItem;
+
+/**
+ * Splits the MenuList into a fragment.
+ * @author Tim Callies
+ */
 public class MenuListFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private ArrayList<Menu> menuList;
     private MenuListAdapter mAdapter;
-    private String title;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -34,6 +40,7 @@ public class MenuListFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         this.menuList = (ArrayList<Menu>)(getActivity().getIntent()).getSerializableExtra("menuList");
+
         recyclerView = (RecyclerView) (getActivity()).findViewById(R.id.recycler_view);
         mAdapter = new MenuListAdapter(menuList);
         RecyclerView.LayoutManager mLayoutManager = new GridLayoutManager(getContext(), 2);
@@ -43,17 +50,20 @@ public class MenuListFragment extends Fragment {
         recyclerView.addOnItemTouchListener(new RecyclerItemClickListener(getContext(), recyclerView, new RecyclerItemClickListener.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                if (menuList.get(position).getCategories().size() == 1){
+                Menu menu = menuList.get(position);
+                List<Map.Entry<String, List<MenuItem>>> categories = APIUtils.getCategories(menu);
+
+                if (categories.size() == 1){
                     Intent intent = new Intent(getContext(), MenuItemListActivity.class);
-                    intent.putExtra("category", menuList.get(position).getCategories().get(0));
-                    intent.putExtra("title", menuList.get(position).getMenuName());
+                    intent.putExtra("category", (Serializable) menu.getMenuItems());
+                    intent.putExtra("title", menu.getMenuName());
                     startActivityForResult(intent, 2);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
                 else {
                     Intent intent = new Intent(getContext(), CategoryListActivity.class);
-                    intent.putExtra("menu", menuList.get(position));
-                    intent.putExtra("title", menuList.get(position).getMenuName());
+                    intent.putExtra("menu", (Serializable) categories);
+                    intent.putExtra("title", menu.getMenuName());
                     startActivityForResult(intent, 2);
                     getActivity().overridePendingTransition(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
@@ -72,6 +82,7 @@ public class MenuListFragment extends Fragment {
             openFragment(new ReceiptFragment());
         }
     }
+
 
     private void openFragment(Fragment fragment) {
         FragmentTransaction f = getActivity().getSupportFragmentManager().beginTransaction();

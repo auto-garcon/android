@@ -50,6 +50,7 @@ public class ThumbnailManager {
     public void getImage(String url, ImageView image) {
         if(bitmapMap.containsKey(url)) {
             image.setImageBitmap(bitmapMap.get(url));
+            image.setImageTintList(null);
         }
         else {
             addImageToStack(url, image);
@@ -78,6 +79,9 @@ public class ThumbnailManager {
      * @param store States whether or not the image will be stored after it is recieved.
      */
     private void helper(final String url, final ImageView imageView, final boolean store) {
+        if(url == null) {
+            return;
+        }
         Thread t = new Thread(new Runnable() {
             @Override
             public void run() {
@@ -94,7 +98,9 @@ public class ThumbnailManager {
                             public void run() {
                                 Deque<ImageView> deque = imageViewMap.get(url);
                                 while(!deque.isEmpty()) {
-                                    deque.pop().setImageBitmap(image);
+                                    ImageView item = deque.pop();
+                                    item.setImageBitmap(image);
+                                    item.setImageTintList(null);
                                 }
                             }
                         });

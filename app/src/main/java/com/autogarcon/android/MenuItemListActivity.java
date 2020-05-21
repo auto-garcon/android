@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,12 +12,17 @@ import android.widget.SearchView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityOptionsCompat;
-import androidx.fragment.app.FragmentManager;
+
+import com.autogarcon.android.API.Allergen;
+import com.autogarcon.android.API.MenuItem;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ru.dimorinny.floatingtextbutton.FloatingTextButton;
 
@@ -27,12 +31,13 @@ import ru.dimorinny.floatingtextbutton.FloatingTextButton;
  * @author Riley Tschumper
  */
 public class MenuItemListActivity extends AppCompatActivity {
-    Category category;
+    List<MenuItem> category;
     private RecyclerView recyclerView;
     private MenuItemListAdapter mAdapter;
     private SearchView searchView;
     private String title;
     private FloatingTextButton cartButton;
+    private android.view.Menu filterMenu;
 
     @Override
     public void onBackPressed() {
@@ -49,7 +54,7 @@ public class MenuItemListActivity extends AppCompatActivity {
         setTitle(title);
 
         // sets category to the clicked category from the previous activity
-        this.category = (Category) getIntent().getSerializableExtra("category");
+        this.category = (List<MenuItem>) getIntent().getSerializableExtra("category");
 
         setContentView(R.layout.activity_menu_item_list);
 
@@ -58,16 +63,16 @@ public class MenuItemListActivity extends AppCompatActivity {
         double total = 0;
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
-                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getPrice();
             }
         }
-        cartButton.setTitle("$" + total);
+        cartButton.setTitle("$" + String.format("%.2f", total));
         if(ActiveSession.getInstance().getAllOrders().size() == 0){
             cartButton.setVisibility(View.GONE);
         }
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
-        mAdapter = new MenuItemListAdapter(category.getMenuItems());
+        mAdapter = new MenuItemListAdapter(category);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -76,7 +81,7 @@ public class MenuItemListActivity extends AppCompatActivity {
             @Override
             public void onItemClick(View view, int position) {
                 Intent intent = new Intent(MenuItemListActivity.this, MenuItemFullActivity.class);
-                intent.putExtra("item", category.getMenuItems().get(position));
+                intent.putExtra("item", category.get(position));
                 intent.putExtra("title", title);
                 ImageView image = ((MenuItemListAdapter.MyViewHolder)(recyclerView.getChildViewHolder(recyclerView.getChildAt(position)))).getMenuImage();
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(MenuItemListActivity.this, (View)image, "itemImage");
@@ -92,35 +97,39 @@ public class MenuItemListActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 cartButton.setVisibility(View.GONE);
+                ActiveSession.getInstance().setButtonFlag(true);
                 setResult(4);
                 finish();
             }
         });
-
-        CustomTheme theme = new CustomTheme();
-        theme.applyTo(this);
-
     }
 
     @Override
     protected void onResume() {
         super.onResume();
 
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+
         // Displays the cart button if there are items in the cart
         if(ActiveSession.getInstance().getAllOrders().size() > 0){
             cartButton.setVisibility(View.VISIBLE);
             double total = 0;
             for (int index = 0; index < ActiveSession.getInstance().getAllOrders().size(); index++) {
-                total = total + ActiveSession.getInstance().getAllOrders().get(index).getMenuItem().getPrice();
+                total = total + ActiveSession.getInstance().getAllOrders().get(index).getPrice();
             }
-            cartButton.setTitle("$" + total);
+            cartButton.setTitle("$" + String.format("%.2f", total));
+
         }
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(android.view.Menu menu){
         getMenuInflater().inflate(R.menu.menu_filtering,menu);
+
+        filterMenu = menu;
+        //Updates the filter menu based on the saved user preferences
+        updateFilterPreferences();
 
         // Associate searchable configuration with the SearchView
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -154,7 +163,7 @@ public class MenuItemListActivity extends AppCompatActivity {
      * @param item a MenuItem to be checked if a filter should be applied
      * @author Riley Tschumper
      */
-    public boolean onOptionsItemSelected(MenuItem item){
+    public boolean onOptionsItemSelected(android.view.MenuItem item){
         switch(item.getItemId()){
             case R.id.meat_filter:
                 if(item.isChecked()){
@@ -214,6 +223,57 @@ public class MenuItemListActivity extends AppCompatActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    /**
+     * Updates the filters to reflect the users saved preferences
+     * @author Riley Tschumper
+     */
+    public void updateFilterPreferences(){
+        ArrayList<Allergen> allergenPreferences = ActiveSession.getInstance().getAllergenPreferences();
+        if(allergenPreferences != null) {
+            if(allergenPreferences.contains(Allergen.MEAT)) {
+                android.view.MenuItem meatItem = filterMenu.findItem(R.id.meat_filter);
+                if (meatItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    meatItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternomeat");
+                }
+            }
+            if(allergenPreferences.contains(Allergen.NUTS)) {
+                android.view.MenuItem nutsItem = filterMenu.findItem(R.id.nuts_filter);
+                if (nutsItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    nutsItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternonuts");
+                }
+            }
+            if(allergenPreferences.contains(Allergen.GLUTEN)) {
+                android.view.MenuItem glutenItem = filterMenu.findItem(R.id.gluten_filter);
+                if (glutenItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    glutenItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternogluten");
+                }
+            }
+            if(allergenPreferences.contains(Allergen.DAIRY)) {
+                android.view.MenuItem dairyItem = filterMenu.findItem(R.id.dairy_filter);
+                if (dairyItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    dairyItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternodairy");
+                }
+            }
+            if(allergenPreferences.contains(Allergen.SOY)) {
+                android.view.MenuItem soyItem = filterMenu.findItem(R.id.soy_filter);
+                if (soyItem.isChecked()) {
+                    // If item already checked then unchecked it
+                    soyItem.setChecked(false);
+                    mAdapter.getFilter().filter("filternosoy");
+                }
+            }
+        }
+
     }
 
     @Override

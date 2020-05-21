@@ -25,11 +25,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PopActivity"
-        android:theme="@style/AppTheme.Pop"    />
-
-        <activity android:name=".TopActivity"></activity>
-        <activity android:name=".Signin"></activity>
+        <activity android:name=".UserOptionsActivity"></activity>
+        <activity
+            android:name=".PopActivity"
+            android:theme="@style/AppTheme.Pop" />
+        <activity android:name=".TopActivity" />
+        <activity android:name=".Signin" />
         <activity android:name=".LandingPageActivity" />
         <activity android:name=".ScannedBarcodeActivity" />
         <activity android:name=".CategoryListAdapter" />
@@ -62,4 +63,5 @@
             android:name="com.google.android.gms.wallet.api.enabled"
             android:value="true" />
     </application>
+
 </manifest>

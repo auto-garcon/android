@@ -15,8 +15,11 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.VolleyLog;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.autogarcon.android.API.SignInRequest;
+import com.autogarcon.android.API.SignInResponse;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -24,6 +27,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.gson.Gson;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -40,10 +44,20 @@ public class Signin extends AppCompatActivity {
     private TextView error;
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        // Apply the CustomTheme
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signin);
         error = (TextView) findViewById(R.id.error);
+
+
+
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -73,6 +87,11 @@ public class Signin extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        if(getIntent().getExtras() != null){
+            String action = getIntent().getExtras().getString("action");
+            signOut();
+        }
     }
 
     /**
@@ -85,6 +104,13 @@ public class Signin extends AppCompatActivity {
         // Check for existing Google Sign In account, if the user is already signed in
         // the GoogleSignInAccount will be non-null.
         GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);
+
+        // If signed in, go straight to landing page
+        if (account != null){
+            ActiveSession.getInstance().setGoogleSignInAccount(account);
+            Intent intent = new Intent(getApplicationContext(), LandingPageActivity.class);
+            startActivity(intent);
+        }
     }
 
     /**
@@ -97,8 +123,6 @@ public class Signin extends AppCompatActivity {
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
-
-
 
     private void signOut() {
         mGoogleSignInClient.signOut()
@@ -132,12 +156,18 @@ public class Signin extends AppCompatActivity {
         try {
             GoogleSignInAccount account = completedTask.getResult(ApiException.class);
 
+
+
             // Set ActiveSession account info
             ActiveSession.getInstance().setGoogleSignInAccount(account);
-            // Signed in successfully, show authenticated UI.
-            Log.d("DISPLAY", account.getDisplayName());
 
-            // If a valid token, pass onto the next intent
+            SignInRequest request = new SignInRequest();
+            request.setEmail(ActiveSession.getInstance().getGoogleSignInAccount().getEmail());
+            request.setFirstName(ActiveSession.getInstance().getGoogleSignInAccount().getGivenName());
+            request.setLastName(ActiveSession.getInstance().getGoogleSignInAccount().getFamilyName());
+            request.setToken(ActiveSession.getInstance().getGoogleSignInAccount().getId());
+            final String jsonBody = new Gson().toJson(request);
+
 
             // Post to server to gain userId
             RequestQueue queue = Volley.newRequestQueue(this);
@@ -149,11 +179,13 @@ public class Signin extends AppCompatActivity {
                     @Override
                     public void onResponse(String response) {
                         // Set the userId from server
-                        ActiveSession.getInstance().setUserId(response);
+                        Log.d("UserID", response);
+
+                        ActiveSession.getInstance().setUserId(new Gson().fromJson(response, SignInResponse.class).getUserID());
                     }
                 },
-                new Response.ErrorListener() {
 
+                new Response.ErrorListener() {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Log.d("signin","Request Failure");
@@ -161,15 +193,13 @@ public class Signin extends AppCompatActivity {
                 })
             {
                 @Override
-                protected Map<String, String> getParams()
-                {
-                    Map<String, String> params = new HashMap<String, String>();
-                    Log.d("signin", "id: " + ActiveSession.getInstance().getGoogleSignInAccount().getId());
-                    params.put("firstName", ActiveSession.getInstance().getGoogleSignInAccount().getGivenName());
-                    params.put("lastName", ActiveSession.getInstance().getGoogleSignInAccount().getFamilyName());
-                    params.put("email", ActiveSession.getInstance().getGoogleSignInAccount().getEmail());
-                    params.put("token", ActiveSession.getInstance().getGoogleSignInAccount().getId());
-                    return params;
+                public String getBodyContentType() {
+                    return "application/json; charset=utf-8";
+                }
+
+                @Override
+                public byte[] getBody() throws AuthFailureError {
+                    return jsonBody.getBytes();
                 }
             };
 

@@ -21,13 +21,19 @@ import androidx.annotation.NonNull;
 
 import java.io.IOException;
 
+/**
+ * The activity that is used to scan the QR code at a restaurant table
+ * @author Mitchell Nelson
+ */
 public class ScannedBarcodeActivity extends AppCompatActivity {
 
-    SurfaceView surfaceView;
-    TextView txtBarcodeValue;
+    private SurfaceView surfaceView;
+    private TextView txtBarcodeValue;
     private BarcodeDetector barcodeDetector;
     private CameraSource cameraSource;
     private static final int REQUEST_CAMERA_PERMISSION = 201;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +42,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
         txtBarcodeValue = findViewById(R.id.txtBarcodeValue);
         surfaceView = findViewById(R.id.surfaceView);
     }
+
 
     /**
      * Creates a barcode detector and processes results. Results including restaurant name and table number from
@@ -183,6 +190,7 @@ public class ScannedBarcodeActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        ActiveSession.getInstance().getCustomTheme().applyTo(this);
         initialiseDetectorsAndSources();
     }
 }
