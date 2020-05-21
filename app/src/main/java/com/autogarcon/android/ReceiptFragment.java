@@ -154,7 +154,7 @@ public class ReceiptFragment extends Fragment {
                         ActiveSession.getInstance().getRestaurant().getRestaurantID(),
                         ActiveSession.getInstance().getTableNumber()
                 );
-                //((TopActivity) getActivity()).requestPayment(view);
+                ((TopActivity) getActivity()).requestPayment(view);
 
                 //TopActivity.requestPayment(view);
 
