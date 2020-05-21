@@ -223,7 +223,8 @@ public class UserOptionsActivity extends AppCompatActivity {
         String apiURL = String.format("https://autogarcon.live/api/users/%s/favorites",
                 ActiveSession.getInstance().getUserId());
 
-
+        Log.d("UserID",ActiveSession.getInstance().getUserId());
+        Log.d("requestURL", apiURL);
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, apiURL,
                 new Response.Listener<String>() {
