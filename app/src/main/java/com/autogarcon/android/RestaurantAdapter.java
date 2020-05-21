@@ -78,6 +78,7 @@ public abstract class RestaurantAdapter extends RecyclerView.Adapter<RestaurantA
         final Restaurant restaurant = restaurantList.get(position);
         RestaurantHoursAdapter adapter = new RestaurantHoursAdapter(restaurant);
         holder.restaurantHours.setAdapter(adapter);
+        ThumbnailManager.getInstance().getImage(restaurant.getImageURL(), holder.restaurantLogo);
         holder.restaurantName.setText(restaurant.getRestaurantName());
         holder.removeButton.setOnClickListener(new View.OnClickListener() {
             @Override
