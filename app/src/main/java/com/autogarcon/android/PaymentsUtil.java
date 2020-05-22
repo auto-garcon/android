@@ -19,6 +19,7 @@ package com.autogarcon.android;
 
 import android.app.Activity;
 import android.os.Build;
+import android.util.Log;
 
 import androidx.annotation.RequiresApi;
 
@@ -237,7 +238,7 @@ public class PaymentsUtil {
             paymentDataRequest.put("allowedPaymentMethods", new JSONArray().put(PaymentsUtil.getCardPaymentMethod()));
             paymentDataRequest.put("transactionInfo", PaymentsUtil.getTransactionInfo(price));
             paymentDataRequest.put("merchantInfo", PaymentsUtil.getMerchantInfo());
-
+            Log.d("GETPAYMENTDATA","here");
             return Optional.of(paymentDataRequest);
         } catch (JSONException e) {
             return Optional.empty();

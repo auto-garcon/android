@@ -13,6 +13,7 @@ public class Restaurant implements Serializable {
     private String restaurantName;
     private String description;
     private List<Menu> menus;
+    private String imageURL;
     private String address;
     private String city;
     private int zipCode;
@@ -120,5 +121,13 @@ public class Restaurant implements Serializable {
 
     public void setSalesTax(float salesTax) {
         this.salesTax = salesTax;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }

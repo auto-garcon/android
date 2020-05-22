@@ -344,11 +344,15 @@ public class TopActivity extends AppCompatActivity {
      */
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d("INACTIVITYRESULT", Integer.toString(resultCode));
         switch (requestCode) {
             // value passed in AutoResolveHelper
             case LOAD_PAYMENT_DATA_REQUEST_CODE:
+                Log.d("resultCode",Integer.toString(resultCode));
+                //resultCode = -1;
                 switch (resultCode) {
                     case Activity.RESULT_OK:
+                        Log.d("RESULT_OK","true");
                         PaymentData paymentData = PaymentData.getFromIntent(data);
                         handlePaymentSuccess(paymentData);
                         break;
@@ -357,6 +361,7 @@ public class TopActivity extends AppCompatActivity {
                         // payment method.
                         break;
                     case AutoResolveHelper.RESULT_ERROR:
+                        Log.d("RESULT_ERROR","true");
                         Status status = AutoResolveHelper.getStatusFromIntent(data);
                         handleError(status.getStatusCode());
                         break;
@@ -451,11 +456,16 @@ public class TopActivity extends AppCompatActivity {
 
         double totalPrice = ActiveSession.getInstance().getTotalPrice();
 
-        String price = Double.toString(totalPrice);
+        //String price = Double.toString(totalPrice);
+
+        String price = String.format("%.2f",totalPrice);
+
+        Log.d("PRICE", price);
 
         // TransactionInfo transaction = PaymentsUtil.createTransaction(price);
         Optional<JSONObject> paymentDataRequestJson = PaymentsUtil.getPaymentDataRequest(price);
         if (!paymentDataRequestJson.isPresent()) {
+            Log.d("!paymentDataRequest", "true");
             return;
         }
         PaymentDataRequest request =
@@ -465,6 +475,7 @@ public class TopActivity extends AppCompatActivity {
         // AutoResolveHelper to wait for the user interacting with it. Once completed,
         // onActivityResult will be called with the result.
         if (request != null) {
+            Log.d("!requestNULL", "true");
             AutoResolveHelper.resolveTask(
                     mPaymentsClient.loadPaymentData(request), this, LOAD_PAYMENT_DATA_REQUEST_CODE);
         }
